@@ -7,7 +7,7 @@ Browser uses security warnings to protect users by alerting them to network atta
 \subsubsection{Risk Level A: Low-risk warnings}
 In this scenario, a passive security indicator indicates minor HTTPS errors by removing lock icon, changing lock icon’s color, providing textual information, or by other means without interrupting the user’s browsing.
 \begin{figure}[htbp]
-\centerline{\includegraphics{fig1.png}}%记得换成chrome的截图
+\centerline{\includegraphics{Figure/fig1.png}}%记得换成chrome的截图
 \caption{low-risk warning in chrome.}
 \label{fig}
 \end{figure}
@@ -16,7 +16,7 @@ this is probably because webmaster has configured his website correctly, includi
 \subsubsection{Risk Level B: Medium-risk warnings that can be bypassed}
 Bypassable HTTPS security warnings are the most common type of browser warning. Browsers use bypassable HTTPS security warning to treat the vast majority of HTTPS errors.
 \begin{figure}[htbp]
-\centerline{\includegraphics[height=3cm,width=7cm]{fig2.png}}
+\centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig2.png}}
 \caption{medium-risk warning in chrome.}
 \label{fig}
 \end{figure}
@@ -25,7 +25,7 @@ In this scenario, if there is an HTTPS error, the browser will stop the page loa
 \subsubsection{Risk Level C: High-risk warnings that cannot be bypassed}
 As a worst case scenario, the browser will prevent uses from continuing to browse the website by showing a security warning that the users cannot bypass.
 \begin{figure}[htbp]
-\centerline{\includegraphics[height=3cm,width=7cm]{fig3.png}}%记得换成自己fireblossom.xyz网址的截图
+\centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig3.png}}%记得换成自己fireblossom.xyz网址的截图
 \caption{high-risk warning in chrome.}
 \label{fig}
 \end{figure}
@@ -34,7 +34,7 @@ this is probably because the website is supposed to establish a valid HTTPS conn
 \subsubsection{Cannot establish HTTPS connection}
 The browser may fail to establish a HTTPS connection to the server for unsupported TLS version, cipher mismatch, or other reasons. In this scenario, the browser cannot obtain certificates from the web server, let alone certificate validation, so the TLS handshake error is not discussed in this paper.
 \begin{figure}[htbp]
-\centerline{\includegraphics[height=3cm,width=7cm]{fig4.png}}%截图需要再调整成清晰的
+\centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig4.png}}%截图需要再调整成清晰的
 \caption{Cannot establish HTTPS connection in chrome.}
 \label{fig}
 \end{figure}

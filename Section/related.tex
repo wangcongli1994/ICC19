@@ -7,3 +7,17 @@ We are not aware of any prior work on discovery of risk level vulnerabilities in
 %文章中提到了弱加密算法、证书过期、证书撤销等错误
 Researchers take large scale scans of HTTPS certificate ecosystem including IPv4 space, certificate transparency logs, and Alexa Top 1 Million websites. As a result, they find a large proportion of invalid certificate in the wild\cite{holz2011ssl}. More than that, there are even many invalid certificates signed by browser-trusted CAs\cite{durumeric2013analysis}.
 
+
+Some studies have shown that certificate deployment on the Internet is not good. For example, there are many sites with incorrect security settings. Many data protections are not in place, and the disclosure of user data has occurred (such as the recent disclosure of the China Living Association database).
+Amann et al.[] researched the deployment of security policies. Another research provides a way to automatically check the security risks of websites.
+
+\subsection{Warnings}
+
+The browser security warning page is a security warning mechanism that many browsers have. When the browser finds that there is a risk associated with the page that the user is trying to browse, the page will appear. "Dissuading" users should not visit the website, but This warning can also be ignored if the user insists on access and is willing to take the risk.
+
+We look at the classification process that the browser obtains the certificate error from the server. 
+The similar classification error is also the same logic in the processing method, and the code part is also closely related. By clearly showing the type of error, you can effectively help website maintainers troubleshoot errors and improve the security of your website.
+
+In 2013, Devdatta Akhawe's study divided browser warnings into SSL warnings and phishing scam warnings, and studied the probability of users ignoring warnings and risking to continue browsing [17]. The 2017 study by Mustafa Emre Acer et al. further subdivided browser error warnings into server-side errors, client-side errors, and network errors, and counted the number of errors [18]. Bernhard Amann's research proposes three categories: certificate chain construction error, certificate chain verification error and domain name verification error, and gives suggestions for reducing the probability of error [19].
+
+None of the previous researches focused on the level of browser warnings.We built a warning level system and matched the SSL errors to the warning level.

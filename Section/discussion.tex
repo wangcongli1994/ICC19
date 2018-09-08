@@ -1,0 +1,27 @@
+\section{Discussion}
+In the experiment, we found that different browsers have different processing methods for some unsafe scenarios. Through comparison between them, we have summarized the existing risks of several browsers.
+
+\subsection{Edge supports MD5 and SHA-1 certificates}
+After our observation, only Edge has no warnings for the SHA-1 and MD5 public key signature sites that are currently obsolete on the Internet, and it is displayed as safe on the detailed page.
+
+In December 2008, a group of researchers led by Alex Sotirov and Marc Stevens used the weaknesses of the MD5 message digest algorithm to forge the certificate of the RapidSSL [23] certificate authority, which they can use to issue certificates to any website in the world. Such incidents also include "flame" [24] malware using MD5 collisions to forge Microsoft certificates and so on. Although there is currently no example of a fake certificate with the same value as the original certificate SHA-1, the two hashes are not sufficiently secure for the SSL certificate.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Firefox certificate management cannot add self-signed endpoint certificate}
+For a self-signed endpoint certificate, it is both a root certificate and a CA certificate. This type of certificate can be added to the "Trusted Root Certification Authorities" store on Windows systems and made available to Chrome and Edge browsers for secure access. Firefox has a self-built certificate manager, but the manager does not store the endpoint certificate in the certificate store. That is, if you need Firefox to trust a self-signed certificate, you must sign a endpoint certificate by using the CA certificate, and install the root CA certificate into the certificate manager of the Firefox browser.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Chrome does not check the revocation of certificates}
+In the experiment we found that the certificate revoked by certbot in the Let¡¯s Encrypt project will not be detected any errors in Chrome, and the site can continue to be displayed "securely". With the same certificate, both Firefox and Edge will check that the certificate has been revoked and cannot be accessed.
+
+The certificate of the Let¡¯s Encrypt project only check the status of the certificate through OSCP. The Let¡¯s Encrypt project is based on a program that automatically issues certificates, and it is free, so its certificate is issued so much that the CRL is difficult to maintain, so the CRL is not used to check the status of the certificate. In the experiment, we found that Chrome does not react to the certificate of OSCP revocation. We also signed a certificate revoked through the CRL and found that the certificate was not recognized by Chrome as a revoked certificate.
+
+Chrome internally built a streamlined CRLset[25] and closed the OSCP and CRL checks, eliminating the need for browsers to query certificate status. , to achieve the effect of speeding up site access [26]. We visited a revoked website on the Internet and found the certificate in the Chrome-preset CRLset, which triggered a warning about the browser being revoked.
+For Chrome, the decision to revoke a certificate is in CRLset, not CA. This is a very unsafe behavior. Although CRLset is constantly updated, my site can still be accessed normally after the certificate is revoked for one month. Prove its danger.
+
+\subsection{HPKP does not check the self-signed certificate chain}
+Support of HPKP is deprecate in Chrome, and will be removed. In our experiments, if the site uses a self-signed certificate chain, the HPKP policy error warning will not be triggered even if the certificate used does not comply with the HPKP policy. Not only that, but this connection will also display the correct encryption and the correct icon.In other words, self-signed certificates are not pinned[].
+%https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/he9tr7p3rZ8/eNMwKPmUBAAJ
+
+In order to control the browsing behavior of the internal network, some companies often pre-set the self-signed certificate in the computer in the office area, and replace the HTTPS connection certificate in the gateway to obtain the information contained in the HTTPS traffic, detect and prevent the information leakage inside the company, which is a typical MITM attack. Some malware may also use the same way to attack a personal computer. Many computer applications will trigger the UAC of the Windows system during installation. After clicking and agreeing, the computer settings can be modified. After the malware spoofs the user's consent, you can modify the computer settings, such as burying your own root certificate. Eavesdrop on all traffic through a self-signed certificate and send sensitive information to the attacker. 
