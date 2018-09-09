@@ -34,10 +34,11 @@ For ECC certificates, many ECC protocols in OpenSSL are not recognized by browse
     \multicolumn{2}{c|}{\multirow{2}[4]{*}{Errors}} & \multicolumn{4}{c}{Browser Warning Level} \\
 \cmidrule{3-6}    \multicolumn{2}{c|}{} & Chrome & Firefox & Edge & IE \\
     \midrule
-    \multicolumn{1}{l|}{\multirow{3}[1]{*}{Chain Building Errors}} & Self-signed Certificate & Secure & B   & Secure & Secure \\
+    {\multirow{3}[1]{*}{Chain Building Errors}} & Self-signed Certificate & Secure & B   & Secure & Secure \\
         & Untrusted issuer & B   & B   & B   & B \\
         & Incomplete Certificate Chain & B   & B   & B   & B \\
-    \multicolumn{1}{l|}{\multirow{20}[1]{*}{Chain Validation Errors}} & Expired & B   & B   & B   & B \\
+    \midrule
+    {\multirow{20}[1]{*}{Chain Validation Errors}} & Expired & B   & B   & B   & B \\
         & Revoked(CRL) & Secure & C   & C   & C \\
         & Revoked(OSCP) & Secure & C   & C   & C \\
         & Revoked(Chrome CRLset) & C   &     &     &  \\

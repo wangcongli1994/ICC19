@@ -6,3 +6,6 @@
 *.log
 *.pdf
 *.pdf
+*.bbl
+*.blg
+*.out
