@@ -32,11 +32,12 @@ At the end of chain building, the browser has found a permutation of certificate
 \textbf{basic constraint and key usage of CA certificates.} The ¡°CA bit¡± must be set. If the CA bit is not set, then the current certificate cannot act as a root or intermediate certificate in a certificate chain. The chain is not valid.
 
 \subsubsection{Certificate verification enhancement}
+
 %Ð´Ò»¶Î»°
-\textbf{HPKP.} HPKP is a security mechanism used by HTTPS websites 
+\textbf{HPKP.} HPKP is a security mechanism used by HTTPS websites
     to prevent CA organizations from issuing certificates and attacking them [21].
-It provides the SHA-256 value of two public keys prepared in advance, and specifies 
-    that the client only recognizes the public keys of the two certificates or certificate chains within the effective time. 
+It provides the SHA-256 value of two public keys prepared in advance, and specifies
+    that the client only recognizes the public keys of the two certificates or certificate chains within the effective time.
 If you want to enable HPKP, add Public-Key-Pins in the response header: pin-sha256="base64=="; max-age=expireTime [; includeSubDomains][; report-url="reportURL"], where Max-age is the effective time, in seconds; if there is includeSubDomains then HPKP will be enabled in the subdomain; report-url is the address that reports the error after HPKP error, every time the client fails to verify, this will be The error details are reported to the address in JSON. HPKP can have a root certificate, an intermediate CA certificate and a endpoint certificate. If the pin root certificate, the certificate issued by the certificate chain can be legally verified; if the pin is an intermediate CA certificate, the certificate issued by the intermediate CA can be verified; if the pin is a endpoint certificate, then only the pin The certificate is available. The RFC recommends that the website use the SHA-256 of the intermediate CA as the public key of the pin. If the SHA-256 value of the website certificate chain does not correspond to the cached SHA-256 value, an HPKP error will be raised.
 
 \subsubsection{Name Validation Errors}

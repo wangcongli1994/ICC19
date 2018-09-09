@@ -6,10 +6,9 @@ We are not aware of any prior work on discovery of risk level vulnerabilities in
 %这一段讲Invalid Certificates.
 Researchers take large scale scans of HTTPS certificate ecosystem including IPv4 space, certificate transparency logs, and Alexa Top 1 Million websites
     to provide data sets of known certificates \cite{Durumeric2014Analysis} \cite{Durumeric2013ZMap} \cite{Holz2011The} \cite{Vandersloot2016Towards}.
-    Using collections of certificates, researchers build certificate linters to measure certificate compliance with community standards such as CA/Browser Forum Baseline Requirements,RFC 5280 \cite{x509lint} \cite{certlint} \cite{kumar2018tracking}.
+    Using collections of certificates, researchers build certificate linters to measure certificate compliance with community standards such as CA/Browser Forum Baseline Requirements, RFC 5280 \cite{x509lint} \cite{certlint} \cite{kumar2018tracking}.
     As a result, they find a large proportion of invalid certificate in the wild.%例如证书撤销，证书过期，弱算法
     More than that, there are even many invalid certificates signed by browser-trusted CAs.
-
 %这一段讲FrankenCerts
 Other than large scale scans of HTTPS ecosystem,
     some researchers focus on measuring the quality of certificate validation in SSL/TLS implementations.
@@ -18,7 +17,7 @@ Other than large scale scans of HTTPS ecosystem,
 
 %这一段讲 HPKP  HSTS
 A number of HTTPS security polices have been developed to enhance HTTPS security.
-    Aa a result, many studies focus on the development of HTTPS security polices.
+    As a result, many studies focus on the development of HTTPS security polices.
     Clark et al. \cite{Clark2013SoK} provide a theoretical evaluation of HTTPS policies for improve the HTTPS security.
     Amann et al. \cite{Amann2017Mission} analyze the deployment of HSTS and HPKP by active scans and passive monitoring.
     Pokeinthe \cite{pokeinthe2017HSTS} ran a scan of the Alexa Top 1 Million websites in Q2 2017. The results shows a more than 40 percent increase in the use of HSTS preloded and HPKP.
