@@ -1,8 +1,18 @@
 \section{BROWSER BEHAVIORS}
 %要写一段话
 \subsection{Method}
-Our goal is to build a test harness that is able to determine whether a web browser reports HTTPS security warning for a variety of different kinds of HTTPS errors. Ideally, we would like to use real certificates, but doing so would require obtaining access to a real intermediate certificate(an unlikely prospect). Instead, we generate our own root certificate and install it so that the web browser trusts it. This allows us to then generate and sign intermediate and leaf certificates as we wish.
-We implement out test as follows: for each test, (1)generates a unique DNS name, (2) uses OpenSSL to generate a test certificate that are syntactically(语法) well-formed but may violate one of the certificate constraints and internal dependencies that a valid certificate must satisfy. (3)generate an Nginx server configuration for the test. Thus, each test has a dedicated DNS name and Nginx instance to serve the certificate chain. We create a web page to present the browser certificate validation results. Thus, We can record whether the HTTPS security warning is triggered by such a combination of a test certificate and a HTTPS implementation. In our experiment, All connections to the web server is encrypted and authenticated using TLS 1.2.
+Our goal is to build a test harness that is able to determine whether a web browser reports HTTPS security warning for a variety of different kinds of HTTPS errors. 
+    Ideally, we would like to use real certificates, but doing so would require obtaining access to a real intermediate certificate(an unlikely prospect). 
+    Instead, we generate our own root certificate and install it so that the web browser trusts it. 
+    This allows us to then generate and sign intermediate and leaf certificates as we wish.
+We implement out test as follows: for each test,
+    (1)generates a unique DNS name, 
+    (2) uses OpenSSL to generate a test certificate that are syntactically(语法) well-formed but may violate one of the certificate constraints and internal dependencies that a valid certificate must satisfy. 
+    (3)generate an Nginx server configuration for the test. 
+Thus, each test has a dedicated DNS name and Nginx instance to serve the certificate chain. 
+    We create a web page to present the browser certificate validation results. 
+    Thus, We can record whether the HTTPS security warning is triggered by such a combination of a test certificate and a HTTPS implementation. 
+    In our experiment, All connections to the web server is encrypted and authenticated using TLS 1.2.
 \subsection{Results}
 Similar to the structure in the subsection3.2, the browsers behaviors are presented based on HTTPS error type.
 \subsection{Results}
@@ -92,4 +102,4 @@ The cache obtained by the browser through the HSTS response header is stored in 
 The HSTS policy only takes effect in the risk alert that the browser can skip. It will block the option to ignore the error, and the browser will also prompt "Cannot continue browsing due to the HSTS policy." For low-risk prompts (Level A), the browser can still access the site normally, and there will be an exclamation point prompt, which is no different from the prompt without the HSTS policy. Naturally, there is no change to the risk alert (Level C) that could not be skipped.
 
 \subsection{ExtendedKeyUsage}
-In the experiment, we tried the KeyUsage field of various endpoint certificates, but the browser did not report the extension of the endpoint certificate. The browser will recognize the error only if the ExtendedKeyUsage is set incorrectly. For the web server, the extended usage of the endpoint certificate should be ServerAuth. If the endpoint certificate has the ExtendedKeyUsage field but does not contain the value, an error will be reported. In our experiments, the KeyUsage field was reported by the browser only if the CA certificate did not have Certificate Signing. 
+In the experiment, we tried the KeyUsage field of various endpoint certificates, but the browser did not report the extension of the endpoint certificate. The browser will recognize the error only if the ExtendedKeyUsage is set incorrectly. For the web server, the extended usage of the endpoint certificate should be ServerAuth. If the endpoint certificate has the ExtendedKeyUsage field but does not contain the value, an error will be reported. In our experiments, the KeyUsage field was reported by the browser only if the CA certificate did not have Certificate Signing.
