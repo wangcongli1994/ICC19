@@ -1,14 +1,37 @@
 %HTTPS Errors章节的语言描述方面还未完善，现在有很大一部分是直接借用的网上资料的原文
-\subsection{HTTPS Errors}
+\subsection{HTTPS Errors}    
+In this subsection, 
+    we focus on various types of errors that may trigger browser security warnings.
+    For better understanding, We classify HTTPS errors into five categories from bottom up: 
+    chain building errors, chain validation errors, certificate verification enhancement errors, name validation errors, and server security policy errors.
+
 \subsubsection{Chain Building Errors}
-Chain building Error occurs if the certificate chain presented by a web server cannot provide enough information for a browser to build a complete chain from the endpoint certificate to a trusted root certificate in the browser’s Root Store.
+Chain building Error occurs 
+    if the certificate chain presented by a web server 
+    cannot provide enough information for a browser to build a complete chain 
+    from the endpoint certificate to a trusted root certificate in the browser’s root store.
+    
+\textbf{Self-signed Certificate.} 
+    Self-signed certificate is a sub-category of untrusted issuer 
+    whose subject and issuer are the same.
+    In general, well-known self-signed root certificates are stored in the browser/OS root stores.
+    Self-signed endpoint certificates are not trusted by browsers and must be installed manually. 
+    In addition, they are generally used in intranet websits.
 
-\textbf{Self-signed Certificate.} The issuer and user of the self-signed certificate are the same certificate. In general, a self-signed root certificate is stored in the "trusted root certificate issuing authority" in the computer system. Self-signed certificates are not trusted by the computer on the Internet and must be used manually. It is often used in small network environments within companies and organizations.
+\textbf{Untrusted issuer.}  
+    This error occurs when the browser is unable to create a chain from the server certificate to a trusted certificate authority. This typically happens when the server certificate issuer is neither present in the NSS root store, nor is it one of the valid intermediates we saw throughout our experiment.
 
-\textbf{Untrusted issuer.} This error occurs when the browser is unable to create a chain from the server certificate to a trusted certificate authority. This typically happens when the server certificate issuer is neither present in the NSS root store, nor is it one of the valid intermediates we saw throughout our experiment.
-
-%Incomplete Certificate Chain小节已经改好了
-\textbf{Incomplete Certificate Chain} An attacker who steals a certificate authority’s private keys is able to sign fraudulent certificates, for the sake of security, root certificates are commonly stored?offline and endpoint certificates are generally signed by shorter-lived intermediate certificates. All major browsers cache a valid intermediate certificate seen in a connection,and reuse it to validate connections in the future[5]. In order to build a complete certificate chain, browsers obtain the intermediate certificates in three ways. First, the web server presents its endpoint certificate accompany with all the necessary intermediate certificates that can leads to a trusted root certificate. Second, browsers reuse the cached intermediate certificates. Third, browsers actively fetch the missing intermediate certificates through an AIA field. An incomplete chain error occurs, if all the attempts fail.
+\textbf{Incomplete Certificate Chain.} 
+    An attacker who steals a certificate authority’s private keys is able to sign fraudulent certificates,
+    for the sake of security,
+    root certificates are commonly stored offline and endpoint certificates are generally signed by shorter-lived intermediate certificates.
+    All major browsers cache a valid intermediate certificate seen in a connection,and reuse it to validate connections in the future \cite{Akhawe2013Here}.
+    In order to build a complete certificate chain,
+    browsers obtain the intermediate certificates in three ways.
+    First, the web server presents its endpoint certificate accompany with all the necessary intermediate certificates that can leads to a trusted root certificate.
+    Second, browsers reuse the cached intermediate certificates.
+    Third, browsers actively fetch the missing intermediate certificates through an AIA field.
+    An incomplete chain error occurs, if all the attempts fail.
 
 \textbf{Certificate chain length error.} pathLenConstraint is one of the extension fields of ca. If there is this field in the extension, pathLenConstraint must be greater than or equal to 0. If there is no such field, there is no limit. A value of 0 means that there will be no more non-self-signed intermediate CA certificates in the valid certificate path. If the pathLenConstraint value of the CA is greater than 0, it indicates the possible intermediate CA certificate in the path from the endpoint certificate to the CA certificate build. Quantity. If the CA violates the length limit signing certificate, the certificate that exceeds the limit is invalid.
 
@@ -31,7 +54,7 @@ At the end of chain building, the browser has found a permutation of certificate
 
 \textbf{basic constraint and key usage of CA certificates.} The “CA bit” must be set. If the CA bit is not set, then the current certificate cannot act as a root or intermediate certificate in a certificate chain. The chain is not valid.
 
-\subsubsection{Certificate verification enhancement}
+\subsubsection{Certificate verification enhancement errors}
 
 %写一段话
 \textbf{HPKP.} HPKP is a security mechanism used by HTTPS websites
@@ -53,7 +76,7 @@ A name validation error occurs when a name is not found in the certificate match
 
 \textbf{Registered Domain Match.} If a user connecting to sub.example.com receives a certificate for example.com, it is arguably a lower threat than an invalid certificate chain. Note that browsers already do not fully isolate sub-domains; e.g., the cookie policy does not isolate sub-domains. Arguably, a name validation error in which the SNI and the presented certificate share the registered domain is lower risk than if the presented certificate is for a totally different domain. Identifying the registered domain in a given DNS label is tricky: each top-level domain (e.g., .in) has its own policy on the suffixes under which users can directly register names. For example, the registered domain for test.example.in is example.in, but it is not gov.in for example.gov.in. This is because .in allows registrations under both the .in as well as .gov.in suffixes. We use the Mozilla maintained public suffix list to identify the registered domains for a given DNS label [38].
 
-\subsubsection{Server Security Policy Error}%网站连接的安全策略问题
+\subsubsection{Server Security Policy Errors}%网站连接的安全策略问题
 In order to prevent attacks and improve security, the server often deploys some additional security policies on the premise that the certificate is legal and the server is legal.
 
 \textbf{HSTS} HSTS is a setting that forces the browser to establish a connection with the server using HTTPS [22]. When the browser receives the HSTS header set by the server, it will force the use of HTTPS when browsing the website. To enable HSTS, you need to add Strict-Transport-Security to the corresponding header of the server: max-age=<max-age>[; includeSubDomains][;preload] where max-age indicates the time when the HSTS takes effect, in seconds; includeSubDomains Indicates that the subdomain is valid; preload indicates that the site is in the HSTS preload list.

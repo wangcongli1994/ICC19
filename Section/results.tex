@@ -1,5 +1,10 @@
 \section{BROWSER BEHAVIORS}
-%Ҫдһ�λ�
+There are many community standards for certificate validation,
+    for example,
+    RFC 5246, RFC 6125, and RFC 5280.
+    The certificate validation in browser
+    is more than a  literal replication of Internet standards protocols.
+    It needs to balance security, standards, and user experiences.
 \subsection{Method}
 Our goal is to build a test harness that is able to determine whether a web browser reports HTTPS security warning for a variety of different kinds of HTTPS errors.
     Ideally, we would like to use real certificates, but doing so would require obtaining access to a real intermediate certificate(an unlikely prospect).
