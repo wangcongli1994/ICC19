@@ -1,10 +1,10 @@
-\section{Suggestions}
-
-\subsection{Do not use a self-signed CA certificate}
-
-Trusted root certificates on the Internet have very strict protection measures, such as offline protection.But users may store the seif-signed CA's private key on the local computer, and may even be exposed on the Internet, such as send by email. This will greatly Increase the risk of CA private key disclosure. The attacker can obtain a fake certificate that is completely legal and extremely difficult to distinguish for the user. The only difference between the attacker and the real certificate may be that the public key, the serial number and the signature value are different and difficult to be discovered. In this case, the possibility of being attacked is very high. We recommend not issuing a CA certificate when using a self-signed certificate.
-
-We did not find a way to directly add a endpoint certificate to Firefox's certificate store(Section 5.2). So try to avoid using self-signed certificates in Firefox browser.
-
-\subsection{Minimize the validity period of the certificate}
-For personal websites, the revoked certificate is not detected by Chrome(section 5.3), and Chrome is one of the most popular browsers. A workable approach is to minimize the validity of the certificate and update the certificate regularly. 
+%\section{Suggestions}
+%
+%\subsection{Do not use a self-signed CA certificate}
+%
+%Trusted root certificates on the Internet have very strict protection measures, such as offline protection.But users may store the seif-signed CA's private key on the local computer, and may even be exposed on the Internet, such as send by email. This will greatly Increase the risk of CA private key disclosure. The attacker can obtain a fake certificate that is completely legal and extremely difficult to distinguish for the user. The only difference between the attacker and the real certificate may be that the public key, the serial number and the signature value are different and difficult to be discovered. In this case, the possibility of being attacked is very high. We recommend not issuing a CA certificate when using a self-signed certificate.
+%
+%We did not find a way to directly add a endpoint certificate to Firefox's certificate store(Section 5.2). So try to avoid using self-signed certificates in Firefox browser.
+%
+%\subsection{Minimize the validity period of the certificate}
+%For personal websites, the revoked certificate is not detected by Chrome(section 5.3), and Chrome is one of the most popular browsers. A workable approach is to minimize the validity of the certificate and update the certificate regularly.

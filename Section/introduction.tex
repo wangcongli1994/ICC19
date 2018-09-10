@@ -1,30 +1,30 @@
-\section{introduction}
+\section{Introduction}
 HTTPS is becoming a de facto protocol used by Web to provide security features including confidentiality, data integrity, and authentication for data transmission between browsers and web servers. It is used hundreds of million of times every day in web browsers \cite{felt2017measuring}.
 
-The main process of web browser certificate validation is as follows: 
-    The web server sends an endpoint certificate referencing its domain name, 
-    as well as one or more intermediate certificates to a browser. 
-    The browser must construct a trust chain from its trusted root certificates to the endpoint. 
-    Certificate validation involves checking the whole chain for 
-    that the visited domain name matches the subject in the certificate presented by the web server, 
-    that the digital signature value is valid, 
-    that all the certificates of the chain are within their validity period, 
-    that the certificates haven¡¯t been revoked, that various extensions are meet requirements, 
-    and many other checks. 
-    If that validation fails, 
-    browsers display HTTPS security warnings to warn users of potential network attacks. 
+The main process of web browser certificate validation is as follows:
+    The web server sends an endpoint certificate referencing its domain name,
+    as well as one or more intermediate certificates to a browser.
+    The browser must construct a trust chain from its trusted root certificates to the endpoint.
+    Certificate validation involves checking the whole chain for
+    that the visited domain name matches the subject in the certificate presented by the web server,
+    that the digital signature value is valid,
+    that all the certificates of the chain are within their validity period,
+    that the certificates haven¡¯t been revoked, that various extensions are meet requirements,
+    and many other checks.
+    If that validation fails,
+    browsers display HTTPS security warnings to warn users of potential network attacks.
     However, if warnings cannot communicate risks correctly, uses may make wrong decisions.
 
 HTTPS is a highly complex protocol, and different web browsers include their own, proprietary implementations.
 
-Our work focuses on the X.509 certificate validation rather than the whole process of HTTPS implements, 
+Our work focuses on the X.509 certificate validation rather than the whole process of HTTPS implements,
     but we hope our work can be useful for deploying HTTPS faster and better.
 
 We make the following contributions:
 \begin{itemize}
 \item We thoroughly analyzed various HTTPS errors and HTTPS browser security warnings for mainstream browsers.
-\item Based on the analysis results, we found that some browsers didn't handle properly, 
-    for example, 
+\item Based on the analysis results, we found that some browsers didn't handle properly,
+    for example,
     firefox displays medium-risk warnings for manually installed self-signed certificates,
     chrome displays secure for revoked certificates that only contain CRL information or OCSP information,
     IE and Edge don¡¯t provide any warning for MD5 and SHA-1 certificates,

@@ -1,27 +1,27 @@
 %HTTPS Errors章节的语言描述方面还未完善，现在有很大一部分是直接借用的网上资料的原文
-\subsection{HTTPS Errors}    
-In this subsection, 
+\subsection{HTTPS Errors}
+In this subsection,
     we focus on various types of errors that may trigger browser security warnings.
-    For better understanding, We classify HTTPS errors into five categories from bottom up: 
+    For better understanding, We classify HTTPS errors into five categories from bottom up:
     chain building errors, chain validation errors, certificate verification enhancement errors, name validation errors, and server security policy errors.
 
-\subsubsection{Chain Building Errors}
-Chain building Error occurs 
-    if the certificate chain presented by a web server 
-    cannot provide enough information for a browser to build a complete chain 
+\subsubsection{Basic Certificate Validation Error}
+Chain building Error occurs
+    if the certificate chain presented by a web server
+    cannot provide enough information for a browser to build a complete chain
     from the endpoint certificate to a trusted root certificate in the browser’s root store.
-    
-\textbf{Self-signed Certificate.} 
-    Self-signed certificate is a sub-category of untrusted issuer 
+
+\textbf{Self-signed Certificate.}
+    Self-signed certificate is a sub-category of untrusted issuer
     whose subject and issuer are the same.
     In general, well-known self-signed root certificates are stored in the browser/OS root stores.
-    Self-signed endpoint certificates are not trusted by browsers and must be installed manually. 
+    Self-signed endpoint certificates are not trusted by browsers and must be installed manually.
     In addition, they are generally used in intranet websits.
 
-\textbf{Untrusted issuer.}  
+\textbf{Untrusted issuer.}
     This error occurs when the browser is unable to create a chain from the server certificate to a trusted certificate authority. This typically happens when the server certificate issuer is neither present in the NSS root store, nor is it one of the valid intermediates we saw throughout our experiment.
 
-\textbf{Incomplete Certificate Chain.} 
+\textbf{Incomplete Certificate Chain.}
     An attacker who steals a certificate authority’s private keys is able to sign fraudulent certificates,
     for the sake of security,
     root certificates are commonly stored offline and endpoint certificates are generally signed by shorter-lived intermediate certificates.
@@ -33,37 +33,28 @@ Chain building Error occurs
     Third, browsers actively fetch the missing intermediate certificates through an AIA field.
     An incomplete chain error occurs, if all the attempts fail.
 
-\textbf{Certificate chain length error.} pathLenConstraint is one of the extension fields of ca. If there is this field in the extension, pathLenConstraint must be greater than or equal to 0. If there is no such field, there is no limit. A value of 0 means that there will be no more non-self-signed intermediate CA certificates in the valid certificate path. If the pathLenConstraint value of the CA is greater than 0, it indicates the possible intermediate CA certificate in the path from the endpoint certificate to the CA certificate build. Quantity. If the CA violates the length limit signing certificate, the certificate that exceeds the limit is invalid.
-
-\textbf{Certificate chain usage error.} Key usage is an extension that can have multiple values to indicate the key usage for which the certificate is licensed. The usage values of CA certificates are generally Digital Signature, Certificate Signing and cRLSign. If the CA certificate does not contain a Certificate Signing usage, the certificate it signs is invalid.
-
-\subsubsection{Chain Validation Errors}
-At the end of chain building, the browser has found a permutation of certificates, starting from that of the website and ending at a trusted certificate in the root store. The browser then proceeds to check this chain for expiration, revocation, and name/length constraints.
-
 \textbf{Expired Certificates.} Recall that a certificate is only valid for a specific period. If a server sends a certificate that is no longer valid, but was valid in the past, NSS classifies it as an expired certificate. While most servers renew their certificates before they expire, we also find several that fail to renew before the expiration date.
 
 \textbf{Revoked Certificate.} In addition to security reasons, CAs use revocation for administrative reasons. Chrome maintains its own revocation list, free of revocations caused by administrative reasons [21]. In contrast, Firefox and Inter-net Explorer check CRLs and use OCSP requests to check the status of certificates. Our measurements allow us to bound the impact of revocation, and individual design decisions (e.g., Chrome’s decision) on user visible warnings.
-
-\textbf{Path Length Constraints.} Certificate Authorities can place usage limits on the intermediate certificates they issue. The path length constraint limits the number of intermediate certificates below the issued certificate. A number of zero means that an intermediate cannot issue any intermediate certificates. All modern browsers support name and path constraints, but since authorities rarely employ it, browser support remains relatively untested.
 
 \textbf{Key Length.} The CA/Browser Forum allows RSA, DSA, and ECC keys in certificates. All RSA keys and DSA keys should be at least 2048 bits long.
 
 \textbf{Digest Algorithm.} According to the CA/Browser Forum, Supported digest algorithms are SHA-1, SHA-256, SHA-384, and SHA-512.%(找一些不再支持sha-1和MD5的资料)
 
-\textbf{extended key usage and key usage.} If a certificate in the chain contains a key usage extension, the value of this extension must include the purpose that the certificate is being used for. For example, the key usage of an intermediate certificate must include keyCertSign (it must also have the CA bit set in the basic constraints, as described above). If a leaf certificate contains the server’s RSA public key that will be used to encrypt a session key, its key usage extension must include keyEncipherment. CAs should mark this extension as critical. Similar to key usage, if a certificate contains an extended key usage extension, the value of this extension must include the purpose that the certificate is being used for, e.g., server authentication in the case of a leaf certificate.
+\subsubsection{Certificate Extension Validation Error}
+At the end of chain building, the browser has found a permutation of certificates, starting from that of the website and ending at a trusted certificate in the root store. The browser then proceeds to check this chain for expiration, revocation, and name/length constraints.
+
+\textbf{Certificate chain length error.} pathLenConstraint is one of the extension fields of ca. If there is this field in the extension, pathLenConstraint must be greater than or equal to 0. If there is no such field, there is no limit. A value of 0 means that there will be no more non-self-signed intermediate CA certificates in the valid certificate path. If the pathLenConstraint value of the CA is greater than 0, it indicates the possible intermediate CA certificate in the path from the endpoint certificate to the CA certificate build. Quantity. If the CA violates the length limit signing certificate, the certificate that exceeds the limit is invalid.
+
+\textbf{Certificate chain usage error.} Key usage is an extension that can have multiple values to indicate the key usage for which the certificate is licensed. The usage values of CA certificates are generally Digital Signature, Certificate Signing and cRLSign. If the CA certificate does not contain a Certificate Signing usage, the certificate it signs is invalid.
+
+\textbf{Path Length Constraints.} Certificate Authorities can place usage limits on the intermediate certificates they issue. The path length constraint limits the number of intermediate certificates below the issued certificate. A number of zero means that an intermediate cannot issue any intermediate certificates. All modern browsers support name and path constraints, but since authorities rarely employ it, browser support remains relatively untested.
+
+\textbf{Key Usage.} If a certificate in the chain contains a key usage extension, the value of this extension must include the purpose that the certificate is being used for. For example, the key usage of an intermediate certificate must include keyCertSign (it must also have the CA bit set in the basic constraints, as described above). If a leaf certificate contains the server’s RSA public key that will be used to encrypt a session key, its key usage extension must include keyEncipherment. CAs should mark this extension as critical. Similar to key usage, if a certificate contains an extended key usage extension, the value of this extension must include the purpose that the certificate is being used for, e.g., server authentication in the case of a leaf certificate.
 
 \textbf{basic constraint and key usage of CA certificates.} The “CA bit” must be set. If the CA bit is not set, then the current certificate cannot act as a root or intermediate certificate in a certificate chain. The chain is not valid.
 
-\subsubsection{Certificate verification enhancement errors}
-
-%写一段话
-\textbf{HPKP.} HPKP is a security mechanism used by HTTPS websites
-    to prevent CA organizations from issuing certificates and attacking them [21].
-It provides the SHA-256 value of two public keys prepared in advance, and specifies
-    that the client only recognizes the public keys of the two certificates or certificate chains within the effective time.
-If you want to enable HPKP, add Public-Key-Pins in the response header: pin-sha256="base64=="; max-age=expireTime [; includeSubDomains][; report-url="reportURL"], where Max-age is the effective time, in seconds; if there is includeSubDomains then HPKP will be enabled in the subdomain; report-url is the address that reports the error after HPKP error, every time the client fails to verify, this will be The error details are reported to the address in JSON. HPKP can have a root certificate, an intermediate CA certificate and a endpoint certificate. If the pin root certificate, the certificate issued by the certificate chain can be legally verified; if the pin is an intermediate CA certificate, the certificate issued by the intermediate CA can be verified; if the pin is a endpoint certificate, then only the pin The certificate is available. The RFC recommends that the website use the SHA-256 of the intermediate CA as the public key of the pin. If the SHA-256 value of the website certificate chain does not correspond to the cached SHA-256 value, an HPKP error will be raised.
-
-\subsubsection{Name Validation Errors}
+\subsubsection{Name Validation Error}
 A name validation error occurs when a name is not found in the certificate matching the domain that the user connected to. Figure 2 illustrates our classification algorithm that further breaks down a name validation error into the subcategories we explain below. We focus on possible changes in the browser name validation logic that could ameliorate these errors.
 
 \textbf{No common name field.}
@@ -76,7 +67,16 @@ A name validation error occurs when a name is not found in the certificate match
 
 \textbf{Registered Domain Match.} If a user connecting to sub.example.com receives a certificate for example.com, it is arguably a lower threat than an invalid certificate chain. Note that browsers already do not fully isolate sub-domains; e.g., the cookie policy does not isolate sub-domains. Arguably, a name validation error in which the SNI and the presented certificate share the registered domain is lower risk than if the presented certificate is for a totally different domain. Identifying the registered domain in a given DNS label is tricky: each top-level domain (e.g., .in) has its own policy on the suffixes under which users can directly register names. For example, the registered domain for test.example.in is example.in, but it is not gov.in for example.gov.in. This is because .in allows registrations under both the .in as well as .gov.in suffixes. We use the Mozilla maintained public suffix list to identify the registered domains for a given DNS label [38].
 
-\subsubsection{Server Security Policy Errors}%网站连接的安全策略问题
+\subsubsection{HTTPS Security-Enhancement Error}%网站连接的安全策略问题
+%\subsubsection{Certificate verification enhancement errors}
+
+%写一段话
+\textbf{HPKP.} HPKP is a security mechanism used by HTTPS websites
+    to prevent CA organizations from issuing certificates and attacking them [21].
+It provides the SHA-256 value of two public keys prepared in advance, and specifies
+    that the client only recognizes the public keys of the two certificates or certificate chains within the effective time.
+If you want to enable HPKP, add Public-Key-Pins in the response header: pin-sha256="base64=="; max-age=expireTime [; includeSubDomains][; report-url="reportURL"], where Max-age is the effective time, in seconds; if there is includeSubDomains then HPKP will be enabled in the subdomain; report-url is the address that reports the error after HPKP error, every time the client fails to verify, this will be The error details are reported to the address in JSON. HPKP can have a root certificate, an intermediate CA certificate and a endpoint certificate. If the pin root certificate, the certificate issued by the certificate chain can be legally verified; if the pin is an intermediate CA certificate, the certificate issued by the intermediate CA can be verified; if the pin is a endpoint certificate, then only the pin The certificate is available. The RFC recommends that the website use the SHA-256 of the intermediate CA as the public key of the pin. If the SHA-256 value of the website certificate chain does not correspond to the cached SHA-256 value, an HPKP error will be raised.
+
 In order to prevent attacks and improve security, the server often deploys some additional security policies on the premise that the certificate is legal and the server is legal.
 
 \textbf{HSTS} HSTS is a setting that forces the browser to establish a connection with the server using HTTPS [22]. When the browser receives the HSTS header set by the server, it will force the use of HTTPS when browsing the website. To enable HSTS, you need to add Strict-Transport-Security to the corresponding header of the server: max-age=<max-age>[; includeSubDomains][;preload] where max-age indicates the time when the HSTS takes effect, in seconds; includeSubDomains Indicates that the subdomain is valid; preload indicates that the site is in the HSTS preload list.
