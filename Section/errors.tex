@@ -34,13 +34,15 @@
     An incomplete chain error occurs, if all the attempts fail.
 
 \textbf{Expired Certificates.}
-    A certificate is only valid for a specific period.
-    If a server sends a certificate that is no longer valid, but was valid in the past, NSS classifies it as an expired certificate. While most servers renew their certificates before they expire, we also find several that fail to renew before the expiration date.
+    A certificate is only valid between its Not Before date and Not After date. An expired certificate error occurs if the Not After date is earlier than current time.
 
 \textbf{Revoked Certificate.}
-    In addition to security reasons, CAs use revocation for administrative reasons. Firefox and Internet Explorer check CRLs and use OCSP requests to check the status of certificates. In contrast, Chrome maintains its own revocation list, free of revocations caused by administrative reasons [21]. Our measurements allow us to bound the impact of revocation, and individual design decisions (e.g., Chrome¡¯s decision) on user visible warnings.
+    For security reasons, such as private key leakage,  
+     using public-key algorithm that are no longer safe, and so on. CA can claim that a certificate is no longer valid before it expires by CRL, OCSP, and CRLset. A revoked certificate error occurs when the server uses a revoked certificate.
+
 
 \textbf{Key Length.}
+    The CA/Browser Forum
     The CA/Browser Forum allows RSA, DSA, and ECC keys in certificates. All RSA keys and DSA keys should be at least 1024 bits long, ECC Keys should be at least 160 bits long. In practice, RSA keys below 512 bits will be marked as invalid, and the application for ECC keys are more complicated.
 
 
