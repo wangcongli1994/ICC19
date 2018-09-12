@@ -37,17 +37,19 @@
     A certificate is only valid between its Not Before date and Not After date. An expired certificate error occurs if the Not After date is earlier than current time.
 
 \textbf{Revoked Certificate.}
-    For security reasons, such as private key leakage,  
+    For security reasons, such as private key leakage,
      using public-key algorithm that are no longer safe, and so on. CA can claim that a certificate is no longer valid before it expires by CRL, OCSP, and CRLset. A revoked certificate error occurs when the server uses a revoked certificate.
 
 
 \textbf{Key Length.}
-    The CA/Browser Forum
-    The CA/Browser Forum allows RSA, DSA, and ECC keys in certificates. All RSA keys and DSA keys should be at least 1024 bits long, ECC Keys should be at least 160 bits long. In practice, RSA keys below 512 bits will be marked as invalid, and the application for ECC keys are more complicated.
+    According to the CA/Browser Forum, All RSA keys should be at least 2048 bits \cite{CAB2018BR}.
+    Futhermore, NIST¡¯s cryptographic standards claimed that ECC keys should be at least 256 bits \cite{NIST2005ECC}.
+% ECC×ÊÁÏ´ý¶¨
 
-
-\textbf{Digest Algorithm.}
-    According to the CA/Browser Forum, Supported digest algorithms are SHA-256, SHA-384, and SHA-512. The SHA-1 and MD5 digest algorithms have proven to be insecure, such as two different pdf files with the same SHA-1 value on the network.
+\textbf{Weak Digest Algorithm.}
+    In 2005, MD5's designer Ron Rivest wrote that "md5 and sha1 are both clearly broken (in terms of collision-resistance)" \cite{Rivest2005MD5}.
+    According to the CA/Browser Forum, CAs should not issue endpoint certificates utilizing the SHA-1 algorighm with an Expiry Date greater than 1 January 2017.
+    In addition, MD5 should not be used with a exceptions for root certificates issued before  31 Dec 2010 \cite{CAB2018BR}.
 
 \subsubsection{Certificate Extension Validation Error}
     At the end of chain building, the browser has found a permutation of certificates, starting from that of the website and ending at a trusted certificate in the root store. The browser then proceeds to check this chain for expiration, revocation, and name/length constraints.
