@@ -1,7 +1,6 @@
 \section{Related Work}
 
-We are not aware of any prior work on discovery of risk level vulnerabilities in the browser HTTPS security warnings.
-    However, previous studies have shown the need for that research to improve HTTPS implementations and browser warnings.
+Previous studies have shown the need for analyzing browser security warnings of HTTPS errors.
 
 %这一段讲Invalid Certificates.
 Researchers take large scale scans of HTTPS certificate ecosystem including IPv4 space, certificate transparency logs, and Alexa Top 1 Million websites
@@ -11,7 +10,7 @@ Researchers take large scale scans of HTTPS certificate ecosystem including IPv4
     community standards such as CA/Browser Forum Baseline Requirements, RFC 5280, and RFC6277 \cite{x509lint} \cite{certlint} \cite{kumar2018tracking}.
     As a result, they find a large proportion of invalid certificate in the wild.%例如证书撤销，证书过期，弱算法
     More than that, there are even many invalid certificates signed by browser-trusted CAs.
-    
+
 %这一段讲FrankenCerts
 Other than large scale scans of HTTPS ecosystem,
     some researchers focus on measuring the quality of certificate validation in SSL/TLS implementations.

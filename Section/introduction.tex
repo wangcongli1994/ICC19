@@ -23,6 +23,8 @@ Our work focuses on the X.509 certificate validation rather than the whole proce
 We make the following contributions:
 \begin{itemize}
 \item We thoroughly analyzed various HTTPS errors and HTTPS browser security warnings for mainstream browsers.
+    Specifically, HTTPS errors include basic certificate validation error, certificate extension validation error, name validation error, and HTTPS security-enhancement error.
+    The mainstream browsers we analyzed contain chrome, firefox, Edge, and IE.
 \item Based on the analysis results, we found that some browsers didn't handle properly,
     for example,
     firefox displays medium-risk warnings for manually installed self-signed certificates,
