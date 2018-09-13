@@ -68,22 +68,22 @@
 \subsubsection{Name Validation Error}
     Certificates are only valid for specific domain names.
     A name validation error occurs when domain names listed in a endpoint certificate does not match the domain we visited.
+    
+\textbf{Domain Name Complete Mismatch.}
+    Domain Name Complete Mismatch means that, there may be a complete mismatch between the domain name visited and the certificate received.
 
-\textbf{Common Name or Subject Alternative Name Error.}
+\textbf{Common Name or Subject Alternative Name Mismatch.}
     Common Name (CN) and Subject Alternative Name (SAN) fields indicate the certificate subject identity information, and they are usually domain names.
     There are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 
 \textbf{WWW Mismatch.}
     A www mismatch occurs when a user visiting www.example.com gets a certificates for example.com.
 
-\textbf{Out-of-wildcard-scope subdomain.}
-Recall from Section 4.3 that an asterisk in a name can only match one level of names in the initial part of the DNS label. A more permissive function that matches asterisks to an arbitrary number of sub-domains (while still ensuring that it is the same TLD+1) could accept more certificates and reduce the number of warnings shown to users.
-
-    Recall from Section 4.3 that an asterisk in a name can only match one level of names in the initial part of the DNS label. A more permissive function that matches asterisks to an arbitrary number of sub-domains (while still ensuring that it is the same TLD+1) could accept more certificates and reduce the number of warnings shown to users.
+\textbf{Out-of-wildcard-scope Subdomain.}
+    A out-of-wildcard-scope subdomain occurs when a user visiting a.b.example.com gets a certificates for *.example.com.
 
 
-\textbf{Domain Name Mismatch.}
-    In addition to the above name validation errors, there may be a complete mismatch between the domain name visited and the certificate received.
+
 
 
 \subsubsection{HTTPS Security-Enhancement Error}%网站连接的安全策略问题
