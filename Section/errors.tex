@@ -40,11 +40,9 @@
     For security reasons, such as private key leakage,
      using public-key algorithm that are no longer safe, and so on. CA can claim that a certificate is no longer valid before it expires by CRL, OCSP, and CRLset. A revoked certificate error occurs when the server uses a revoked certificate.
 
-
 \textbf{Key Length.}
     According to the CA/Browser Forum, All RSA keys should be at least 2048 bits \cite{CAB2018BR}.
     Futhermore, NIST¡¯s cryptographic standards claimed that ECC keys should be at least 256 bits \cite{NIST2005ECC}.
-% ECC×ÊÁÏ´ý¶¨
 
 \textbf{Weak Digest Algorithm.}
     In 2005, MD5's designer Ron Rivest wrote that "md5 and sha1 are both clearly broken (in terms of collision-resistance)" \cite{Rivest2005MD5}.
@@ -52,10 +50,10 @@
     In addition, MD5 should not be used with a exceptions for root certificates issued before  31 Dec 2010 \cite{CAB2018BR}.
 
 \subsubsection{Certificate Extension Validation Error}
-    At the end of chain building, the browser has found a permutation of certificates, starting from that of the website and ending at a trusted certificate in the root store. The browser then proceeds to check this chain for expiration, revocation, and name/length constraints.
-
+    In addition to the basic certificate validation, we also consider the certificate extension validation: pathLenConstraint, Key Usage, and Extended Key Usage.
+    
 \textbf{pathLenConstraint error.}
-    pathLenConstraint is one of the extension fields of ca. If there is this field in the extension, pathLenConstraint must be greater than or equal to 0. If there is no such field, there is no limit. A value of 0 means that there will be no more non-self-signed intermediate CA certificates in the valid certificate path. If the pathLenConstraint value of the CA is greater than 0, it indicates the possible intermediate CA certificate in the path from the endpoint certificate to the CA certificate build. Quantity. If the CA violates the length limit signing certificate, the certificate that exceeds the limit is invalid.
+    pathLenConstraint is a non-negative integer, denoting the maximum number of intermediate certificates available between this CA certificate and the endpoint certificate. A value of 0 means that the CA can only issue endpoint certificates. pathLenConstraint is only useful for CA certificates.
 
 \textbf{Certificate chain usage error.}
     Key usage is an extension that can have multiple values to indicate the key usage for which the certificate is licensed. The usage values of CA certificates are generally Digital Signature, Certificate Signing and cRLSign. If the CA certificate does not contain a Certificate Signing usage, the certificate it signs is invalid.
