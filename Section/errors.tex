@@ -55,8 +55,8 @@
 \textbf{pathLenConstraint error.}
     pathLenConstraint is a non-negative integer, denoting the maximum number of intermediate certificates available between this CA certificate and the endpoint certificate. A value of 0 means that the CA can only issue endpoint certificates. pathLenConstraint is only useful for CA certificates.
 
-\textbf{Certificate chain usage error.}
-    Key usage is an extension that can have multiple values to indicate the key usage for which the certificate is licensed. The usage values of CA certificates are generally Digital Signature, Certificate Signing and cRLSign. If the CA certificate does not contain a Certificate Signing usage, the certificate it signs is invalid.
+\textbf{Key Usage error.}
+    Key usage is an extension that can have multiple values to indicate the purpose that the certificate is used for. The Key Usage values of CA certificates are generally digitalSignature, keyCertSign and cRLSign. If a CA certificate does not contain a keyCertSign usage, the certificate it signed is invalid.
 
 \textbf{Certificate extendedKeyUsage error.}
     The length of the keyUsage field is not sufficient to represent all possible certificate usages, and extendedKeyUsage is used to define additional certificate usage, such as: serverAuth and clientAuth.
