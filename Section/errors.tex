@@ -62,7 +62,8 @@
     The length of the keyUsage field is not sufficient to represent all possible certificate usages, and extendedKeyUsage is used to define additional certificate usage, such as: serverAuth and clientAuth.
 
 \subsubsection{Name Validation Error}
-    A name validation error occurs when a name is not found in the certificate matching the domain that the user connected to.  Figure 2 illustrates our classification algorithm that further breaks down a name validation error into the subcategories we explain below. We focus on possible changes in the browser name validation logic that could ameliorate these errors.
+    Certificates are only valid for specific domain names. 
+    A name validation error occurs when domain names listed in a endpoint certificate does not match the domain we visited.
 
 \textbf{Certificate has no partial fields.}
     A certificate may not have a Common Name or SAN field. In OpenSSL, certificates that do not fill in the above fields can also be generated and be signed.
