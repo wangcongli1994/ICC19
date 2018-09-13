@@ -65,18 +65,22 @@
     Certificates are only valid for specific domain names. 
     A name validation error occurs when domain names listed in a endpoint certificate does not match the domain we visited.
 
-\textbf{Certificate has no partial fields.}
-    A certificate may not have a Common Name or SAN field. In OpenSSL, certificates that do not fill in the above fields can also be generated and be signed.
-    For the Common Name, some very old browsers may not support certificates without Common Name. The Chrome browser does not support certificates without a SAN field.
+\textbf{Common Name or Subject Alternative Name Error.}
+    Common Name (CN) and Subject Alternative Name (SAN) fields indicate the certificate subject identity information, and they are usually domain names. 
+    There are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 
-\textbf{WWW Mismatches.}
+\textbf{WWW Mismatch.}
     A certificate only for exapmle.com does not work for www.example.com. In the past, browser developers turned down requests to change this behavior [29]. Our study helps empirically measure the impact of this decision. Note that we reuse the NSS name validation function, and do not write our own validation function for this category.
 
-\textbf{Relaxed Matching.}
+\textbf{Out-of-wildcard-scope subdomain error.}
     Recall from Section 4.3 that an asterisk in a name can only match one level of names in the initial part of the DNS label. A more permissive function that matches asterisks to an arbitrary number of sub-domains (while still ensuring that it is the same TLD+1) could accept more certificates and reduce the number of warnings shown to users. We measured this via our own implementation of such a relaxed matching algorithm, which is available online as part of our code release [1].
 
 \textbf{Registered Domain Match.}
     If a user connecting to sub.example.com receives a certificate for example.com, it is arguably a lower threat than an invalid certificate chain. Note that browsers already do not fully isolate sub-domains. Arguably, a name validation error in which the SNI and the presented certificate share the registered domain is lower risk than if the presented certificate is for a totally different domain. Identifying the registered domain in a given DNS label is tricky: each top-level domain (e.g., .in) has its own policy on the suffixes under which users can directly register names. For example, the registered domain for test.example.in is example.in, but it is not gov.in for example.gov.in. This is because .in allows registrations under both the .in as well as .gov.in suffixes. We use the Mozilla maintained public suffix list to identify the registered domains for a given DNS label [38].
+    
+\textbf{Domain Name Mismatch.}
+    In addition to the above name validation errors, there may be a complete mismatch between the domain name visited and the certificate received.
+    
 
 \subsubsection{HTTPS Security-Enhancement Error}%网站连接的安全策略问题
 %\subsubsection{Certificate verification enhancement errors}

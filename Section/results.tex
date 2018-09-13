@@ -85,6 +85,9 @@ We experimented with different types of errors and summarized them in the table 
 \end{table*}%
 
 
+%\textbf{Certificate has no partial fields.}
+%    A certificate may not have a Common Name or SAN field. In OpenSSL, certificates that do not fill in the above fields can also be generated and be signed.
+ %   For the Common Name, some very old browsers may not support certificates without Common Name. % The Chrome browser does not support certificates without a SAN field.
 
 \subsection{Warnings on Basic Certificate Validation Error}
 Similar to the structure in the subsection3.2, the browsers behaviors are presented based on HTTPS error type.
