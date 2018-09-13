@@ -1,5 +1,22 @@
 \begin{abstract}
-HTTPS has played a significant role in communication security by providing encryption data integrity and entity authentication.
-% It is used hundreds of million of times every day in web browsers. 
-Browsers report HTTPS security warnings if the certificate chain fails to validate. However, There is no clear industry consensus for browsers¡¯ security strategies, and four major browsers exhibiting different warning design. To get a good understanding of the browser warnings, we design a wide variety of HTTPS certificate errors and investigate the browser warning behaviors in the field. We empirically assess whether browser security warnings are as effective as suggested by popular opinion. Our results suggest that browsers may treat the same certificate error differently. Based on our findings, we make recommendations for warning designers and researches to ensure the security of HTTPS certificate ecosystem.
+HTTPS provides authentication, data confidentiality and integrity
+    for secure web applications in the Internet, including online banking, Email, e-commerce transactions, etc.
+%has played a significant role in communication security by providing encryption data integrity and entity authentication.
+% It is used hundreds of million of times every day in web browsers.
+In order to establish secure connections with the target web server but not a man-in-the-middle attack,
+a browser shows security warnings,
+    when different HTTPS error happens (for example,
+        it fails to build a certificate chain,
+         or the subject of the certificate does not match the domain that it is visiting).
+Each browser implements its own design of such security warnings.
+%Browsers report HTTPS security warnings if the certificate chain fails to validate.
+%However, There is no clear industry consensus for browsers¡¯ security strategies, and four major browsers exhibiting different warning design.
+In this paper,
+    we conduct a comprehensive investigation of 
+
+%To get a good understanding of the browser warnings,
+ we design a wide variety of HTTPS certificate errors and investigate the browser warning behaviors in the field.
+We empirically assess whether browser security warnings are as effective as suggested by popular opinion.
+Our results suggest that browsers may treat the same certificate error differently.
+Based on our findings, we make recommendations for warning designers and researches to ensure the security of HTTPS certificate ecosystem.
 \end{abstract}
