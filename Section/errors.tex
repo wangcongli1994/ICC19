@@ -54,10 +54,14 @@
     The number of intermediate certificates between current CA and the endpoint certificate cannot greater than PathLenConstraint.
 
 \textbf{Key Usage Extension.}
-    Key usage is an extension that can have multiple values to indicate the purpose that the certificate is used for. The Key Usage values of CA certificates are generally digitalSignature, keyCertSign and cRLSign. If a CA certificate does not contain a keyCertSign usage, the certificate it signed is invalid.
+    The key usage extension indicates the purpose of the public key contained in a certificate.
+    According to RFC 5280 \cite{cooper2008rfc5280}, 
+    all CA certificates must include "Certificate Signing" in their key usage extension, and 
+    all webhost certificates must include "Key Encipherment" in their key usage extension.
 
 \textbf{Extended Key Usage Extension.}
-    The length of the keyUsage field is not sufficient to represent all possible certificate usages, and extendedKeyUsage is used to define additional certificate usage, such as: serverAuth and clientAuth.
+    Extended key usage further refines key usage extensions.
+    
 
 \subsubsection{Name Validation Error}
     Certificates are only valid for specific domain names. 
@@ -70,7 +74,7 @@
 \textbf{WWW Mismatch.}
     A www mismatch occurs when a user visiting www.example.com gets a certificates for example.com.
 
-\textbf{Out-of-wildcard-scope subdomain error.}
+\textbf{Out-of-wildcard-scope subdomain.}
 Recall from Section 4.3 that an asterisk in a name can only match one level of names in the initial part of the DNS label. A more permissive function that matches asterisks to an arbitrary number of sub-domains (while still ensuring that it is the same TLD+1) could accept more certificates and reduce the number of warnings shown to users.
     
     Recall from Section 4.3 that an asterisk in a name can only match one level of names in the initial part of the DNS label. A more permissive function that matches asterisks to an arbitrary number of sub-domains (while still ensuring that it is the same TLD+1) could accept more certificates and reduce the number of warnings shown to users.
