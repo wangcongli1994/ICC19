@@ -30,45 +30,47 @@
     A certificate is only valid between its Not Before date and Not After date. An expired certificate error occurs if the Not After date is earlier than current time.
 
 \textbf{Revoked Certificate.}
-    For security reasons, 
-    CA can claim that a certificate is no longer valid before it expires by CRL, OCSP, and CRLset. 
+    For security reasons,
+    CA can claim that a certificate is no longer valid before it expires by CRL, OCSP, and CRLset.
     A revoked certificate error occurs when the server uses a revoked certificate.
 
 \textbf{Weak Signature Algorithm.}
-    The CA/Browser Forum allows RSA and ECC keys in certificates. 
-    All RSA keys should be at least 2048 bits \cite{CAB2018BR}, 
+    The CA/Browser Forum allows RSA and ECC keys in certificates.
+    All RSA keys should be at least 2048 bits \cite{CAB2018BR},
     and ECC keys should be at least 256 bits \cite{NIST2005ECC}.
     A weak signature algorithm error occurs when the key length does not meet the requirements.
-   
+
 \textbf{Weak Digest Algorithm.}
-    According to the CA/Browser Forum, 
+    According to the CA/Browser Forum,
     supported digest algorithms are SHA-256, SHA-384, and SHA-512. The SHA-1 and MD5 digest algorithm have been shown to be insecure, such as two different PDF files with the same SHA-1 hash \cite{Google2017sha1}.
 
 \subsubsection{Certificate Extension Validation Error}
     In addition to the basic certificate validation, we also consider the certificate extension validation: Basic Constraints, Key Usage, and Extended Key Usage.
-    
+
 \textbf{Basic Constraints Extension.}
-    The basic constraints extension consists of a "CA flag" and a PathLenConstraint. 
-    CA certificates must set the "CA flag" as true. 
-    PathLenConstraint is a non-negative integer, and it only works for CA certificates. 
+    The basic constraints extension consists of a "CA flag" and a PathLenConstraint.
+    CA certificates must set the "CA flag" as true.
+    PathLenConstraint is a non-negative integer, and it only works for CA certificates.
     The number of intermediate certificates between current CA and the endpoint certificate cannot greater than PathLenConstraint.
 
 \textbf{Key Usage Extension.}
     The key usage extension indicates the purpose of the public key contained in a certificate.
-    According to RFC 5280 \cite{cooper2008rfc5280}, 
-    all CA certificates must include "Certificate Signing" in their key usage extension, and 
+    According to RFC 5280 \cite{cooper2008rfc5280},
+    all CA certificates must include "Certificate Signing" in their key usage extension, and
     all webhost certificates must include "Key Encipherment" in their key usage extension.
 
 \textbf{Extended Key Usage Extension.}
-    Extended key usage further refines key usage extensions.
-    
+    Extended key usage extension further refines key usage extension.
+    If the extension is critical,
+    all webhost certificates must include "serverAuth" in their key usage extension.
+
 
 \subsubsection{Name Validation Error}
-    Certificates are only valid for specific domain names. 
+    Certificates are only valid for specific domain names.
     A name validation error occurs when domain names listed in a endpoint certificate does not match the domain we visited.
 
 \textbf{Common Name or Subject Alternative Name Error.}
-    Common Name (CN) and Subject Alternative Name (SAN) fields indicate the certificate subject identity information, and they are usually domain names. 
+    Common Name (CN) and Subject Alternative Name (SAN) fields indicate the certificate subject identity information, and they are usually domain names.
     There are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 
 \textbf{WWW Mismatch.}
@@ -76,13 +78,13 @@
 
 \textbf{Out-of-wildcard-scope subdomain.}
 Recall from Section 4.3 that an asterisk in a name can only match one level of names in the initial part of the DNS label. A more permissive function that matches asterisks to an arbitrary number of sub-domains (while still ensuring that it is the same TLD+1) could accept more certificates and reduce the number of warnings shown to users.
-    
+
     Recall from Section 4.3 that an asterisk in a name can only match one level of names in the initial part of the DNS label. A more permissive function that matches asterisks to an arbitrary number of sub-domains (while still ensuring that it is the same TLD+1) could accept more certificates and reduce the number of warnings shown to users.
 
 
 \textbf{Domain Name Mismatch.}
     In addition to the above name validation errors, there may be a complete mismatch between the domain name visited and the certificate received.
-    
+
 
 \subsubsection{HTTPS Security-Enhancement Error}%网站连接的安全策略问题
 %\subsubsection{Certificate verification enhancement errors}
