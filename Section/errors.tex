@@ -11,54 +11,52 @@
     cannot provide enough information for a browser to build a complete chain
     from the endpoint certificate to a trusted root certificate in the browser¡¯s root store.
 
-\textbf{Self-signed Certificate.}
-    Self-signed certificate is a sub-category of untrusted issuer
-    whose subject and issuer are the same.
-    In general, well-known self-signed root certificates are stored in the browser/OS root stores.
-    Self-signed endpoint certificates are not trusted by browsers and must be installed manually.
-    In addition, they are generally used in intranet websits.
+\textbf{Untrusted Self-signed Endpoint Certificate.}
+    The subject and issuer of a self-signed certificate are the same.
+    In general, self-signed endpoint certificates are not trusted by browsers and must be installed manually.
 
-\textbf{Untrusted issuer.}
-    This error occurs when the browser is unable to create a chain from the server certificate to a trusted certificate authority. This typically happens when the server certificate issuer is not present in the tursted root store.
+\textbf{Untrusted Root CA Certificate.}
+    This error occurs when the chain of intermediate CAs linking the endpoint certificate to a root CA untrusted by browsers.
 
 \textbf{Incomplete Certificate Chain.}
-    An attacker who steals a certificate authority¡¯s private keys is able to sign fraudulent certificates,
-    for the sake of security,
-    root certificates are commonly stored offline and endpoint certificates are generally signed by shorter-lived intermediate certificates.
-    All major browsers cache a valid intermediate certificate seen in a connection,and reuse it to validate connections in the future \cite{Akhawe2013Here}.
     In order to build a complete certificate chain,
     browsers obtain the intermediate certificates in three ways.
     First, the web server presents its endpoint certificate accompany with all the necessary intermediate certificates that can leads to a trusted root certificate.
     Second, browsers reuse the cached intermediate certificates.
     Third, browsers actively fetch the missing intermediate certificates through an AIA field.
-    An incomplete chain error occurs, if all the attempts fail.
+    An incomplete chain error occurs, when all the attempts fail.
 
-\textbf{Expired Certificates.}
+\textbf{Expired Certificate.}
     A certificate is only valid between its Not Before date and Not After date. An expired certificate error occurs if the Not After date is earlier than current time.
 
 \textbf{Revoked Certificate.}
-    For security reasons, such as private key leakage,
-     using public-key algorithm that are no longer safe, and so on. CA can claim that a certificate is no longer valid before it expires by CRL, OCSP, and CRLset. A revoked certificate error occurs when the server uses a revoked certificate.
+    For security reasons, 
+    CA can claim that a certificate is no longer valid before it expires by CRL, OCSP, and CRLset. 
+    A revoked certificate error occurs when the server uses a revoked certificate.
 
-\textbf{Key Length.}
-    According to the CA/Browser Forum, All RSA keys should be at least 2048 bits \cite{CAB2018BR}.
-    Futhermore, NIST¡¯s cryptographic standards claimed that ECC keys should be at least 256 bits \cite{NIST2005ECC}.
-
+\textbf{Weak Signature Algorithm.}
+    The CA/Browser Forum allows RSA and ECC keys in certificates. 
+    All RSA keys should be at least 2048 bits \cite{CAB2018BR}, 
+    and ECC keys should be at least 256 bits \cite{NIST2005ECC}.
+    A weak signature algorithm error occurs when the key length does not meet the requirements.
+   
 \textbf{Weak Digest Algorithm.}
-    In 2005, MD5's designer Ron Rivest wrote that "md5 and sha1 are both clearly broken (in terms of collision-resistance)" \cite{Rivest2005MD5}.
-    According to the CA/Browser Forum, CAs should not issue endpoint certificates utilizing the SHA-1 algorighm with an Expiry Date greater than 1 January 2017.
-    In addition, MD5 should not be used with a exceptions for root certificates issued before  31 Dec 2010 \cite{CAB2018BR}.
+    According to the CA/Browser Forum, 
+    supported digest algorithms are SHA-256, SHA-384, and SHA-512. The SHA-1 and MD5 digest algorithm have been shown to be insecure, such as two different PDF files with the same SHA-1 hash \cite{Google2017sha1}.
 
 \subsubsection{Certificate Extension Validation Error}
-    In addition to the basic certificate validation, we also consider the certificate extension validation: pathLenConstraint, Key Usage, and Extended Key Usage.
+    In addition to the basic certificate validation, we also consider the certificate extension validation: Basic Constraints, Key Usage, and Extended Key Usage.
     
-\textbf{pathLenConstraint error.}
-    pathLenConstraint is a non-negative integer, denoting the maximum number of intermediate certificates available between this CA certificate and the endpoint certificate. A value of 0 means that the CA can only issue endpoint certificates. pathLenConstraint is only useful for CA certificates.
+\textbf{Basic Constraints Extension.}
+    The basic constraints extension consists of a "CA flag" and a PathLenConstraint. 
+    CA certificates must set the "CA flag" as true. 
+    PathLenConstraint is a non-negative integer, and it only works for CA certificates. 
+    The number of intermediate certificates between current CA and the endpoint certificate cannot greater than PathLenConstraint.
 
-\textbf{Key Usage error.}
+\textbf{Key Usage Extension.}
     Key usage is an extension that can have multiple values to indicate the purpose that the certificate is used for. The Key Usage values of CA certificates are generally digitalSignature, keyCertSign and cRLSign. If a CA certificate does not contain a keyCertSign usage, the certificate it signed is invalid.
 
-\textbf{Certificate extendedKeyUsage error.}
+\textbf{Extended Key Usage Extension.}
     The length of the keyUsage field is not sufficient to represent all possible certificate usages, and extendedKeyUsage is used to define additional certificate usage, such as: serverAuth and clientAuth.
 
 \subsubsection{Name Validation Error}
@@ -70,14 +68,14 @@
     There are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 
 \textbf{WWW Mismatch.}
-    A certificate only for exapmle.com does not work for www.example.com. In the past, browser developers turned down requests to change this behavior [29]. Our study helps empirically measure the impact of this decision. Note that we reuse the NSS name validation function, and do not write our own validation function for this category.
+    A www mismatch occurs when a user visiting www.example.com gets a certificates for example.com.
 
 \textbf{Out-of-wildcard-scope subdomain error.}
-    Recall from Section 4.3 that an asterisk in a name can only match one level of names in the initial part of the DNS label. A more permissive function that matches asterisks to an arbitrary number of sub-domains (while still ensuring that it is the same TLD+1) could accept more certificates and reduce the number of warnings shown to users. We measured this via our own implementation of such a relaxed matching algorithm, which is available online as part of our code release [1].
-
-\textbf{Registered Domain Match.}
-    If a user connecting to sub.example.com receives a certificate for example.com, it is arguably a lower threat than an invalid certificate chain. Note that browsers already do not fully isolate sub-domains. Arguably, a name validation error in which the SNI and the presented certificate share the registered domain is lower risk than if the presented certificate is for a totally different domain. Identifying the registered domain in a given DNS label is tricky: each top-level domain (e.g., .in) has its own policy on the suffixes under which users can directly register names. For example, the registered domain for test.example.in is example.in, but it is not gov.in for example.gov.in. This is because .in allows registrations under both the .in as well as .gov.in suffixes. We use the Mozilla maintained public suffix list to identify the registered domains for a given DNS label [38].
+Recall from Section 4.3 that an asterisk in a name can only match one level of names in the initial part of the DNS label. A more permissive function that matches asterisks to an arbitrary number of sub-domains (while still ensuring that it is the same TLD+1) could accept more certificates and reduce the number of warnings shown to users.
     
+    Recall from Section 4.3 that an asterisk in a name can only match one level of names in the initial part of the DNS label. A more permissive function that matches asterisks to an arbitrary number of sub-domains (while still ensuring that it is the same TLD+1) could accept more certificates and reduce the number of warnings shown to users.
+
+
 \textbf{Domain Name Mismatch.}
     In addition to the above name validation errors, there may be a complete mismatch between the domain name visited and the certificate received.
     
