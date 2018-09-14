@@ -19,12 +19,13 @@ Browsers show security warnings with different levels, when different HTTPS erro
 and (\emph{d}) a fatal warning immediately close the connection and stop the browsing.
 
 These security warnings try to protect users to establish secure connections with the target web server,
-    but not a man-in-the-middle (MitM) attack.
+    but not a man-in-the-middle attack.
 However, in order to balance security and usability,
     each browser implements its own design of security procedures,
         producing different behaviors and warnings on HTTPS errors.
-This work presents a comprehensive list of HTTPS errors,
-and investigates the browser behaviors on each error.
+In this paper,
+        we present a comprehensive list of HTTPS errors,
+and investigate the browser behaviors on each error.
 These errors cover certificate verification of basic fields and extensions, 
         name validation, and HTTPS security-enhancement of HPKP and HSTS.
 
@@ -36,18 +37,18 @@ Our study
 Some defects may allow an invalid or forged certificate to be accepted by users:
 \begin{itemize}
 \item
-Edge algorithm. +++++++
+Edge algorithm.
 \item
-Firefox pathLenConstraint. ++++++++
+Firefox pathLenConstraint.
 \item
-Chrome, certificate revocation. +++
+Chrome, certificate revocation.
 \end{itemize}
 There are also some defects resulting in the problems of usability:
 \begin{itemize}
 \item
-Name validation, different. +++++
+Name validation, different. usability problem.
 \item
-Firefox does not support self-signed certificate as server certificate. ++++
+Firefox does not support self-signed certificate as server certificate. usability problem.
 \end{itemize}
 %The main process of web browser certificate validation is as follows:
 %    The web server sends an endpoint certificate referencing its domain name,
@@ -67,16 +68,20 @@ Firefox does not support self-signed certificate as server certificate. ++++
 %Our work focuses on the X.509 certificate validation rather than the whole process of HTTPS implements,
 %    but we hope our work can be useful for deploying HTTPS faster and better.
 
-\noindent\textbf{Contribution.} We present a comprehensive list of HTTPS errors,
-        and investigate the security warnings of four mainstream browsers on these errors.
-Several defects are found in the analysis results,
-    and these defects may result in the problem of security or usability in HTTPS.
-We finally propose the suggestions to improve the development of browsers.
+We make the following contributions:
+\begin{itemize}
+\item We thoroughly analyzed various HTTPS errors and HTTPS browser security warnings for mainstream browsers.
+\item Based on the analysis results, we found that some browsers didn't handle properly,
+    for example,
+    firefox displays medium-risk warnings for manually installed self-signed certificates,
+    chrome displays secure for revoked certificates that only contain CRL information or OCSP information,
+    IE and Edge don¡¯t provide any warning for MD5 and SHA-1 certificates,
+    and chrome provide medium-risk warnings for certificates whose SAN fields don't contain the domain we visited.
+    We accordingly make recommendations for browser warnings to convey appropriate levels of risk.
+\end{itemize}
 
-%Based on the analysis results, we found that some browsers didn't handle properly,
-%    for example,
-%    firefox displays medium-risk warnings for manually installed self-signed certificates,
-%    chrome displays secure for revoked certificates that only contain CRL information or OCSP information,
-%    IE and Edge don¡¯t provide any warning for MD5 and SHA-1 certificates,
-%    and chrome provide medium-risk warnings for certificates whose SAN fields don't contain the domain we visited.
-%    We accordingly make recommendations for browser warnings to convey appropriate levels of risk.
+
+
+
+
+
