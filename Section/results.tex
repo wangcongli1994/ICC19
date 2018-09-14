@@ -8,8 +8,7 @@ There are many community standards for certificate validation,
 \subsection{Goal and Methodology}
 Our goal is to build a test harness that is able to determine whether a web browser reports HTTPS security warning for a variety of different kinds of HTTPS errors.
 
-    Ideally, we would like to use real certificates, but doing so would require obtaining access to a real intermediate certificate(an unlikely prospect).
-    Instead, we generate our own root certificate and install it so that the web browser trusts it.
+we generate our own root certificate and install it so that the web browser trusts it.
     This allows us to then generate and sign intermediate and leaf certificates as we wish.
 We implement out test as follows: for each test,
     (1)generates a unique DNS name,
@@ -36,7 +35,7 @@ We experimented with different types of errors and summarized them in the table 
                                                                                                     & \multicolumn{1}{l|}{}                                                                               & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
                                                                                                     & Revoked(CRL)                                                                                        & Secure               & Secure               & C                    & C                    \\
                                                                                                     & Revoked(OCSP)                                                                              & Secure               & C                    & C                    & C                    \\
-                                                                                                    & Revoked(Chrome CRLset)                                                                                       & C                    & Secure               & Secure               & Secure  
+                                                                                                    & Revoked(Chrome CRLset)                                                                                       & C                    & Secure               & Secure               & Secure
                                                                                                     \\
                                                                                                     & \multicolumn{1}{l|}{}                                                                               & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
                                                                                                     & Insufficient key length (RSA512)                                                                    & B                    & B                    & B                    & C                    \\
@@ -46,8 +45,8 @@ We experimented with different types of errors and summarized them in the table 
                                                                                                     & Weak signature(SHA-1)                                                                               & B                    & B                    & Secure               & Secure               \\
                                                                                                     & Weak signature(MD5)                                                                                 & B                    & B                    & Secure               & Secure               \\ \hline
 \multirow{12}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Extension \\ Validation Error\end{tabular}} & correct CA flag, wrong PathLenConstraint                                                                      & C                    & Secure               & C                    & B                    \\
-                                                                                                    & CA certificate: wrong CA flag                                        
-                                                                                                    & C                    & C                    & C                    & C 
+                                                                                                    & CA certificate: wrong CA flag
+                                                                                                    & C                    & C                    & C                    & C
                                                                                                     \\
                                                                                                     & \multicolumn{1}{l|}{}                                                                               & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
                                                                                                     & endpoint certificate: no extended key usage, right key usage                                        & Secure               & Secure               & Secure               & Secure               \\
