@@ -6,8 +6,8 @@ HTTPS implements HTTP over TLS,
     and in the TLS negotiation, a browser verifies the server certificate by building a valid certificate chain,
     and validates the certificate subject with the domain that it is visiting.
 Recently,
-    the security of HTTPS is enhanced by HPKP that pins the public key (or certificate) of the web server in browsers \cite{xx},
-     and HSTS that forces browsers to visit the web server only using HTTPS but not HTTP \cite{xxx}.
+    the security of HTTPS is enhanced by HPKP that pins the public key (or certificate) of the web server in browsers \cite{Evans2015rfc7469},
+     and HSTS that forces browsers to visit the web server only using HTTPS but not HTTP \cite{hodges2012rfc6797}.
 
 There are several errors in the TLS negotiations and also the security enhancements of HTTPS.
 Browsers show security warnings with different levels, when different HTTPS errors happen:
@@ -25,7 +25,7 @@ However, in order to balance security and usability,
         producing different behaviors and warnings on HTTPS errors.
 This work presents a comprehensive list of HTTPS errors,
 and investigates the browser behaviors on each error.
-These errors cover certificate verification of basic fields and extensions, 
+These errors cover certificate verification of basic fields and extensions,
         name validation, and HTTPS security-enhancement of HPKP and HSTS.
 
 The evaluated browsers are Chrome, Firefox, and IE on Windows 7, and Edge on Windows 10.
