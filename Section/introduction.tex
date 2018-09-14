@@ -1,6 +1,11 @@
 \section{Introduction}
-HTTPS is becoming a de facto protocol used by Web to provide security features including confidentiality, data integrity, and authentication for data transmission between browsers and web servers. It is used hundreds of million of times every day in web browsers \cite{felt2017measuring}.
+HTTPS is becoming the de facto standard protocol of secure web applications
+ to provide  authentication, data confidentiality and integrity.
+It is used for hundreds of million of times every day in browsers \cite{felt2017measuring}.
 
+HTTPS implements HTTP over TLS,
+    and there are several errors in the TLS negotiations and the security-enhancement  of HTTPS
+    
 The main process of web browser certificate validation is as follows:
     The web server sends an endpoint certificate referencing its domain name,
     as well as one or more intermediate certificates to a browser.
@@ -23,8 +28,6 @@ Our work focuses on the X.509 certificate validation rather than the whole proce
 We make the following contributions:
 \begin{itemize}
 \item We thoroughly analyzed various HTTPS errors and HTTPS browser security warnings for mainstream browsers.
-    Specifically, HTTPS errors include basic certificate validation error, certificate extension validation error, name validation error, and HTTPS security-enhancement error.
-    The mainstream browsers we analyzed contain chrome, firefox, Edge, and IE.
 \item Based on the analysis results, we found that some browsers didn't handle properly,
     for example,
     firefox displays medium-risk warnings for manually installed self-signed certificates,
