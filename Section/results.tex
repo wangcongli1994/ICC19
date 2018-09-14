@@ -97,7 +97,7 @@ The results are summarized in Table I.
 
 \subsection{Warnings on Basic Certificate Validation Error}
 
-\textbf{Untrusted Self-signed Endpoint Certificate.}
+
 
 
 %When we visited sites that used self-signed certificates, all four browsers displayed type B errors, but after we installed the self-signed certificates into the browser's trusted root certificate list, chrome, ie and edge all showed security, only firefox showed security
@@ -106,24 +106,7 @@ The results are summarized in Table I.
 %\textbf{Untrusted Root CA Certificate.}
 %\textbf{Incomplete Certificate Chain.}
 %\textbf{Expired Certificate.}
-For untrusted root CA certificate error, incomplete certificate chain error, and Expired Certificate error, all four browsers display medium-risk warnings.
 
-%\textbf{Revoked Certificate.}
-If a verifier wants to check the status of only one particular certificate, it is not necessary to download a complete
-CRL. Instead, the verifier can make use of the online certificate status protocol (OCSP) ([13]) to ask about the
-revocation status of that specific certificate.
-
-
-
-\textbf{Weak Signature Algorithm.}
-    The CA/Browser Forum allows RSA and ECC keys in certificates.
-    All RSA keys should be at least 2048 bits \cite{CAB2018BR},
-    and ECC keys should be at least 256 bits \cite{NIST2005ECC}.
-    A weak signature algorithm error occurs when the key length does not meet the requirements.
-
-\textbf{Weak Digest Algorithm.}
-    According to the CA/Browser Forum,
-    supported digest algorithms are SHA-256, SHA-384, and SHA-512. The SHA-1 and MD5 digest algorithm have been shown to be insecure, such as two different PDF files with the same SHA-1 hash \cite{Google2017sha1}.
 
 
 \subsection{Warnings on Certificate Extension Validation Error}
