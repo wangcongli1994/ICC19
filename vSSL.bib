@@ -1,3 +1,11 @@
+@inproceedings{felt2017measuring,
+  title={Measuring HTTPS adoption on the web},
+  author={Felt, Adrienne Porter and Barnes, Richard and King, April and Palmer, Chris and Bentzel, Chris and Tabriz, Parisa},
+  booktitle={26th USENIX Security Symposium},
+  pages={1323--1338},
+  year={2017}
+}
+
 @inproceedings{Durumeric2014Analysis,
   title={Analysis of the HTTPS certificate ecosystem},
   author={Durumeric, Zakir and Kasten, James and Bailey, Michael and Halderman, J. Alex},
@@ -30,21 +38,42 @@
   year={2016},
 }
 
-@inproceedings{felt2017measuring,
-  title={Measuring HTTPS adoption on the web},
-  author={Felt, Adrienne Porter and Barnes, Richard and King, April and Palmer, Chris and Bentzel, Chris and Tabriz, Parisa},
-  booktitle={26th USENIX Security Symposium},
-  pages={1323--1338},
-  year={2017}
+@misc{x509lint,
+   title = {x509lint},
+   howpublished = {\url{https://github.com/kroeckx/x509lint}}
 }
 
-@incollection{stevens2009short,
-  title={Short chosen-prefix collisions for MD5 and the creation of a rogue CA certificate},
-  author={Stevens, Marc and Sotirov, Alexander and Appelbaum, Jacob and Lenstra, Arjen and Molnar, David and Osvik, Dag Arne and De Weger, Benne},
-  booktitle={Advances in Cryptology-CRYPTO 2009},
-  pages={55--69},
-  year={2009},
-  publisher={Springer}
+@misc{certlint,
+   title = {x509lint},
+   howpublished = {\url{https://github.com/awslabs/certlint}}
+}
+
+@inproceedings{kumar2018tracking,
+  title={Tracking certificate misissuance in the wild},
+  author={Kumar, Deepak and Wang, Zhengping and Hyder, Matthew and Dickinson, Joseph and Beck, Gabrielle and Adrian, David and Mason, Joshua and Durumeric, Zakir and Halderman, J Alex and Bailey, Michael},
+  booktitle={2018 IEEE Symposium on Security and Privacy (SP)},
+  pages={785--798},
+  year={2018},
+  organization={IEEE}
+}
+
+@article{brubaker2014using,
+  title={Using frankencerts for automated adversarial testing of certificate validation in SSL/TLS implementations},
+  author={Brubaker, Chad and Jana, Suman and Ray, Baishakhi and Khurshid, Sarfraz and Shmatikov, Vitaly},
+  journal={IEEE security \& privacy},
+  volume={2014},
+  pages={114},
+  year={2014},
+  publisher={NIH Public Access}
+}
+
+@inproceedings{chau2017symcerts,
+  title={Symcerts: Practical symbolic execution for exposing noncompliance in X. 509 certificate validation implementations},
+  author={Chau, Sze Yiu and Chowdhury, Omar and Hoque, Endadul and Ge, Huangyi and Kate, Aniket and Nita-Rotaru, Cristina and Li, Ninghui},
+  booktitle={2017 38th IEEE Symposium on Security and Privacy (SP)},
+  pages={503--520},
+  year={2017},
+  organization={IEEE}
 }
 
 @inproceedings{chen2018rfc,
@@ -54,6 +83,35 @@
   pages={859--870},
   year={2018},
   organization={ACM}
+}
+
+@inproceedings{Clark2013SoK,
+  title={SoK: SSL and HTTPS: Revisiting Past Challenges and Evaluating Certificate Trust Model Enhancements},
+  author={Clark, Jeremy and Oorschot, Paul C. Van},
+  booktitle={Security and Privacy},
+  pages={511-525},
+  year={2013},
+}
+
+@inproceedings{Amann2017Mission,
+  title={Mission accomplished?: HTTPS security after diginotar},
+  author={Amann, Johanna and Gasser, Oliver and Scheitle, Quirin and Brent, Lexi and Carle, Georg and Holz, Ralph},
+  booktitle={Internet Measurement Conference},
+  pages={325-340},
+  year={2017}
+}
+
+@misc{pokeinthe2017HSTS,
+   author = {pokeinthe.io},
+   title = {Analysis of the Alexa Top 1M sites},
+   howpublished = {\url{https://pokeinthe.io/2017/06/13/state-of-security-alexa-top-one-million-2017-06/}},
+   year={2017}
+}
+
+@article{Santos2016Implementation,
+  title={Implementation State of HSTS and HPKP in Both Browsers and Servers},
+  author={Santos, Sergio De Los and Torrano, Carmen and Rubio, Yaiza and Brezo, F¨¦lix},
+  year={2016},
 }
 
 @inproceedings{Akhawe2013Alice,
@@ -80,92 +138,11 @@
   year={2013},
 }
 
-@inproceedings{chau2017symcerts,
-  title={Symcerts: Practical symbolic execution for exposing noncompliance in X. 509 certificate validation implementations},
-  author={Chau, Sze Yiu and Chowdhury, Omar and Hoque, Endadul and Ge, Huangyi and Kate, Aniket and Nita-Rotaru, Cristina and Li, Ninghui},
-  booktitle={2017 38th IEEE Symposium on Security and Privacy (SP)},
-  pages={503--520},
-  year={2017},
-  organization={IEEE}
-}
-
-@article{brubaker2014using,
-  title={Using frankencerts for automated adversarial testing of certificate validation in SSL/TLS implementations},
-  author={Brubaker, Chad and Jana, Suman and Ray, Baishakhi and Khurshid, Sarfraz and Shmatikov, Vitaly},
-  journal={IEEE security \& privacy},
-  volume={2014},
-  pages={114},
-  year={2014},
-  publisher={NIH Public Access}
-}
-
-@Misc{timmurphy.org,
-howpublished = {\url{https://www.telerik.com/fiddler/}},
-note = {Accessed April 4, 2010},
-title = {Fiddler},
-author = {Murphy, Timothy I}
-}
-
-@inproceedings{Amann2017Mission,
-  title={Mission accomplished?: HTTPS security after diginotar},
-  author={Amann, Johanna and Gasser, Oliver and Scheitle, Quirin and Brent, Lexi and Carle, Georg and Holz, Ralph},
-  booktitle={Internet Measurement Conference},
-  pages={325-340},
-  year={2017}
-}
-
-@misc{pokeinthe2017HSTS,
-   author = {pokeinthe.io},
-   title = {Analysis of the Alexa Top 1M sites},
-   howpublished = {\url{https://pokeinthe.io/2017/06/13/state-of-security-alexa-top-one-million-2017-06/}},
-   year={2017}
-}
-
-@misc{x509lint,
-   title = {x509lint},
-   howpublished = {\url{https://github.com/kroeckx/x509lint}}
-}
-
-@misc{certlint,
-   title = {x509lint},
-   howpublished = {\url{https://github.com/awslabs/certlint}}
-}
-
-@inproceedings{kumar2018tracking,
-  title={Tracking certificate misissuance in the wild},
-  author={Kumar, Deepak and Wang, Zhengping and Hyder, Matthew and Dickinson, Joseph and Beck, Gabrielle and Adrian, David and Mason, Joshua and Durumeric, Zakir and Halderman, J Alex and Bailey, Michael},
-  booktitle={2018 IEEE Symposium on Security and Privacy (SP)},
-  pages={785--798},
-  year={2018},
-  organization={IEEE}
-}
-
-@inproceedings{Clark2013SoK,
-  title={SoK: SSL and HTTPS: Revisiting Past Challenges and Evaluating Certificate Trust Model Enhancements},
-  author={Clark, Jeremy and Oorschot, Paul C. Van},
-  booktitle={Security and Privacy},
-  pages={511-525},
-  year={2013},
-}
-
-@article{Santos2016Implementation,
-  title={Implementation State of HSTS and HPKP in Both Browsers and Servers},
-  author={Santos, Sergio De Los and Torrano, Carmen and Rubio, Yaiza and Brezo, F¨¦lix},
-  year={2016},
-}
-
 @misc{CAB2018BR,
    author = {CA/Browser Forum},
    title = {Baseline Requirements for the Issuance and Management of Publicly-Trusted Certificates},
    howpublished = {\url{https://cabforum.org/wp-content/uploads/CA-Browser-Forum-BR-1.6.0.pdf}},
    year={2018}
-}
-
-@misc{Rivest2005MD5,
-   author = {Ron Rivest},
-   title = {[Python-Dev] hashlib - faster md5/sha, adds sha256/512 support},
-   howpublished = {\url{https://mail.python.org/pipermail/python-dev/2005-December/058850.html}},
-   year={2005}
 }
 
 @misc{NIST2005ECC,
@@ -182,8 +159,42 @@ author = {Murphy, Timothy I}
    year={2017}
 }
 
-@techreport{cooper2008rfc5280,
-  title={Internet X. 509 public key infrastructure certificate and certificate revocation list (CRL) profile},
-  author={Cooper, David and Santesson, Stefan and Farrell, Stephen and Boeyen, Sharon and Housley, Russell and Polk, William},
-  year={2008}
+@article{cooper2008rfc5280,
+  author    = {David Cooper and
+               Stefan Santesson and
+               Stephen Farrell and
+               Sharon Boeyen and
+               Russell Housley and
+               W. Timothy Polk},
+  title     = {Internet {X.509} Public Key Infrastructure Certificate and Certificate
+               Revocation List {(CRL)} Profile},
+  journal   = {{RFC}},
+  volume    = {5280},
+  pages     = {1--151},
+  year      = {2008}
 }
+
+@article{Evans2015rfc7469,
+  author    = {Chris Evans and
+               Chris Palmer and
+               Ryan Sleevi},
+  title     = {Public Key Pinning Extension for {HTTP}},
+  journal   = {{RFC}},
+  volume    = {7469},
+  pages     = {1--28},
+  year      = {2015}
+}
+
+@article{hodges2012rfc6797,
+  author    = {Jeff Hodges and
+               Collin Jackson and
+               Adam Barth},
+  title     = {{HTTP} Strict Transport Security {(HSTS)}},
+  journal   = {{RFC}},
+  volume    = {6797},
+  pages     = {1--46},
+  year      = {2012}
+}
+
+%total number above: 24
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

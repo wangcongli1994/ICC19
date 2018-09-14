@@ -68,9 +68,10 @@
 \subsubsection{Name Validation Error}
     Certificates are only valid for specific domain names.
     A name validation error occurs when domain names listed in a endpoint certificate does not match the domain we visited.
-    
+
 \textbf{Domain Name Complete Mismatch.}
     Domain Name Complete Mismatch means that, there may be a complete mismatch between the domain name visited and the certificate received.
+    For example, a user tries to visit www.baidu.com but gets a certificates for scholar.google.com.
 
 \textbf{Common Name or Subject Alternative Name Mismatch.}
     Common Name (CN) and Subject Alternative Name (SAN) fields indicate the certificate subject identity information, and they are usually domain names.
@@ -83,20 +84,17 @@
     A out-of-wildcard-scope subdomain occurs when a user visiting a.b.example.com gets a certificates for *.example.com.
 
 
-
-
-
-\subsubsection{HTTPS Security-Enhancement Error}%网站连接的安全策略问题
+\subsubsection{HTTPS Security-Enhancement Error}
 %\subsubsection{Certificate verification enhancement errors}
+    In recent years, some security-enhancement policies have been added to HTTPS. We will focus on HSTS and HPKP errors.
 
-\textbf{HPKP.} HPKP is a security mechanism used by HTTPS websites
-    to prevent CA organizations from issuing certificates and attacking them [21].
-    It provides the SHA-256 value of two public keys prepared in advance, and specifies that the client only recognizes the public keys of the two certificates or certificate chains within the effective time.
-    HPKP can pin a root certificate, an intermediate CA certificate or a endpoint certificate. The RFC recommends that the website use the SHA-256 of the intermediate CA as the public key of the pin. If the SHA-256 value of the website certificate chain does not correspond to the cached SHA-256 value, an HPKP error will be raised.
+\textbf{HPKP.}
+    HTTP Public Key Pinning (HPKP) \cite{Evans2015rfc7469} is used by web sites to instruct browsers to remember ("pin") the sites' public key over a period of time. 
+    A HPKP error occurs when 
+    any public key of the certificate chain provided by the website 
+    does not match the pinned public keys.
 
-    In order to prevent attacks and improve security, the server often deploys some additional security policies on the premise that the certificate is legal and the server is legal.
-
-\textbf{HSTS}
-    HSTS is a setting that forces the browser to establish a connection with the server using HTTPS [22]. When the browser receives the HSTS header set by the server, it will force the use of HTTPS when browsing the website. If the browser has a HSTS information of a domain name, it means that during the period when max-age is in effect, when the user accesses the address through HTTP or manual input via HTTP, the browser will automatically convert HTTP to HTTPS and directly initiate. HTTPS connection request; when the website has a certificate validation error (such as certificate revocation, expiration), the browser does not allow the user to ignore the warning and continue to browse the website in an unsafe manner.
-
-    In order to resolve the issue of unencrypted initial connections in the HSTS policy, Google has created an HSTS preloaded list. This list is integrated into all major browsers. If a site in the preloaded list cancels the preload option in the response header, it will immediately lose its eligibility in the preloaded list, and the domain name will be automatically removed from the list in the future.
+\textbf{HSTS.}
+    HTTP Strict Transport Security (HSTS) \cite{hodges2012rfc6797} directs browsers to interact with given sites only over HTTPS.
+%    This policy is declared by web sites via the STS header field including three directives: max-age, includeSubDomains, and preload.
+    An HSTS error occurs when a web site deploying HSTS has a certificate validation error.
