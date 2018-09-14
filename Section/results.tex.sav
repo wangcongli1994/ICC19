@@ -100,17 +100,19 @@ We experimented with different types of errors and summarized them in the table 
 %When we visited sites that used self-signed certificates, all four browsers displayed type B errors, but after we installed the self-signed certificates into the browser's trusted root certificate list, chrome, ie and edge all showed security, only firefox showed security
 %当我们访问使用了自签名证书的网站时，四款浏览器都弹出B类错误，但是，我们把自签名证书安装到浏览器受信任的根证书列表之后，chrome， ie 和edge都显示安全，只有firefox显示不安全
 
-%\textbf{Untrusted Root CA Certificate.}
-%\textbf{Incomplete Certificate Chain.}
-%\textbf{Expired Certificate.}
-For untrusted root CA certificate error, incomplete certificate chain error, and Expired Certificate error, all four browsers display medium-risk warnings.
+\textbf{Untrusted Root CA Certificate.}
+    For untrusted root CA certificate error, all four browsers display medium-risk warnings.
+    
+\textbf{Incomplete Certificate Chain.}
+    For incomplete certificate chain error, all four browsers display medium-risk warnings.
 
-%\textbf{Revoked Certificate.} 
-If a verifier wants to check the status of only one particular certificate, it is not necessary to download a complete
-CRL. Instead, the verifier can make use of the online certificate status protocol (OCSP) ([13]) to ask about the
-revocation status of that specific certificate.
+\textbf{Expired Certificate.}
+    For untrusted root CA certificate error, all four browsers display medium-risk warnings.
 
-
+\textbf{Revoked Certificate.}
+    For security reasons,
+    CA can claim that a certificate is no longer valid before it expires by CRL, OCSP, and CRLset.
+    A revoked certificate error occurs when the server uses a revoked certificate.
 
 \textbf{Weak Signature Algorithm.}
     The CA/Browser Forum allows RSA and ECC keys in certificates.
