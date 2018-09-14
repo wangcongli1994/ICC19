@@ -1,40 +1,49 @@
 \section{Browser Security Warnings and HTTPS Errors}
 %这里要先写一段总结介绍的话
 \subsection{Browser Security Warnings}
-Browser uses security warnings to protect users by alerting them to network attacks. According to different levels of risk, Browser presents different connection security states in order to maximize security and minimize side effects of user experience. For low-risk errors, it will show a passive security indicator without interrupting the user’s browsing. For medium-risk errors, it will show a bypassable warning that discourages the user from continuing. For high-risk errors, it will show a security warning that the user cannot bypass. We describe security warnings of major browsers.
+Browser security warnings protect users against various network attacks,
+    and this paper only considers the MitM attacks in HTTPS.
+When different HTTPS errors happen,
+    a browser shows the warnings in different way to ensure security while minimize the side effects of user experience.
 
-\subsubsection{Risk Level A: Low-risk warnings}
+% We describe security warnings of major browsers.
+
+\subsubsection{Level A: Low-risk warning}
+For low-risk errors, it will show a passive security indicator without interrupting the user’s browsing. 
 In this scenario, a passive security indicator indicates minor HTTPS errors by removing lock icon, changing lock icon’s color, providing textual information, or by other means without interrupting the user’s browsing.
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig1.png}}%记得换成chrome的截图
-\caption{low-risk warning in chrome.}
+\caption{Low-risk warning in Chrome.}
 \label{fig}
 \end{figure}
 this is probably because webmaster has configured his website correctly, including purchasing a valid certificate, but the website still contains images or scripts over plain HTTP. Although the browser was able to establish a valid HTTPS connection, there are still minor problems.
 
-\subsubsection{Risk Level B: Medium-risk warnings that can be bypassed}
+\subsubsection{Level B: Medium-risk warning}
+For medium-risk errors, it will show a bypassable warning that discourages the user from continuing. 
 Bypassable HTTPS security warnings are the most common type of browser warning. Browsers use bypassable HTTPS security warning to treat the vast majority of HTTPS errors.
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig2.png}}
-\caption{medium-risk warning in chrome.}
+\caption{Medium-risk warning in Chrome.}
 \label{fig}
 \end{figure}
 In this scenario, if there is an HTTPS error, the browser will stop the page load and display an HTTPS security warning. Typically, users are able to click through the warning by clicking on a button, but this may be disabled if the website servers the HTTP Strict Transport Security (HSTS) or HTTP Public Key Pinning (HPKP) header. Although the HTTP(s) traffic we captured through Fiddler[ https://www.telerik.com/fiddler] shows the web page is not transmitted in plain text, clicking through the warning may allow an actual man-in-the-middle attack to proceed.
 
-\subsubsection{Risk Level C: High-risk warnings that cannot be bypassed}
+\subsubsection{Level C: High-risk warning}
+For high-risk errors, it will show a security warning that the user cannot bypass.
 As a worst case scenario, the browser will prevent uses from continuing to browse the website by showing a security warning that the users cannot bypass.
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig3.png}}%记得换成自己fireblossom.xyz网址的截图
-\caption{high-risk warning in chrome.}
+\caption{High-risk warning in Chrome.}
 \label{fig}
 \end{figure}
 this is probably because the website is supposed to establish a valid HTTPS connection, but the certificate chain fails to validate (e.g., a HTTPS certificate error occurs in a website that has deployed HSTS policy).
 
-\subsubsection{Cannot establish HTTPS connection}
+\subsubsection{Level D: Fatal warning}
+Cannot establish HTTPS connection
 The browser may fail to establish a HTTPS connection to the server for unsupported TLS version, cipher mismatch, or other reasons.
 %In this scenario, the browser cannot obtain certificates from the web server, let alone certificate validation, so the TLS handshake error is not discussed in this paper.
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig4.png}}%截图需要再调整成清晰的
-\caption{Cannot establish HTTPS connection in chrome.}
+\caption{Fatal warning in Chrome.}
 \label{fig}
 \end{figure}

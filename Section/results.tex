@@ -1,14 +1,15 @@
 \section{Browser Behaviors on HTTPS Errors}
-There are many community standards for certificate validation,
-    for example,
-    RFC 5246, RFC 6125, and RFC 5280.
+%There are many community standards for certificate validation,
+%    for example,
+%    RFC 5246, RFC 6125, and RFC 5280.
     The certificate validation in browser
     is more than a  literal replication of Internet standards protocols.
     It needs to balance security, standards, and user experiences.
 \subsection{Goal and Methodology}
 Our goal is to build a test harness that is able to determine whether a web browser reports HTTPS security warning for a variety of different kinds of HTTPS errors.
 
-we generate our own root certificate and install it so that the web browser trusts it.
+    Ideally, we would like to use real certificates, but doing so would require obtaining access to a real intermediate certificate(an unlikely prospect).
+    Instead, we generate our own root certificate and install it so that the web browser trusts it.
     This allows us to then generate and sign intermediate and leaf certificates as we wish.
 We implement out test as follows: for each test,
     (1)generates a unique DNS name,
@@ -23,63 +24,53 @@ The evaluated browsers xxxxxxx
 
 The results are summarized in Table xxx.
 We experimented with different types of errors and summarized them in the table I.
-\begin{table*}[htbp]
-\begin{tabular}{p{2.5cm}|p{7cm}|cccc}
-\hline
-\multicolumn{2}{c|}{\multirow{2}{*}{HTTPS Errors}}                                                                                                                                                        & \multicolumn{4}{c}{Risk Levels of Browser Security Warnings}                             \\ \cline{3-6}
-\multicolumn{2}{c|}{}                                                                                                                                                                                     & Chrome               & Firefox              & Edge                 & IE                   \\ \hline
-\multirow{15}{*}{\begin{tabular}[c]{@{}c@{}}Basic Certificate \\ Validation Error\end{tabular}}     & Self-signed Certificate                                                                             & Secure               & B                    & Secure               & Secure               \\
-                                                                                                    & Untrusted issuer                                                                                    & B                    & B                    & B                    & B                    \\
-                                                                                                    & Incomplete Certificate Chain                                                                        & B                    & B                    & B                    & B                    \\
-                                                                                                    & Expired                                                                                             & B                    & B                    & B                    & B                    \\
-                                                                                                    & \multicolumn{1}{l|}{}                                                                               & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
-                                                                                                    & Revoked(CRL)                                                                                        & Secure               & Secure               & C                    & C                    \\
-                                                                                                    & Revoked(OCSP)                                                                              & Secure               & C                    & C                    & C                    \\
-                                                                                                    & Revoked(Chrome CRLset)                                                                                       & C                    & Secure               & Secure               & Secure
-                                                                                                    \\
-                                                                                                    & \multicolumn{1}{l|}{}                                                                               & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
-                                                                                                    & Insufficient key length (RSA512)                                                                    & B                    & B                    & B                    & C                    \\
-                                                                                                    & Insufficient key length (RSA1024)                                                                   & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & Insufficient key length (ECC160)                                                                    & D                    & D                    & D                    & D                    \\
-                                                                                                    & ECC256                                                                                              & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & Weak signature(SHA-1)                                                                               & B                    & B                    & Secure               & Secure               \\
-                                                                                                    & Weak signature(MD5)                                                                                 & B                    & B                    & Secure               & Secure               \\ \hline
-\multirow{12}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Extension \\ Validation Error\end{tabular}} & correct CA flag, wrong PathLenConstraint                                                                      & C                    & Secure               & C                    & B                    \\
-                                                                                                    & CA certificate: wrong CA flag
-                                                                                                    & C                    & C                    & C                    & C
-                                                                                                    \\
-                                                                                                    & \multicolumn{1}{l|}{}                                                                               & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
-                                                                                                    & endpoint certificate: no extended key usage, right key usage                                        & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: no extended key usage, wrong key usage                                        & Secure               & C                    & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: no extended key usage, no key usage                                           & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: correct extended key usage, correct key usage                                     & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: correct extended key usage, wrong key usage                                     & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: correct extended key usaget, no key usage                                       & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: wrong extended key usage, correct key usage                                     & C                    & C                    & C                    & C                    \\
-                                                                                                    & endpoint certificate: wrong extendedKeyUsage error, wrong key usage                                 & C                    & C                    & C                    & C                    \\
-                                                                                                    & endpoint certificate: wrong extendedKeyUsage, no key usage                                          & C                    & C                    & C                    & C                    \\
-                                                                                                    & CA certificate: key usage error                                                                     & C                    & C                    & C                    & C                    \\ \hline
-\multirow{8}{*}{\begin{tabular}[c]{@{}c@{}}Name Validation\\  Error\end{tabular}}                   & domain name complete mismatch                                                                                    & B               & B               & B               & B               \\
-                                                                                                    & no CN, correct SAN                                                                                 & Secure               & Secure               & Secure               & Secure
-                                                                                                    \\
-                                                                                                    & correct CN, correct SAN                                                                                 & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & correct CN, wrong SAN                                                                                 & B                    & B                    & B                    & B                    \\
-                                                                                                    & correct CN, no SAN                                                                                    & B                    & C                    & C                    & C                    \\
-                                                                                                    & wrong CN, correct SAN                                                                                 & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & www mismatch                                                                                        & B                    & B                    & B                    & B                    \\
-                                                                                                    & out-of-wildcard-scope subdomain error                                                               & B                    & B                    & B                    & B                    \\ \hline
-\multirow{10}{*}{\begin{tabular}[c]{@{}c@{}}HTTPS Security \\ Enhancement Error\end{tabular}}       & HPKP: private srore; first visit: wrong HPKP header, second visit: correct/wrong/no HPKP header       & Secure               & Secure               & Secure               & Secure          \\
-                                                                                                    & HPKP: private srore; first visit: correct HPKP header correct, second visit: correct/wrong/no HPKP header & Secure               & Secure          & Secure          & Secure          \\
-                                                                                                    & HPKP: public srore; first visit: wrong HPKP header, second visit: correct/wrong/no HPKP header        & Secure               & Secure          & Secure          & Secure          \\
-                                                                                                    & HPKP: public srore; first visit: correct HPKP header correct, second visit: correct HPKP heade            & Secure               & Secure          & Secure          & Secure          \\
-                                                                                                    & HPKP: public srore; first visit: correct HPKP header correct, second visit: wrong/no HPKP header        & B                    & Secure          & Secure          & Secure          \\
-                                                                                                    & \multicolumn{1}{l|}{}                                                                               & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
-                                                                                                    & HSTS: not preload list; some resouces over plain HTTP                                               & A                    & A                    & A                    & A                    \\
-                                                                                                    & HSTS: not preload list; first visit: correct HSTS header, second visit: HTTPS error                   & B-\textgreater{}C    & B-\textgreater{}C    & B-\textgreater{}C    & B-\textgreater{}C    \\
-                                                                                                    & HSTS: not preload list; first visit: wrong HSTS header, second visit: correct/wrong/no HSTS header    & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & HSTS: preload list; first visit: HTTPS errors                                                       & B-\textgreater{}C    & B-\textgreater{}C    & B-\textgreater{}C    & B-\textgreater{}C    \\ \hline
-\end{tabular}
-  \vspace{6pt}
+
+%再想想用表格
+% Table generated by Excel2LaTeX from sheet 'Sheet1'
+\begin{table*}[htb]
+  \centering
+  \caption{The warning level and warning content of each browser for the corresponding error category}
+    \begin{tabular}{c|l|p{1.5 cm}|p{1.5 cm}|p{1.5 cm}|p{1.5 cm}}
+    \toprule
+    \multicolumn{2}{c|}{\multirow{2}[4]{*}{Errors}} & \multicolumn{4}{c}{Browser Warning Level} \\
+\cmidrule{3-6}    \multicolumn{2}{c|}{} & Chrome & Firefox & Edge & IE \\
+    \midrule
+    {\multirow{3}[1]{*}{Chain Building Errors}} & Self-signed Certificate & Secure & B   & Secure & Secure \\
+        & Untrusted issuer & B   & B   & B   & B \\
+        & Incomplete Certificate Chain & B   & B   & B   & B \\
+    \midrule
+    {\multirow{20}[1]{*}{Chain Validation Errors}} & Expired & B   & B   & B   & B \\
+        & Revoked(CRL) & Secure & C   & C   & C \\
+        & Revoked(OSCP) & Secure & C   & C   & C \\
+        & Revoked(Chrome CRLset) & C   &     &     &  \\
+        & Path Length Constraints & C   & C   & C   & C \\
+        & Insufficient key length (RSA512) & B   & B   & B   & B \\
+        & RSA1024 & Secure & Secure & Secure & Secure \\
+        & Insufficient key length (ECC160) & unsupported protocol & unsupported protocol & unsupported protocol & unsupported protocol \\
+        & ECC256 & Secure & Secure & Secure & Secure \\
+        & Error KeyUsage & Secure & Secure & Secure & Secure \\
+        & Error ExtendedKeyUsage & C   & C   & C   & C \\
+        & Weak signature(SHA-1) & B   & B   & Secure & Secure \\
+        & Weak signature(MD5) & B   & B   & Secure & Secure \\
+        & No Common Name Setting & Secure & Secure & Secure & Secure \\
+        & No subject field & Secure & Secure & Secure & Secure \\
+        & No SAN Setting & B   & Secure & Secure & Secure \\
+        & No KeyUsage and ExtendedKeyUsage & Secure & Secure & Secure & Secure \\
+        & CA:true KeyUsage with Cert Signing & Secure & Secure & Secure & Secure \\
+        & CA:true KeyUsage without Cert Signing & C   & C   & C   & C \\
+        & CA:false KeyUsage with Cert Signing & C   & C   & C   & C \\
+    \midrule
+    \multirow{2}[2]{*}{Certificate Verification Enhancement} & HPKP setting error & Uncached & Not support & Not support & Not support \\
+        & HPKP verification Error & B   & Not support & Not support & Not support \\
+    \midrule
+    \multirow{2}[2]{*}{Name Validation Errors} & Domain name does not match & B   & B   & B   & B \\
+        & Subdomain of subdomain & B   & B   & B   & B \\
+    \midrule
+    Server Security Policy Error & HSTS & C   & C   & C   & C \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:addlabel}%
+
 
 \leftline{B and C represent Level B and Level C in the error warning level. "Safe" means that the browser has not detected an error and prompted a safe browsing }
 
@@ -87,11 +78,6 @@ We experimented with different types of errors and summarized them in the table 
 
 \leftline{certificate is not supported by browsers. In HSTS Error section, ``C'' means that the policy will raise the original Level B warning to Level C (section 4.2.2).}
 \end{table*}%
-
-
-%\textbf{Certificate has no partial fields.}
-%    A certificate may not have a Common Name or SAN field. In OpenSSL, certificates that do not fill in the above fields can also be generated and be signed.
- %   For the Common Name, some very old browsers may not support certificates without Common Name. % The Chrome browser does not support certificates without a SAN field.
 
 \subsection{Warnings on Basic Certificate Validation Error}
 Similar to the structure in the subsection3.2, the browsers behaviors are presented based on HTTPS error type.
@@ -103,7 +89,7 @@ For different error SSL certificates, we deployed a reverse proxy that passes di
 
 The result is a certificate chain error. The error of missing the certificate is generally a warning of level B. The error setting of the intermediate certificate will result in a C level error. Certificate validation errors in revocation and extension usage errors are C-level, and other errors are B-level.
 
-
+For ECC certificates, many ECC protocols in OpenSSL are not recognized by browsers. Even if the operating system can recognize it, the browser cannot establish a TLS connection through this certificate.
 
 
 \subsection{Warnings on HTTPS Security-Enhancement Error}
