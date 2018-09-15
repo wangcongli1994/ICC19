@@ -48,15 +48,15 @@ The evaluated browsers are Chrome 67, Firefox62, Edge 42, and IE 11. The results
                                                                                                     & C                    & C                    & C                    & C
                                                                                                     \\
                                                                                                     & \multicolumn{1}{l|}{}                                                                               & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} & \multicolumn{1}{l}{} \\
-                                                                                                    & endpoint certificate: no extended key usage, right key usage                                        & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: no extended key usage, wrong key usage                                        & Secure               & C                    & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: no extended key usage, no key usage                                           & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: correct extended key usage, correct key usage                                     & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: correct extended key usage, wrong key usage                                     & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: correct extended key usaget, no key usage                                       & Secure               & Secure               & Secure               & Secure               \\
-                                                                                                    & endpoint certificate: wrong extended key usage, correct key usage                                     & C                    & C                    & C                    & C                    \\
-                                                                                                    & endpoint certificate: wrong extendedKeyUsage error, wrong key usage                                 & C                    & C                    & C                    & C                    \\
-                                                                                                    & endpoint certificate: wrong extendedKeyUsage, no key usage                                          & C                    & C                    & C                    & C                    \\
+                                                                                                    & server certificate: no extended key usage, right key usage                                        & Secure               & Secure               & Secure               & Secure               \\
+                                                                                                    & server certificate: no extended key usage, wrong key usage                                        & Secure               & C                    & Secure               & Secure               \\
+                                                                                                    & server certificate: no extended key usage, no key usage                                           & Secure               & Secure               & Secure               & Secure               \\
+                                                                                                    & server certificate: correct extended key usage, correct key usage                                     & Secure               & Secure               & Secure               & Secure               \\
+                                                                                                    & server certificate: correct extended key usage, wrong key usage                                     & Secure               & Secure               & Secure               & Secure               \\
+                                                                                                    & server certificate: correct extended key usaget, no key usage                                       & Secure               & Secure               & Secure               & Secure               \\
+                                                                                                    & server certificate: wrong extended key usage, correct key usage                                     & C                    & C                    & C                    & C                    \\
+                                                                                                    & server certificate: wrong extendedKeyUsage error, wrong key usage                                 & C                    & C                    & C                    & C                    \\
+                                                                                                    & server certificate: wrong extendedKeyUsage, no key usage                                          & C                    & C                    & C                    & C                    \\
                                                                                                     & CA certificate: key usage error                                                                     & C                    & C                    & C                    & C                    \\ \hline
 \multirow{8}{*}{\begin{tabular}[c]{@{}c@{}}Name Validation\\  Error\end{tabular}}                   & domain name complete mismatch                                                                                    & B               & B               & B               & B               \\
                                                                                                     & no CN, correct SAN                                                                                 & Secure               & Secure               & Secure               & Secure
@@ -94,47 +94,47 @@ The evaluated browsers are Chrome 67, Firefox62, Edge 42, and IE 11. The results
 
 \subsection{Warnings on Basic Certificate Validation Error}
 
-\textbf{Untrusted Self-signed Endpoint Certificate.}
-    When we visit sites deploying self-signed endpoint certificates, all four browsers display B-level (Medium-risk) warnings.
+\textbf{Untrusted Self-signed Server Certificate.}
+    When we visit sites deploying self-signed server certificates, all four browsers display B-level (Medium-risk) warnings.
     After installing the self-signed certificates into the OS root store, Chrome, Edge, and IE consider it secure.
     However, The NSS store in Firefox does not accept self-signed certificates, and Firefox always displays B-level (Medium-risk) warnings for self-signed sever certificates.
 
 %\textbf{Untrusted Root CA Certificate.}
 %\textbf{Incomplete Certificate Chain.}
 %\textbf{Expired Certificate.}
-    For Untrusted Root CA Certificate, Incomplete Certificate Chain, and Expired Certificate errors, 
+    For Untrusted Root CA Certificate, Incomplete Certificate Chain, and Expired Certificate errors,
         all four browsers display B-level (Medium-risk) warnings.
 
 \textbf{Revoked Certificate.}
-    If a revoke certificate only contains available CRL field, 
-        Chrome and Firefox consider it secure, 
+    If a revoke certificate only contains available CRL field,
+        Chrome and Firefox consider it secure,
             but Edge and IE display C-level (High-risk) warnings.
-    If a revoke certificate only contains available OCSP field, 
-        Chrome considers it secure, but Firefox, 
+    If a revoke certificate only contains available OCSP field,
+        Chrome considers it secure, but Firefox,
             Edge and IE display C-level (High-risk) warnings.
-    If a revoke certificate is only included in Chrome CRLset, 
-        Chrome displays a C-level (High-risk) warning, 
+    If a revoke certificate is only included in Chrome CRLset,
+        Chrome displays a C-level (High-risk) warning,
             but Firefox, Edge and IE consider it secure.
 
 %\textbf{Weak Signature Algorithm.}
 \textbf{Weak Signature Algorithm.}
-    For RSA 512, 
-        Chrome, Firefox, and Edge display B-level (Medium-risk) warnings, 
+    For RSA 512,
+        Chrome, Firefox, and Edge display B-level (Medium-risk) warnings,
             but IE display a C-level (High-risk) warning.
-    For RSA 1024, 
+    For RSA 1024,
         all four browsers consider it secure.
-    For ECC 160, 
-        all four browsers display D-level (Fatal) warnings. 
+    For ECC 160,
+        all four browsers display D-level (Fatal) warnings.
 
 %\textbf{Weak Digest Algorithm.}
 \textbf{Weak Digest Algorithm.}
-    For SHA-1 and MD5, 
-        Chrome and Firefox display B-level (Medium-risk) warnings, 
+    For SHA-1 and MD5,
+        Chrome and Firefox display B-level (Medium-risk) warnings,
             but Edge and IE consider them secure.
 
 \subsection{Warnings on Certificate Extension Validation Error}
 
-In the experiment, we tried the KeyUsage field of various endpoint certificates, but the browser did not report the extension of the endpoint certificate. The browser will recognize the error only if the ExtendedKeyUsage is set incorrectly. For the web server, the extended usage of the endpoint certificate should be ServerAuth. If the endpoint certificate has the ExtendedKeyUsage field but does not contain the value, an error will be reported. In our experiments, the KeyUsage field was reported by the browser only if the CA certificate did not have Certificate Signing.
+In the experiment, we tried the KeyUsage field of various server certificates, but the browser did not report the extension of the server certificate. The browser will recognize the error only if the ExtendedKeyUsage is set incorrectly. For the web server, the extended usage of the server certificate should be ServerAuth. If the server certificate has the ExtendedKeyUsage field but does not contain the value, an error will be reported. In our experiments, the KeyUsage field was reported by the browser only if the CA certificate did not have Certificate Signing.
 \subsection{Warnings on Name Validation Error}
 For different error SSL certificates, we deployed a reverse proxy that passes different certificates according to SNI on the server.
 

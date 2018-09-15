@@ -7,8 +7,8 @@ After our observation, only Edge has no warnings for the SHA-1 and MD5 public ke
 In December 2008, a group of researchers led by Alex Sotirov and Marc Stevens used the weaknesses of the MD5 message digest algorithm to forge the certificate of the RapidSSL [23] certificate authority, which they can use to issue certificates to any website in the world. Such incidents also include "flame" [24] malware using MD5 collisions to forge Microsoft certificates and so on. Although there is currently no example of a fake certificate with the same value as the original certificate SHA-1, the two hashes are not sufficiently secure for the SSL certificate.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Firefox certificate management cannot add self-signed endpoint certificate}
-For a self-signed endpoint certificate, it is both a root certificate and a CA certificate. This type of certificate can be added to the "Trusted Root Certification Authorities" store on Windows systems and made available to Chrome and Edge browsers for secure access. Firefox has a self-built certificate manager, but the manager does not store the endpoint certificate in the certificate store. That is, if you need Firefox to trust a self-signed certificate, you must sign a endpoint certificate by using the CA certificate, and install the root CA certificate into the certificate manager of the Firefox browser.
+\subsection{Firefox certificate management cannot add self-signed server certificate}
+For a self-signed server certificate, it is both a root certificate and a CA certificate. This type of certificate can be added to the "Trusted Root Certification Authorities" store on Windows systems and made available to Chrome and Edge browsers for secure access. Firefox has a self-built certificate manager, but the manager does not store the server certificate in the certificate store. That is, if you need Firefox to trust a self-signed certificate, you must sign a server certificate by using the CA certificate, and install the root CA certificate into the certificate manager of the Firefox browser.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
