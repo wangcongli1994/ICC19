@@ -12,20 +12,17 @@ we generate our own root certificate and install it so that the web browser trus
     This allows us to then generate and sign intermediate and leaf certificates as we wish.
 We implement out test as follows: for each test,
     (1)generates a unique DNS name,
-    (2) uses OpenSSL to generate a test certificate that are syntactically(语法) well-formed but may violate one of the certificate constraints and internal dependencies that a valid certificate must satisfy.
+    (2) uses OpenSSL to generate a test certificate that are syntactically well-formed but may violate one of the certificate constraints and internal dependencies that a valid certificate must satisfy.
     (3)generate an Nginx server configuration for the test.
 Thus, each test has a dedicated DNS name and Nginx instance to serve the certificate chain.
     We create a web page to present the browser certificate validation results.
     Thus, We can record whether the HTTPS security warning is triggered by such a combination of a test certificate and a HTTPS implementation.
     In our experiment, All connections to the web server is encrypted and authenticated using TLS 1.2.
 
-The evaluated browsers are Chrome 67, Firefox62, Edge 42, and IE 11.
-
-The results are summarized in Table xxx.
-We experimented with different types of errors and summarized them in the table I.
-The results are summarized in Table I.
+The evaluated browsers are Chrome 67, Firefox62, Edge 42, and IE 11. The results are summarized in Table I.
 \begin{table*}[htbp]
 \centering
+\caption{Browser Behaviors on HTTPS Errors}
 \begin{tabular}{p{2.5cm}|p{8cm}|cccc}
 \hline
 \multicolumn{2}{c|}{\multirow{2}{*}{HTTPS Errors}}                                                                                                                                                        & \multicolumn{4}{c}{Risk Levels of Browser Security Warnings}                             \\ \cline{3-6}
@@ -97,17 +94,43 @@ The results are summarized in Table I.
 
 \subsection{Warnings on Basic Certificate Validation Error}
 
-
-
-
-%When we visited sites that used self-signed certificates, all four browsers displayed type B errors, but after we installed the self-signed certificates into the browser's trusted root certificate list, chrome, ie and edge all showed security, only firefox showed security
-%当我们访问使用了自签名证书的网站时，四款浏览器都弹出B类错误，但是，我们把自签名证书安装到浏览器受信任的根证书列表之后，chrome， ie 和edge都显示安全
+\textbf{Untrusted Self-signed Endpoint Certificate.}
+    When we visit sites deploying self-signed endpoint certificates, all four browsers display B-level (Medium-risk) warnings.
+    After installing the self-signed certificates into the OS root store, Chrome, Edge, and IE consider it secure.
+    However, The NSS store in Firefox does not accept self-signed certificates, and Firefox always displays B-level (Medium-risk) warnings for self-signed sever certificates.
 
 %\textbf{Untrusted Root CA Certificate.}
 %\textbf{Incomplete Certificate Chain.}
 %\textbf{Expired Certificate.}
+    For Untrusted Root CA Certificate, Incomplete Certificate Chain, and Expired Certificate errors, 
+        all four browsers display B-level (Medium-risk) warnings.
 
+\textbf{Revoked Certificate.}
+    If a revoke certificate only contains available CRL field, 
+        Chrome and Firefox consider it secure, 
+            but Edge and IE display C-level (High-risk) warnings.
+    If a revoke certificate only contains available OCSP field, 
+        Chrome considers it secure, but Firefox, 
+            Edge and IE display C-level (High-risk) warnings.
+    If a revoke certificate is only included in Chrome CRLset, 
+        Chrome displays a C-level (High-risk) warning, 
+            but Firefox, Edge and IE consider it secure.
 
+%\textbf{Weak Signature Algorithm.}
+\textbf{Weak Signature Algorithm.}
+    For RSA 512, 
+        Chrome, Firefox, and Edge display B-level (Medium-risk) warnings, 
+            but IE display a C-level (High-risk) warning.
+    For RSA 1024, 
+        all four browsers consider it secure.
+    For ECC 160, 
+        all four browsers display D-level (Fatal) warnings. 
+
+%\textbf{Weak Digest Algorithm.}
+\textbf{Weak Digest Algorithm.}
+    For SHA-1 and MD5, 
+        Chrome and Firefox display B-level (Medium-risk) warnings, 
+            but Edge and IE consider them secure.
 
 \subsection{Warnings on Certificate Extension Validation Error}
 
