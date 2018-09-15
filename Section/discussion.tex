@@ -25,3 +25,11 @@ Support of HPKP is deprecate in Chrome, and will be removed. In our experiments,
 %https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/he9tr7p3rZ8/eNMwKPmUBAAJ
 
 In order to control the browsing behavior of the internal network, some companies often pre-set the self-signed certificate in the computer in the office area, and replace the HTTPS connection certificate in the gateway to obtain the information contained in the HTTPS traffic, detect and prevent the information leakage inside the company, which is a typical MITM attack. Some malware may also use the same way to attack a personal computer. Many computer applications will trigger the UAC of the Windows system during installation. After clicking and agreeing, the computer settings can be modified. After the malware spoofs the user's consent, you can modify the computer settings, such as burying your own root certificate. Eavesdrop on all traffic through a self-signed certificate and send sensitive information to the attacker.
+
+\subsection{key usage and extended key usage}
+% If a certificate contains both a key usage extension and an extended
+%   key usage extension, then both extensions MUST be processed
+ %  independently and the certificate MUST only be used for a purpose
+  % consistent with both extensions.  If there is no purpose consistent
+   %with both extensions, then the certificate MUST NOT be used for any
+   %purpose.(RFC 5280)

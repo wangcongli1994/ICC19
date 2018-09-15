@@ -134,8 +134,22 @@ The evaluated browsers are Chrome 67, Firefox62, Edge 42, and IE 11. The results
 
 \subsection{Warnings on Certificate Extension Validation Error}
 
-In the experiment, we tried the KeyUsage field of various server certificates, but the browser did not report the extension of the server certificate. The browser will recognize the error only if the ExtendedKeyUsage is set incorrectly. For the web server, the extended usage of the server certificate should be ServerAuth. If the server certificate has the ExtendedKeyUsage field but does not contain the value, an error will be reported. In our experiments, the KeyUsage field was reported by the browser only if the CA certificate did not have Certificate Signing.
+\textbf{Basic Constraints Extension.}
+
+\textbf{Key Usage Extension and Extended Key Usage Extension.}
+    If a server certificate has Extended key usage field including serverAuth, no matter what the key usage is, 
+        all the four browsers consider it secure.
+    If a server certificates has Extended key usage field not including serverAuth, no matter what the key usage is, 
+        all the four browsers display C-level (High-risk) warnings.
+    If a server certificates does not have Extended key usage field, and its key usage field is correct or does not have key usage field,
+        all the four browsers consider it secure. 
+    If a CA certificate has wrong key usage field, 
+        all the four browsers display C-level (High-risk) warnings.
+
+
 \subsection{Warnings on Name Validation Error}
+
+
 For different error SSL certificates, we deployed a reverse proxy that passes different certificates according to SNI on the server.
 
 The result is a certificate chain error. The error of missing the certificate is generally a warning of level B. The error setting of the intermediate certificate will result in a C level error. Certificate validation errors in revocation and extension usage errors are C-level, and other errors are B-level.
