@@ -14,18 +14,24 @@ When such HTTPS errors happen,
 
 \subsubsection{Level A: Low-risk warning}
 For low-risk errors, it shows a security indicator without interrupting the user's browsing.
-In this scenario, a passive security indicator indicates minor HTTPS errors by removing lock icon, changing lock icon’s color, providing textual information, or by other means without interrupting the user’s browsing.
-\begin{figure}[htbp]
+For example,
+    the browser removes the HTTPS lock icon, change the icon's color, or show a hint text.
+%In this scenario, a passive security indicator indicates minor HTTPS errors by removing lock icon, changing lock icon’s color, providing textual information, or by other means without interrupting the user’s browsing.
+%This is probably because webmaster has configured his website correctly, including purchasing a valid certificate, but the website still contains images or scripts over plain HTTP.
+%Although the browser was able to establish a valid HTTPS connection, there are still minor problems.
+On low-risk errors,
+ the browser still establishes HTTPS connections with visited web server.
+
+\begin{figure}[htb]
 \centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig1.png}}%记得换成chrome的截图
 \caption{Low-risk warning in Chrome.}
 \label{fig}
 \end{figure}
-this is probably because webmaster has configured his website correctly, including purchasing a valid certificate, but the website still contains images or scripts over plain HTTP. Although the browser was able to establish a valid HTTPS connection, there are still minor problems.
 
 \subsubsection{Level B: Medium-risk warning}
 For medium-risk errors, it will show a bypassable warning that discourages the user from continuing.
 Bypassable HTTPS security warnings are the most common type of browser warning. Browsers use bypassable HTTPS security warning to treat the vast majority of HTTPS errors.
-\begin{figure}[htbp]
+\begin{figure}[htb]
 \centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig2.png}}
 \caption{Medium-risk warning in Chrome.}
 \label{fig}
