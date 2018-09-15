@@ -3,13 +3,17 @@
 \subsection{Browser Security Warnings}
 Browser security warnings protect users against various network attacks,
     and this paper only considers the MitM attacks in HTTPS.
-When different HTTPS errors happen,
-    a browser shows the warnings in different way to ensure security while minimize the side effects of user experience.
+The  attacks might be launched
+     by using a forged certificate,
+    or deceiving browsers to visit the web server through HTTP.
+When such HTTPS errors happen,
+    a browser shows the warnings in different way to ensure security while minimize the side effects of user experience,
+    because an HTTPS error is not definitely caused by a MitM attack.
 
 % We describe security warnings of major browsers.
 
 \subsubsection{Level A: Low-risk warning}
-For low-risk errors, it will show a passive security indicator without interrupting the user’s browsing. 
+For low-risk errors, it shows a security indicator without interrupting the user's browsing.
 In this scenario, a passive security indicator indicates minor HTTPS errors by removing lock icon, changing lock icon’s color, providing textual information, or by other means without interrupting the user’s browsing.
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig1.png}}%记得换成chrome的截图
@@ -19,7 +23,7 @@ In this scenario, a passive security indicator indicates minor HTTPS errors by r
 this is probably because webmaster has configured his website correctly, including purchasing a valid certificate, but the website still contains images or scripts over plain HTTP. Although the browser was able to establish a valid HTTPS connection, there are still minor problems.
 
 \subsubsection{Level B: Medium-risk warning}
-For medium-risk errors, it will show a bypassable warning that discourages the user from continuing. 
+For medium-risk errors, it will show a bypassable warning that discourages the user from continuing.
 Bypassable HTTPS security warnings are the most common type of browser warning. Browsers use bypassable HTTPS security warning to treat the vast majority of HTTPS errors.
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig2.png}}

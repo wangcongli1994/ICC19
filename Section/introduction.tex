@@ -13,7 +13,7 @@ There are several errors in the TLS negotiations and also the security enhanceme
 Browsers show security warnings with different levels, when different HTTPS errors happen:
 (\emph{a}) a low-risk warning is shown in the address bar, no interrupting the browsing;
 (\emph{b}) a medium-risk warning is shown as a full-screen page, interrupting the browsing,
-    and the user may choose to ignore the warning by actively clicking a button to continue the browsing;
+    and the user may choose to ignore the warning by actively clicking a button to continue;
 (\emph{c}) a high-risk one is also shown as a full-screen page, stopping the browsing,
     but the user may choose to retry by actively clicking a button;
 and (\emph{d}) a fatal warning immediately close the connection and stop the browsing.
@@ -30,10 +30,10 @@ These errors cover certificate verification of basic fields and extensions,
 
 The evaluated browsers are Chrome, Firefox, and IE on Windows 7, and Edge on Windows 10.
 Our study
-    discloses several browser defects on handling HTTPS errors in terms of cryptographic algorithm,
+    discloses browser defects on handling HTTPS errors in terms of cryptographic algorithm,
      certificate extension, name validation,
       certificate revocation, and self-signed certificate.
-Some defects may allow an invalid or forged certificate to be accepted by users:
+Some defects may allow a forged certificate to be accepted by users:
 \begin{itemize}
 \item
 Edge algorithm. +++++++
@@ -67,7 +67,7 @@ Firefox does not support self-signed certificate as server certificate. ++++
 %Our work focuses on the X.509 certificate validation rather than the whole process of HTTPS implements,
 %    but we hope our work can be useful for deploying HTTPS faster and better.
 
-\noindent\textbf{Contribution.} We present a comprehensive list of HTTPS errors,
+\noindent\textbf{Contribution.} We present a comprehensive summary of HTTPS errors,
         and investigate the security warnings of four mainstream browsers on these errors.
 Several defects are found in the analysis results,
     and these defects may result in the problem of security or usability in HTTPS.
