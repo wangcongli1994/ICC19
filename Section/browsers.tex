@@ -60,9 +60,12 @@ On high-risk errors,
 %this is probably because the website is supposed to establish a valid HTTPS connection, but the certificate chain fails to validate (e.g., a HTTPS certificate error occurs in a website that has deployed HSTS policy).
 
 \subsubsection{Level D: Fatal warning}
-secure connection failed
+For fatal errors, it immediately close the connection and stop browsing.
+For example,
+    the browser displays a full-screen warning with an images of a sad look and connection failure string.
+On fatal errors,
+    the browser fails to establish an HTTPS connection with visited server.
 %For fatal errors, it shows a warning stop uses' browsing.
-%On medium-risk errors, the browser cannot establish HTTPS connection with visited web server.
 %The browser may fail to establish a HTTPS connection to the server for unsupported TLS version, cipher mismatch, or other reasons.
 %In this scenario, the browser cannot obtain certificates from the web server, let alone certificate validation, so the TLS handshake error is not discussed in this paper.
 \begin{figure}[htbp]
