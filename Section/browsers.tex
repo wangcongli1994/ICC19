@@ -31,7 +31,7 @@ On low-risk errors,
 \subsubsection{Level B: Medium-risk warning}
 For medium-risk errors, it shows a bypassable warning that discourages the user from continuing.
 For example,
-    the browser stops the page load and display a full-screen warning with two options: "back to safety" and "Proceed to example.com (unsafe)".
+    the browser stops the page load and display a full-screen warning with two options: "Click here to close this webpage" and "Continue to this website (not recommended)".
 On medium-risk errors,
  the traffic is still encrypted between browser and web server, even if the user click through the warning.
 %For medium-risk errors, it will show a bypassable warning that discourages the user from continuing.
@@ -44,6 +44,12 @@ On medium-risk errors,
 %In this scenario, if there is an HTTPS error, the browser will stop the page load and display an HTTPS security warning explaining the cause of the error. Typically, users are able to click through the warning by clicking on a button, but this may be disabled if the website servers the HTTP Strict Transport Security (HSTS) or HTTP Public Key Pinning (HPKP) header. Although the HTTP(s) traffic we captured through Fiddler[ https://www.telerik.com/fiddler] shows the web page is not transmitted in plain text, clicking through the warning may allow an actual man-in-the-middle attack to proceed.
 
 \subsubsection{Level C: High-risk warning}
+For high-risk errors, it shows a non-bypassable warning that stops the user from continuing.
+For example, 
+    the browser displays a full-screen warning explaining the cause of the error, and there is only a retry button to choose.
+On high-risk errors,
+    the browser refuses to establish an HTTPS connection to the server.
+    
 %For high-risk errors, it will show a security warning that the user cannot bypass.
 %As a worst case scenario, the browser will prevent uses from continuing to browse the website by showing a security warning that the users cannot bypass.
 \begin{figure}[htbp]
@@ -51,9 +57,10 @@ On medium-risk errors,
 \caption{High-risk warning in Chrome.}
 \label{fig}
 \end{figure}
-this is probably because the website is supposed to establish a valid HTTPS connection, but the certificate chain fails to validate (e.g., a HTTPS certificate error occurs in a website that has deployed HSTS policy).
+%this is probably because the website is supposed to establish a valid HTTPS connection, but the certificate chain fails to validate (e.g., a HTTPS certificate error occurs in a website that has deployed HSTS policy).
 
 \subsubsection{Level D: Fatal warning}
+secure connection failed
 %For fatal errors, it shows a warning stop uses' browsing.
 %On medium-risk errors, the browser cannot establish HTTPS connection with visited web server.
 %The browser may fail to establish a HTTPS connection to the server for unsupported TLS version, cipher mismatch, or other reasons.
