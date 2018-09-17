@@ -29,18 +29,23 @@ On low-risk errors,
 \end{figure}
 
 \subsubsection{Level B: Medium-risk warning}
-For medium-risk errors, it will show a bypassable warning that discourages the user from continuing.
-Bypassable HTTPS security warnings are the most common type of browser warning. Browsers use bypassable HTTPS security warning to treat the vast majority of HTTPS errors.
+For medium-risk errors, it shows a bypassable warning that discourages the user from continuing.
+For example,
+    the browser stops the page load and display a full-screen warning with two options: "back to safety" and "Proceed to example.com (unsafe)".
+On medium-risk errors,
+ the traffic is still encrypted between browser and web server, even if the user click through the warning.
+%For medium-risk errors, it will show a bypassable warning that discourages the user from continuing.
+%Bypassable HTTPS security warnings are the most common type of browser warning. Browsers use bypassable HTTPS security warning to treat the vast majority of HTTPS errors.
 \begin{figure}[htb]
 \centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig2.png}}
 \caption{Medium-risk warning in Chrome.}
 \label{fig}
 \end{figure}
-In this scenario, if there is an HTTPS error, the browser will stop the page load and display an HTTPS security warning. Typically, users are able to click through the warning by clicking on a button, but this may be disabled if the website servers the HTTP Strict Transport Security (HSTS) or HTTP Public Key Pinning (HPKP) header. Although the HTTP(s) traffic we captured through Fiddler[ https://www.telerik.com/fiddler] shows the web page is not transmitted in plain text, clicking through the warning may allow an actual man-in-the-middle attack to proceed.
+%In this scenario, if there is an HTTPS error, the browser will stop the page load and display an HTTPS security warning explaining the cause of the error. Typically, users are able to click through the warning by clicking on a button, but this may be disabled if the website servers the HTTP Strict Transport Security (HSTS) or HTTP Public Key Pinning (HPKP) header. Although the HTTP(s) traffic we captured through Fiddler[ https://www.telerik.com/fiddler] shows the web page is not transmitted in plain text, clicking through the warning may allow an actual man-in-the-middle attack to proceed.
 
 \subsubsection{Level C: High-risk warning}
-For high-risk errors, it will show a security warning that the user cannot bypass.
-As a worst case scenario, the browser will prevent uses from continuing to browse the website by showing a security warning that the users cannot bypass.
+%For high-risk errors, it will show a security warning that the user cannot bypass.
+%As a worst case scenario, the browser will prevent uses from continuing to browse the website by showing a security warning that the users cannot bypass.
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig3.png}}%记得换成自己fireblossom.xyz网址的截图
 \caption{High-risk warning in Chrome.}
@@ -49,11 +54,13 @@ As a worst case scenario, the browser will prevent uses from continuing to brows
 this is probably because the website is supposed to establish a valid HTTPS connection, but the certificate chain fails to validate (e.g., a HTTPS certificate error occurs in a website that has deployed HSTS policy).
 
 \subsubsection{Level D: Fatal warning}
-Cannot establish HTTPS connection
-The browser may fail to establish a HTTPS connection to the server for unsupported TLS version, cipher mismatch, or other reasons.
+%For fatal errors, it shows a warning stop uses' browsing.
+%On medium-risk errors, the browser cannot establish HTTPS connection with visited web server.
+%The browser may fail to establish a HTTPS connection to the server for unsupported TLS version, cipher mismatch, or other reasons.
 %In this scenario, the browser cannot obtain certificates from the web server, let alone certificate validation, so the TLS handshake error is not discussed in this paper.
 \begin{figure}[htbp]
 \centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig4.png}}%截图需要再调整成清晰的
 \caption{Fatal warning in Chrome.}
 \label{fig}
 \end{figure}
+%Warning Images
