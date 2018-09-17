@@ -27,10 +27,15 @@ Support of HPKP is deprecate in Chrome, and will be removed. In our experiments,
 In order to control the browsing behavior of the internal network, some companies often pre-set the self-signed certificate in the computer in the office area, and replace the HTTPS connection certificate in the gateway to obtain the information contained in the HTTPS traffic, detect and prevent the information leakage inside the company, which is a typical MITM attack. Some malware may also use the same way to attack a personal computer. Many computer applications will trigger the UAC of the Windows system during installation. After clicking and agreeing, the computer settings can be modified. After the malware spoofs the user's consent, you can modify the computer settings, such as burying your own root certificate. Eavesdrop on all traffic through a self-signed certificate and send sensitive information to the attacker.
 
 \subsection{key usage and extended key usage}
-对于server certificate的key usage 和extended key usage的处理有两处不合理的地方。
 According to RFC 5280, if a certificate contains both a key usage extension and an extended key usage extension,
-    then both extensions MUST be processed independently and the certificate MUST only be used for a purpose
-    consistent with both extensions.  If there is no purpose consistent with both extensions, then the certificate MUST NOT be used for any purpose.
+    then both extensions MUST be processed independently
+    and the certificate MUST only be used for a purpose consistent with both extensions.
+    If there is no purpose consistent with both extensions, then the certificate MUST NOT be used for any purpose \cite{cooper2008rfc5280}.
+    
+For key usage and extended key usage of server certificate, there are two incorrect browser security warnings.
+    First, Chrome, Edge, and IE does not display any warning on error of a server certificate that does not have extended key usage and has a incorrect key usage.
+    Second, all the four browsers does not display any warning on error of a server certificate that with a correct extended key usage and a incorrect key usage..
+
 % If a certificate contains both a key usage extension and an extended
 %   key usage extension, then both extensions MUST be processed
  %  independently and the certificate MUST only be used for a purpose
