@@ -1,6 +1,14 @@
 \section{Discussion and Suggestion}
 In the experiment, we found that different browsers have different processing methods for some unsafe scenarios. Through comparison between them, we have summarized the existing risks of several browsers.
 
+\subsection{Weak Algorithm}
+
+    Several security incidents have shown that, 
+        attackers can use SHA-1 and MD5 to colliding fraudulent certificates, 
+    but Edge and IE don't display any warnings on certificates with SHA-1/MD5 signatures. 
+    Edge and IE need to be improved on this.
+
+
 \subsection{Edge supports MD5 and SHA-1 certificates}
 After our observation, only Edge has no warnings for the SHA-1 and MD5 public key signature sites that are currently obsolete on the Internet, and it is displayed as safe on the detailed page.
 
@@ -8,10 +16,23 @@ In December 2008, a group of researchers led by Alex Sotirov and Marc Stevens us
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Firefox certificate management cannot add self-signed server certificate}
-For a self-signed server certificate, it is both a root certificate and a CA certificate. This type of certificate can be added to the "Trusted Root Certification Authorities" store on Windows systems and made available to Chrome and Edge browsers for secure access. Firefox has a self-built certificate manager, but the manager does not store the server certificate in the certificate store. That is, if you need Firefox to trust a self-signed certificate, you must sign a server certificate by using the CA certificate, and install the root CA certificate into the certificate manager of the Firefox browser.
+%这一部分有待做实验确认一下，Firefox对自签名证书的机制貌似没这么简单
 
+%对于不公开的内部网，这不是问题，此时你可以忽略该警告信息。
+  % 自签名的证书虽然可以保证您不被第三方窃听，但无法知晓数据的接收者是谁。这对处于内部局域网且无法在外网访问的网站来说很常见，您可以选择绕过警示。
+  %  Self-signed server certificate cannot be added to NSS certificate store, 
+  %  whenever Firefox encounters a self-signed certificate, it will dispay a B-level (Medium-risk) warning.
+    %Firefox 使用自己独立的证书管理器（Certificates Manager），并没有像 IE 和 Chrome 那样直接使用 Windows 系统中的证书存储。所以有时候我们除了需要在 Windows 中添加受信任的根证书外，还需要重新在 Firefox 中添加一回。下面介绍如何将自签发的 SSL 证书导入为 Firefox 中的受信任根证书。
+   % 单击展开 I Understand the Risks（我已充分了解可能的风险），下面有个 Add Exception..（添加例外），单击就会打开确认页面。
+   % The only way is to add an exception, but the memory time for the exception is limited
+%For a self-signed server certificate, it is both a root certificate and a CA certificate. This type of certificate can be added to the "Trusted Root Certification Authorities" store on Windows systems and made available to Chrome and Edge browsers for secure access. Firefox has a self-built certificate manager, but the manager does not store the server certificate in the certificate store. That is, if you need Firefox to trust a self-signed certificate, you must sign a server certificate by using the CA certificate, and install the root CA certificate into the certificate manager of the Firefox browser.
+
+%When FireFox encounters a self-signed cert, it won't load the page. The way to make it work is to add a Security Exception for that particular website.
+%From this point on, FireFox won't show SSL-related errors when visiting this URL.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%All of a sudden (i.e. not after a Firefox upgrade) Firefox 41.0 has stopped accepting self-signed SSL certificates on various websites which it had been accepting for months. I've generated the certificates myself.
 
+%The NSS root certificate store
 \subsection{Chrome does not check the revocation of certificates}
 In the experiment we found that the certificate revoked by certbot in the Let’s Encrypt project will not be detected any errors in Chrome, and the site can continue to be displayed "securely". With the same certificate, both Firefox and Edge will check that the certificate has been revoked and cannot be accessed.
 
@@ -21,7 +42,18 @@ Chrome internally built a streamlined CRLset[25] and closed the OSCP and CRL che
 For Chrome, the decision to revoke a certificate is in CRLset, not CA. This is a very unsafe behavior. Although CRLset is constantly updated, my site can still be accessed normally after the certificate is revoked for one month. Prove its danger.
 
 \subsection{HPKP does not check the self-signed certificate chain}
-Support of HPKP is deprecate in Chrome, and will be removed. In our experiments, if the site uses a self-signed certificate chain, the HPKP policy error warning will not be triggered even if the certificate used does not comply with the HPKP policy. Not only that, but this connection will also display the correct encryption and the correct icon.In other words, self-signed certificates are not pinned[].
+    
+    Based on the experimental results, we arrive at the the following conclusions.
+    First, Of the four browsers, only chrome support HTTP Public Key is fixed (HPKP)
+    Of all known GTPases, only eight are conserved across all three domains of life. 
+    Of the four browsers, only chrome supports HPKP
+    if the server certificate chains to a manually installed root certificate,
+    
+    
+    Any HPKP error does not trigger a warning
+    the HPKP policy error warning will not be triggered even if the certificate used does not comply with the HPKP policy. 
+    
+    Not only that, but this connection will also display the correct encryption and the correct icon.In other words, self-signed certificates are not pinned[].
 %https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/he9tr7p3rZ8/eNMwKPmUBAAJ
 
 In order to control the browsing behavior of the internal network, some companies often pre-set the self-signed certificate in the computer in the office area, and replace the HTTPS connection certificate in the gateway to obtain the information contained in the HTTPS traffic, detect and prevent the information leakage inside the company, which is a typical MITM attack. Some malware may also use the same way to attack a personal computer. Many computer applications will trigger the UAC of the Windows system during installation. After clicking and agreeing, the computer settings can be modified. After the malware spoofs the user's consent, you can modify the computer settings, such as burying your own root certificate. Eavesdrop on all traffic through a self-signed certificate and send sensitive information to the attacker.
@@ -34,7 +66,7 @@ According to RFC 5280, if a certificate contains both a key usage extension and 
     
 For key usage and extended key usage of server certificate, there are two incorrect browser security warnings.
     First, Chrome, Edge, and IE does not display any warning on error of a server certificate that does not have extended key usage and has a incorrect key usage.
-    Second, all the four browsers does not display any warning on error of a server certificate that with a correct extended key usage and a incorrect key usage..
+    Second, all the four browsers does not display any warning on error of a server certificate that with a correct extended key usage and a incorrect key usage.
 
 % If a certificate contains both a key usage extension and an extended
 %   key usage extension, then both extensions MUST be processed

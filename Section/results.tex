@@ -24,10 +24,10 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
 \centering
 \begin{tabular}{p{2.2cm}|l|cccc}
 \toprule
-\multicolumn{2}{c|}{\multirow{2}{*}{HTTPS Errors}} & \multicolumn{4}{l}{Risk Levels of Browser Security Warnings} \\ \cline{3-6} 
+\multicolumn{2}{c|}{\multirow{2}{*}{HTTPS Errors}} & \multicolumn{4}{l}{Risk Levels of Browser Security Warnings} \\ \cline{3-6}
 \multicolumn{2}{c|}{} & Chrome & Firefox & Edge & IE \\ \midrule[1pt]
-\multirow{12}{*}{\begin{tabular}[c]{@{}c@{}}Basic Certificate \\ Validation Error\end{tabular}} & Self-signed Certificate & Secure & B & Secure & Secure \\
- & Untrusted issuer & B & B & B & B \\
+\multirow{12}{*}{\begin{tabular}[c]{@{}c@{}}Basic Certificate \\ Validation Error\end{tabular}} & Untrusted self-signed server certificate & Secure & B & Secure & Secure \\
+ & Untrusted root CA certificate & B & B & B & B \\
  & Incomplete Certificate Chain & B & B & B & B \\
  & Expired & B & B & B & B \\ \cline{2-6}
  & Revoked(CRL) & Secure & Secure & C & C \\
@@ -66,9 +66,10 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
  & ~~incorrect SAN, incorrect CN & B & B & B & B \\
  & ~~no SAN, incorrect CN & B & B & B & B \\
  & ~~no SAN, correct CN & B & Secure & Secure & Secure \\ \midrule[1pt]
-\multirow{13}{*}{\begin{tabular}[c]{@{}c@{}}HTTPS Security \\ Enhancement Error\end{tabular}} & HPKP: private srore &  &  &  &  \\
+\multirow{13}{*}{\begin{tabular}[c]{@{}c@{}}HTTPS Security \\ Enhancement Error\end{tabular}} & HPKP: private store &  &  &  &  \\
  & ~~first visit: incorrect HPKP header, second visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
- & ~~first visit: correct HPKP header, second visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
+ & ~~first visit: correct HPKP header, second visit: correct HPKP header & Secure & Secure & Secure & Secure \\
+ & ~~first visit: correct HPKP header, second visit: incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
  & HPKP: public store &  &  &  &  \\
  & ~~first visit: incorrect HPKP header, second visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
  & ~~first visit: correct HPKP header correct, second visit: correct HPKP heade & Secure & Secure & Secure & Secure \\
