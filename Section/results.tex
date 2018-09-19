@@ -1,10 +1,10 @@
 \section{Browser Behaviors on HTTPS Errors}
-There are many community standards for certificate validation,
-    for example,
-    RFC 5246, RFC 6125, and RFC 5280.
-    The certificate validation in browser
-    is more than a  literal replication of Internet standards protocols.
-    It needs to balance security, standards, and user experiences.
+%There are many community standards for certificate validation,
+%    for example,
+%    RFC 5246, RFC 6125, and RFC 5280.
+%    The certificate validation in browser
+%    is more than a  literal replication of Internet standards protocols.
+%    It needs to balance security, standards, and user experiences.
 \subsection{Goal and Methodology}
 Our goal is to build a test harness that is able to determine whether a web browser reports HTTPS security warning for a variety of different kinds of HTTPS errors.
 
@@ -26,7 +26,7 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
 \toprule
 \multicolumn{2}{c|}{\multirow{2}{*}{HTTPS Errors}} & \multicolumn{4}{l}{Risk Levels of Browser Security Warnings} \\ \cline{3-6}
 \multicolumn{2}{c|}{} & Chrome & Firefox & Edge & IE \\ \midrule[1pt]
-\multirow{12}{*}{\begin{tabular}[c]{@{}c@{}}Basic Certificate \\ Validation Error\end{tabular}} & Untrusted self-signed server certificate & Secure & B & Secure & Secure \\
+\multirow{12}{*}{\begin{tabular}[c]{@{}c@{}}Basic Certificate \\ Validation Error\end{tabular}} & Untrusted self-signed server certificate & B & B & B & B \\
  & Untrusted root CA certificate & B & B & B & B \\
  & Incomplete Certificate Chain & B & B & B & B \\
  & Expired & B & B & B & B \\ \cline{2-6}

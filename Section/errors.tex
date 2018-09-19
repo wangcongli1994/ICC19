@@ -35,7 +35,7 @@ the HTTPS errors of certificate verification of basic fields and extensions,
     A revoked certificate error occurs when the server uses a revoked certificate.
 
 \textbf{Weak Signature Algorithm.}
-    
+
     %The CA/Browser Forum allows RSA and ECC keys in certificates.
     %All RSA keys should be at least 2048 bits \cite{CAB2018BR},
     %and ECC keys should be at least 256 bits \cite{NIST2005ECC}.
@@ -64,7 +64,7 @@ the HTTPS errors of certificate verification of basic fields and extensions,
 \textbf{Extended Key Usage Extension.}
     Extended key usage extension further refines key usage extension.
     If the extension is critical,
-    all webhost certificates must include "serverAuth" in their extended key usage extension.
+    all server certificates must include "serverAuth" in their extended key usage extension.
 
 
 \subsubsection{Name Validation Error}
@@ -91,8 +91,8 @@ the HTTPS errors of certificate verification of basic fields and extensions,
     In recent years, some security-enhancement policies have been added to HTTPS. We will focus on HSTS and HPKP errors.
 
 \textbf{HPKP.}
-    HTTP Public Key Pinning (HPKP) \cite{Evans2015rfc7469} is used by web sites to instruct browsers to remember ("pin") the sites' public key over a period of time.
-    A HPKP error occurs when
+%    HTTP Public Key Pinning (HPKP) \cite{Evans2015rfc7469} is used by web sites to instruct browsers to remember ("pin") the sites' public key over a period of time.
+    A HPKP \cite{Evans2015rfc7469} error occurs when
     any public key of the certificate chain provided by the website
     does not match the pinned public keys.
 
