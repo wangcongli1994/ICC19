@@ -22,12 +22,14 @@ the HTTPS errors of certificate verification of basic fields and extensions,
     Similarly, self-signed certificate is not trusted by browsers and must be installed manually.
     
 \textbf{Incomplete Certificate Chain.}
-    In order to build a complete certificate chain,
-    browsers obtain the intermediate certificates in three ways.
-    First, the web server presents its server certificate accompany with all the necessary intermediate certificates that can leads to a trusted root certificate.
-    Second, browsers reuse the cached intermediate certificates.
-    Third, browsers actively fetch the missing intermediate certificates through an AIA field.
-    An incomplete chain error occurs, when all the attempts fail.
+    Incomplete certificate chain means that 
+    a complete certificate chain cannot be formed due to the lack of intermediate certificates.
+    %In order to build a complete certificate chain,
+    %browsers obtain the intermediate certificates in three ways.
+    %First, the web server presents its server certificate accompany with all the necessary intermediate certificates that can leads to a trusted root certificate.
+    %Second, browsers reuse the cached intermediate certificates.
+    %Third, browsers actively fetch the missing intermediate certificates through an AIA field.
+    %An incomplete chain error occurs, when all the attempts fail.
 
 \textbf{Expired Certificate.}
     A certificate is only valid between its Not Before date and Not After date. An expired certificate error occurs if the Not After date is earlier than current time.
