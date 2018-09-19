@@ -32,22 +32,28 @@ the HTTPS errors of certificate verification of basic fields and extensions,
     %An incomplete chain error occurs, when all the attempts fail.
 
 \textbf{Expired Certificate.}
-    A certificate is only valid between its Not Before date and Not After date. An expired certificate error occurs if the Not After date is earlier than current time.
+    Expired certificate means that 
+    the certificate is only valid at any time in the past 
+    %A certificate is only valid between its Not Before date and Not After date. 
+    %Expired certificate means that the Not After date is earlier than current time.
+    %An expired certificate error occurs if the Not After date is earlier than current time.
 
 \textbf{Revoked Certificate.}
-    For security reasons,
     CA can claim that a certificate is no longer valid before it expires by CRL, OCSP, and CRLset.
-    A revoked certificate error occurs when the server uses a revoked certificate.
+    This certificate is called a revoked certificate. 
+    %For security reasons,
+    %CA can claim that a certificate is no longer valid before it expires by CRL, OCSP, and CRLset.
+    %A revoked certificate error occurs when the server uses a revoked certificate.
 
 \textbf{Weak Signature Algorithm.}
-
+    Weak signature algorithm refers to the unsafe, practically breakable algorithm, such as RSA512, RSA1024 \cite{CAB2018BR}, and ECC160 \cite{NIST2005ECC}.
     %The CA/Browser Forum allows RSA and ECC keys in certificates.
     %All RSA keys should be at least 2048 bits \cite{CAB2018BR},
     %and ECC keys should be at least 256 bits \cite{NIST2005ECC}.
     %A weak signature algorithm error occurs when the key length does not meet the requirements.
 
 \textbf{Weak Digest Algorithm.}
-    Weak Signature algorithm refers to the unsafe, collidable algorithm, such as SHA-1 \cite{Google2017sha1} and MD5 \cite{wang2004collisions}.
+    Weak digest algorithm refers to the unsafe, collidable algorithm, such as SHA-1 \cite{Google2017sha1} and MD5 \cite{wang2004collisions}.
     %According to the CA/Browser Forum,
     %supported digest algorithms are SHA-256, SHA-384, and SHA-512. The SHA-1 and MD5 digest algorithm have been shown to be insecure, such as two different PDF files with the same SHA-1 hash \cite{Google2017sha1}.
 
