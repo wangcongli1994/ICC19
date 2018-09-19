@@ -15,24 +15,18 @@ In the experiment, we found that different browsers have different processing me
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Firefox certificate management cannot add self-signed server certificate}
-%这一部分有待做实验确认一下，Firefox对自签名证书的机制貌似没这么简单
-
-%对于不公开的内部网，这不是问题，此时你可以忽略该警告信息。
-  % 自签名的证书虽然可以保证您不被第三方窃听，但无法知晓数据的接收者是谁。这对处于内部局域网且无法在外网访问的网站来说很常见，您可以选择绕过警示。
-  %  Self-signed server certificate cannot be added to NSS certificate store,
-  %  whenever Firefox encounters a self-signed certificate, it will dispay a B-level (Medium-risk) warning.
-    %Firefox 使用自己独立的证书管理器（Certificates Manager），并没有像 IE 和 Chrome 那样直接使用 Windows 系统中的证书存储。所以有时候我们除了需要在 Windows 中添加受信任的根证书外，还需要重新在 Firefox 中添加一回。下面介绍如何将自签发的 SSL 证书导入为 Firefox 中的受信任根证书。
-   % 单击展开 I Understand the Risks（我已充分了解可能的风险），下面有个 Add Exception..（添加例外），单击就会打开确认页面。
-   % The only way is to add an exception, but the memory time for the exception is limited
+\subsection{Self-signed Server Certificate}
+    Users can install self-signed server certificates to OS root store, Chrome, 
+        Edge, and IE will treat them secure.
+    However, when FireFox encounters a website using a self-signed certificate, 
+        the only way to make it work is adding a Security Exception for that particular website.
+    We think Firefox need to be improved on this.
 %For a self-signed server certificate, it is both a root certificate and a CA certificate. This type of certificate can be added to the "Trusted Root Certification Authorities" store on Windows systems and made available to Chrome and Edge browsers for secure access. Firefox has a self-built certificate manager, but the manager does not store the server certificate in the certificate store. That is, if you need Firefox to trust a self-signed certificate, you must sign a server certificate by using the CA certificate, and install the root CA certificate into the certificate manager of the Firefox browser.
 
 %When FireFox encounters a self-signed cert, it won't load the page. The way to make it work is to add a Security Exception for that particular website.
-%From this point on, FireFox won't show SSL-related errors when visiting this URL.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%All of a sudden (i.e. not after a Firefox upgrade) Firefox 41.0 has stopped accepting self-signed SSL certificates on various websites which it had been accepting for months. I've generated the certificates myself.
 
 %The NSS root certificate store
+
 \subsection{Chrome does not check the revocation of certificates}
 In the experiment we found that the certificate revoked by certbot in the Let’s Encrypt project will not be detected any errors in Chrome, and the site can continue to be displayed "securely". With the same certificate, both Firefox and Edge will check that the certificate has been revoked and cannot be accessed.
 
