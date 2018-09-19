@@ -2,17 +2,17 @@
 In the experiment, we found that different browsers have different processing methods for some unsafe scenarios. Through comparison between them, we have summarized the existing risks of several browsers.
 
 \subsection{Weak Algorithm}
-
-    Several security incidents have shown that, 
-        attackers can use SHA-1 and MD5 to colliding fraudulent certificates, 
-    but Edge and IE don't display any warnings on certificates with SHA-1/MD5 signatures. 
+    Several security incidents have shown that,
+        attackers can use SHA-1 and MD5 to colliding fraudulent certificates,
+    but Edge and IE don't display any warnings on certificates with SHA-1/MD5 signatures.
     Edge and IE need to be improved on this.
 
+    RSA512 have been broken since 2009 \cite{cavallar2000factorization}, but Chrome, Edge, and IE display only B-level (Medium-risk) warnings, we think the risk level of RSA512 is C-level (High-risk).
 
-\subsection{Edge supports MD5 and SHA-1 certificates}
-After our observation, only Edge has no warnings for the SHA-1 and MD5 public key signature sites that are currently obsolete on the Internet, and it is displayed as safe on the detailed page.
+    RSA1024 is expectable to be broken within 2015 to 2020 \cite{Berlin2017An},
+    but all the four browsers don't display any warnings on certificates with RSA1024 keys.
+    They need to be improved on this.
 
-In December 2008, a group of researchers led by Alex Sotirov and Marc Stevens used the weaknesses of the MD5 message digest algorithm to forge the certificate of the RapidSSL [23] certificate authority, which they can use to issue certificates to any website in the world. Such incidents also include "flame" [24] malware using MD5 collisions to forge Microsoft certificates and so on. Although there is currently no example of a fake certificate with the same value as the original certificate SHA-1, the two hashes are not sufficiently secure for the SSL certificate.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Firefox certificate management cannot add self-signed server certificate}
@@ -20,7 +20,7 @@ In December 2008, a group of researchers led by Alex Sotirov and Marc Stevens us
 
 %对于不公开的内部网，这不是问题，此时你可以忽略该警告信息。
   % 自签名的证书虽然可以保证您不被第三方窃听，但无法知晓数据的接收者是谁。这对处于内部局域网且无法在外网访问的网站来说很常见，您可以选择绕过警示。
-  %  Self-signed server certificate cannot be added to NSS certificate store, 
+  %  Self-signed server certificate cannot be added to NSS certificate store,
   %  whenever Firefox encounters a self-signed certificate, it will dispay a B-level (Medium-risk) warning.
     %Firefox 使用自己独立的证书管理器（Certificates Manager），并没有像 IE 和 Chrome 那样直接使用 Windows 系统中的证书存储。所以有时候我们除了需要在 Windows 中添加受信任的根证书外，还需要重新在 Firefox 中添加一回。下面介绍如何将自签发的 SSL 证书导入为 Firefox 中的受信任根证书。
    % 单击展开 I Understand the Risks（我已充分了解可能的风险），下面有个 Add Exception..（添加例外），单击就会打开确认页面。
@@ -42,17 +42,17 @@ Chrome internally built a streamlined CRLset[25] and closed the OSCP and CRL che
 For Chrome, the decision to revoke a certificate is in CRLset, not CA. This is a very unsafe behavior. Although CRLset is constantly updated, my site can still be accessed normally after the certificate is revoked for one month. Prove its danger.
 
 \subsection{HPKP does not check the self-signed certificate chain}
-    
+
     Based on the experimental results, we arrive at the the following conclusions.
     First, Of the four browsers, only chrome support HTTP Public Key is fixed (HPKP)
-    Of all known GTPases, only eight are conserved across all three domains of life. 
+    Of all known GTPases, only eight are conserved across all three domains of life.
     Of the four browsers, only chrome supports HPKP
     if the server certificate chains to a manually installed root certificate,
-    
-    
+
+
     Any HPKP error does not trigger a warning
-    the HPKP policy error warning will not be triggered even if the certificate used does not comply with the HPKP policy. 
-    
+    the HPKP policy error warning will not be triggered even if the certificate used does not comply with the HPKP policy.
+
     Not only that, but this connection will also display the correct encryption and the correct icon.In other words, self-signed certificates are not pinned[].
 %https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/he9tr7p3rZ8/eNMwKPmUBAAJ
 
@@ -63,7 +63,7 @@ According to RFC 5280, if a certificate contains both a key usage extension and 
     then both extensions MUST be processed independently
     and the certificate MUST only be used for a purpose consistent with both extensions.
     If there is no purpose consistent with both extensions, then the certificate MUST NOT be used for any purpose \cite{cooper2008rfc5280}.
-    
+
 For key usage and extended key usage of server certificate, there are two incorrect browser security warnings.
     First, Chrome, Edge, and IE does not display any warning on error of a server certificate that does not have extended key usage and has a incorrect key usage.
     Second, all the four browsers does not display any warning on error of a server certificate that with a correct extended key usage and a incorrect key usage.

@@ -61,41 +61,47 @@ the HTTPS errors of certificate verification of basic fields and extensions,
     In addition to the basic certificate validation, we also consider the certificate extension validation: Basic Constraints, Key Usage, and Extended Key Usage.
 
 \textbf{Basic Constraints Extension.}
-    The basic constraints extension consists of a "CA flag" and a PathLenConstraint.
-    CA certificates must set the "CA flag" as true.
+    The basic constraints extension consists of a ``CA flag" and a PathLenConstraint.
+    CA certificates must set the ``CA flag" as true, and server certificates must set the ``CA flag" as false.
     PathLenConstraint is a non-negative integer, and it only works for CA certificates.
     The number of intermediate certificates between current CA and the server certificate cannot greater than PathLenConstraint.
-
+    
 \textbf{Key Usage Extension.}
-    The key usage extension indicates the purpose of the public key contained in a certificate.
-    According to RFC 5280 \cite{cooper2008rfc5280},
-    all CA certificates must include "Certificate Signing" in their key usage extension, and
-    all webhost certificates must include "Key Encipherment" in their key usage extension.
+    ``no key usage" means that the certificate does not have a key usage field.
+    ``server certificate: incorrect key usage" means that the server certificates don't include "Key Encipherment" in their key usage field.
+    ``server certificate: correct key usage" means that the server certificates include "Key Encipherment" in their key usage field.
+    ``ca certificate: incorrect key usage" means that the CA certificates don't include "Certificate Signing" in their key usage field \cite{cooper2008rfc5280}.
+    %The key usage extension indicates the purpose of the public key contained in a certificate.
+    %According to RFC 5280 \cite{cooper2008rfc5280},
+    %all CA certificates must include "Certificate Signing" in their key usage extension, and
+    %all server certificates must include "Key Encipherment" in their key usage extension.
 
 \textbf{Extended Key Usage Extension.}
-    Extended key usage extension further refines key usage extension.
-    If the extension is critical,
-    all server certificates must include "serverAuth" in their extended key usage extension.
+    ``no extended key usage" means that the certificate does not have a extended key usage field.
+    ``server certificate: incorrect extended key usage" means that the server certificates don't include ``serverAuth" in their extended key usage field.
+    ``server certificate: correct extended key usage" means that the server certificates include ``serverAuth" in their extended key usage field \cite{cooper2008rfc5280}.
+    %Extended key usage extension further refines key usage extension.
+    %If the extension is critical,
+    %all server certificates must include "serverAuth" in their extended key usage extension.
 
 
 \subsubsection{Name Validation Error}
-    Certificates are only valid for specific domain names.
-    A name validation error occurs when domain names listed in a server certificate does not match the domain we visited.
+    %Certificates are only valid for specific domain names.
+    Name validation error means that domain names listed in a server certificate don't match the domain we visited.
 
 \textbf{Domain Name Complete Mismatch.}
     Domain Name Complete Mismatch means that, there may be a complete mismatch between the domain name visited and the certificate received.
-    For example, a user tries to visit www.baidu.com but gets a certificates for scholar.google.com.
-
-\textbf{Common Name or Subject Alternative Name Mismatch.}
-    Common Name (CN) and Subject Alternative Name (SAN) fields indicate the certificate subject identity information, and they are usually domain names.
-    There are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
+    For example, a user tries to visit www.baidu.com but gets a certificates for scholar.google.com (both CN and SAN are scholar.google.com).
 
 \textbf{WWW Mismatch.}
-    A www mismatch occurs when a user visiting www.example.com gets a certificates for example.com.
-
+    A www mismatch occurs when a user visiting www.example.com gets a certificates for example.com (both CN and SAN are example.com).
+    
 \textbf{Out-of-wildcard-scope Subdomain.}
-    A out-of-wildcard-scope subdomain occurs when a user visiting a.b.example.com gets a certificates for *.example.com.
+    A out-of-wildcard-scope subdomain occurs when a user visiting a.b.example.com gets a certificates for *.example.com (both CN and SAN are *.example.com).
 
+\textbf{Common Name or Subject Alternative Name Mismatch.}
+    %Common Name (CN) and Subject Alternative Name (SAN) fields indicate the certificate subject identity information, and they are usually domain names.
+    There are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 
 \subsubsection{HTTPS Security-Enhancement Error}
 %\subsubsection{Certificate verification enhancement errors}
@@ -110,4 +116,4 @@ the HTTPS errors of certificate verification of basic fields and extensions,
 \textbf{HSTS.}
     HTTP Strict Transport Security (HSTS) \cite{hodges2012rfc6797} directs browsers to interact with given sites only over HTTPS.
 %    This policy is declared by web sites via the STS header field including three directives: max-age, includeSubDomains, and preload.
-    An HSTS error occurs when a web site deploying HSTS has a certificate validation error.
+    An HSTS error means that a web site deploying HSTS has a certificate validation error.

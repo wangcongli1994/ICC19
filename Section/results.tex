@@ -39,9 +39,9 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
  & Weak signature(SHA-1) & B & B & Secure & Secure \\
  & Weak signature(MD5) & B & B & Secure & Secure \\ \midrule[1pt]
 \multirow{17}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Extension \\ Validation Error\end{tabular}} & server certificate &  &  &  &  \\
- & ~~incorrect CA falg & Secure & B & Secure & Secure \\
+ & ~~incorrect CA falg (``CA flag" = true) & Secure & B & Secure & Secure \\
  & CA certificate &  &  &  &  \\
- & ~~incorrect CA falg & C & - & C & C \\
+ & ~~incorrect CA falg (``CA flag" = false) & C & - & C & C \\
  & ~~correct CA flag, incorrect PathLenConstraint & C & Secure & C & B \\ \cline{2-6}
  & server certificate &  &  &  &  \\
  & ~~no extended key usage, correct key usage & Secure & Secure & Secure & Secure \\
@@ -51,10 +51,10 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
  & ~~correct extended key usage, incorrect key usage & Secure & Secure & Secure & Secure \\
  & ~~correct extended key usaget, no key usage & Secure & Secure & Secure & Secure \\
  & ~~incorrect extended key usage, correct key usage & C & C & C & C \\
- & ~~incorrect extendedKeyUsage error, incorrect key usage & C & C & C & C \\
+ & ~~incorrect extendedKeyUsage, incorrect key usage & C & C & C & C \\
  & ~~incorrect extendedKeyUsage, no key usage & C & C & C & C \\
  & CA certificate &  &  &  &  \\
- & ~~key usage error & C & C & C & C \\ \midrule[1pt]
+ & ~~incorrect key usage & C & C & C & C \\ \midrule[1pt]
 \multirow{11}{*}{\begin{tabular}[c]{@{}c@{}}Name Validation \\ Error\end{tabular}} & domain name complete mismatch & B & B & B & B \\
  & www mismatch & B & B & B & B \\
  & out-of-wildcard-scope subdomain error & B & B & B & B \\ \cline{2-6}
@@ -92,8 +92,15 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
 
 \textbf{Untrusted Self-signed Server Certificate.}
     When we visit sites deploying self-signed server certificates, all four browsers display B-level (Medium-risk) warnings.
-    After installing the self-signed certificates into the OS root store, Chrome, Edge, and IE consider it secure.
-    However, The NSS store in Firefox does not accept self-signed certificates, and Firefox always displays B-level (Medium-risk) warnings for self-signed sever certificates.
+    After installing the self-signed certificates into the OS root store, Chrome, Edge, and IE consider it secure, but Firefox still displays a B-level (Medium-risk) warning.
+
+   Firefox has its own trust certificate store. 
+   First, click the ``Advanced" button on the warning page.
+   Second, click the ``Add Exception" button and confirm the domain name we added.
+   Third, click the ``Confirm Security Wxception " button.
+   After all the steps have been completed, Firefox considers it secure.
+    %However, The NSS store in Firefox does not accept self-signed certificates, and Firefox always displays B-level (Medium-risk) warnings for self-signed sever certificates.
+
 
 %\textbf{Untrusted Root CA Certificate.}
 %\textbf{Incomplete Certificate Chain.}
@@ -153,9 +160,8 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
     If a CA certificate has incorrect key usage field,
         all the four browsers display C-level (High-risk) warnings.
 
-
 \subsection{Warnings on Name Validation Error}
-    For domain name complete mismatch, www mismatch, and out-of- wildcard scope subdomain error,
+    For domain name complete mismatch, www mismatch, and out-of-wildcard scope subdomain error,
     all four browsers display B-level (Medium-risk) warnings.
 
     For correct SAN, no matter what the CN is, all the four browsers consider it secure.
@@ -166,7 +172,6 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
             but Firefox, Edge, and IE consider it secure.
 
 \subsection{Warnings on HTTPS Security-Enhancement Error}
-
 
 The site's certificate must first be trusted by the browser, including server authentication and certificate/certificate chain verification. We first pin the sha256 value of the intermediate CA and any other sha256 value into the header, and the browser will cache the two sha256 values ??and verify them in the next access within the cache effective time. If the two sha256 values ??of the pin are in the same certificate chain, they will not be cached and will not prompt any errors.
 
