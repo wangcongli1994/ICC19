@@ -82,7 +82,9 @@ We think Chrome need to be improved on this.
 
 
 \subsection{Certificate Extension}
-Basic Constraint:
+\textbf{Basic Constraint}
+We must strictly distinguish between server certificate and CA certificate, and we cannot confuse them.
+However, when the ca flag field of a server certificate is set to true, Chrome, Edge and IE think it is safe.
 我们必须严格区分server certificate and CA certificate，不能将其混为一谈，
 但是当一个server certificate的ca flag字段设为true时，Chrome，Edge和IE居然认为他是安全的,
 We think this three browsers need to be improved on this
