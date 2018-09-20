@@ -59,21 +59,46 @@ For key usage and extended key usage of server certificate, there are two incorr
    %with both extensions, then the certificate MUST NOT be used for any
    %purpose.(RFC 5280)
 
-\subsection{HPKP does not check the self-signed certificate chain}
+\subsection{HPKP}
+    Of the four browsers, only Chrome and Firefox support HPKP.
+    Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
+    Thus, If a malware installs its root certificate on the user's computer,
+        it may defeat the protections of HPKP and successfully launch the man-in-the-middle attack.
+    We think Chrome and Firefox need to be improved on this.
 
-    Based on the experimental results, we arrive at the the following conclusions.
-    First, Of the four browsers, only chrome support HTTP Public Key is fixed (HPKP)
-    Of all known GTPases, only eight are conserved across all three domains of life.
-    Of the four browsers, only chrome supports HPKP
-    if the server certificate chains to a manually installed root certificate,
+%To enable certificate chain validation, Chrome has access to two stores of trust anchors: certificates that are empowered as issuers. One trust anchor store is the system or public trust anchor store, and the other other is the local or private trust anchor store. The public store is provided as part of the operating system, and intended to authenticate public internet servers. The private store contains certificates installed by the user or the administrator of the client machine. Private intranet servers should authenticate themselves with certificates issued by a private trust anchor.
+
+%Chrome does not perform pin validation when the certificate chain chains up to a private trust anchor. A key result of this policy is that private trust anchors can be used to proxy (or MITM) connections, even to pinned sites. “Data loss prevention” appliances, firewalls, content filters, and malware can use this feature to defeat the protections of key pinning.
+% We deem this acceptable because the proxy or MITM can only be effective if the client machine has already been configured to trust the proxy’s issuing certificate — that is, the client is already under the control of the person who controls the proxy (e.g. the enterprise’s IT administrator). If the client does not trust the private trust anchor, the proxy’s attempt to mediate the connection will fail as it should.
+
+%In order to control the browsing behavior of the internal network, some companies often pre-set the self-signed certificate in the computer in the office area, and replace the HTTPS connection certificate in the gateway to obtain the information contained in the HTTPS traffic, detect and prevent the information leakage inside the company, which is a typical MITM attack. Some malware may also use the same way to attack a personal computer. Many computer applications will trigger the UAC of the Windows system during installation. After clicking and agreeing, the computer settings can be modified. After the malware spoofs the user's consent, you can modify the computer settings, such as burying your own root certificate. Eavesdrop on all traffic through a self-signed certificate and send sensitive information to the attacker.
+
+\subsection{CN and SAN}
+The four browsers have inconsistencies in checking CN and SAN.
+When visiting a domain whose domain name is included in the CN field and it does not have SAN field, 
+Chrome displays a B-level (Medium-Risk) warning, 和Firefox, Edge, and IE的处理方式不一样，可能会导致实用性的问题，
+We think Chrome need to be improved on this.
 
 
-    Any HPKP error does not trigger a warning
-    the HPKP policy error warning will not be triggered even if the certificate used does not comply with the HPKP policy.
 
-    Not only that, but this connection will also display the correct encryption and the correct icon.In other words, self-signed certificates are not pinned[].
-%https://groups.google.com/a/chromium.org/forum/#!msg/blink-dev/he9tr7p3rZ8/eNMwKPmUBAAJ
+\subsection{Certificate Extension}
+Basic Constraint:
+我们必须严格区分server certificate and CA certificate，不能将其混为一谈，
+但是当一个server certificate的ca flag字段设为true时，Chrome，Edge和IE居然认为他是安全的,
+We think this three browsers need to be improved on this
 
-In order to control the browsing behavior of the internal network, some companies often pre-set the self-signed certificate in the computer in the office area, and replace the HTTPS connection certificate in the gateway to obtain the information contained in the HTTPS traffic, detect and prevent the information leakage inside the company, which is a typical MITM attack. Some malware may also use the same way to attack a personal computer. Many computer applications will trigger the UAC of the Windows system during installation. After clicking and agreeing, the computer settings can be modified. After the malware spoofs the user's consent, you can modify the computer settings, such as burying your own root certificate. Eavesdrop on all traffic through a self-signed certificate and send sensitive information to the attacker.
+另外，如果一个CA进行了pathLenConstrait字段的设置，那么它的子CA应该遵守这个设置，
+然而Firefox却将不遵守pathLenConstrait的错误，认为是安全的。
+We think Firefox need to be improved on this.
+
+Extended Key Usage and Key Usage:
+According to RFC 5280, if a certificate contains both a key usage extension and an extended key usage extension,
+    then both extensions MUST be processed independently
+    and the certificate MUST only be used for a purpose consistent with both extensions.
+    If there is no purpose consistent with both extensions, then the certificate MUST NOT be used for any purpose \cite{cooper2008rfc5280}.
+
+For key usage and extended key usage of server certificate, there are two incorrect browser security warnings.
+    First, Chrome, Edge, and IE does not display any warning on error of a server certificate that does not have extended key usage and has a incorrect key usage.
+    Second, all the four browsers does not display any warning on error of a server certificate that with a correct extended key usage and a incorrect key usage.
 
 

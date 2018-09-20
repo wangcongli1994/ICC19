@@ -68,16 +68,14 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
  & ~~no SAN, correct CN & B & Secure & Secure & Secure \\ \midrule[1pt]
 \multirow{13}{*}{\begin{tabular}[c]{@{}c@{}}HTTPS Security \\ Enhancement Error\end{tabular}} & HPKP: private store &  &  &  &  \\
  & ~~first visit: incorrect HPKP header, second visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
- & ~~first visit: correct HPKP header, second visit: correct HPKP header & Secure & Secure & Secure & Secure \\
  & ~~first visit: correct HPKP header, second visit: incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
  & HPKP: public store &  &  &  &  \\
  & ~~first visit: incorrect HPKP header, second visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
- & ~~first visit: correct HPKP header correct, second visit: correct HPKP heade & Secure & Secure & Secure & Secure \\
- & ~~first visit: correct HPKP header correct, second visit: incorrect/no HPKP header & B & Secure & Secure & Secure \\ \cline{2-6}
+ & ~~first visit: correct HPKP header correct, second visit: incorrect/no HPKP header & C & C & Secure & Secure \\ \cline{2-6}
  & HSTS: not preload list &  &  &  &  \\
  & ~~some resouces over plain HTTP & A & A & A & A \\
  & ~~first visit: correct HSTS header, second visit: HTTPS error & B-\textgreater{}C & B-\textgreater{}C & B-\textgreater{}C & B-\textgreater{}C \\
- & ~~first visit: incorrect HSTS header, second visit: correct/incorrect/no HSTS header & S & S & S & S \\
+ & ~~first visit: incorrect HSTS header, second visit: correct/incorrect/no HSTS header & Secure & Secure & Secure & Secure \\
  & HSTS: preload list &  &  &  &  \\
  & ~~first visit: HTTPS errors & B-\textgreater{}C & B-\textgreater{}C & B-\textgreater{}C & B-\textgreater{}C \\ \bottomrule
 \end{tabular}
@@ -94,7 +92,7 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
     When we visit sites deploying self-signed server certificates, all four browsers display B-level (Medium-risk) warnings.
     After installing the self-signed certificates into the OS root store, Chrome, Edge, and IE consider it secure, but Firefox still displays a B-level (Medium-risk) warning.
 
-   Firefox has its own trust certificate store. 
+   Firefox has its own trust certificate store.
    First, click the ``Advanced" button on the warning page.
    Second, click the ``Add Exception" button and confirm the domain name we added.
    Third, click the ``Confirm Security Wxception " button.
