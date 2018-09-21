@@ -1,20 +1,6 @@
 \section{Discussion and Suggestion}
 In the experiment, we found that different browsers have different processing methods for some unsafe scenarios. Through comparison between them, we have summarized the existing risks of several browsers.
 
-\subsection{Weak Algorithm}
-    Several security incidents have shown that,
-        attackers can use SHA-1 and MD5 to colliding fraudulent certificates,
-    but Edge and IE don't display any warnings on certificates with SHA-1/MD5 signatures.
-    Edge and IE need to be improved on this.
-
-    RSA512 have been broken since 2009 \cite{cavallar2000factorization}, but Chrome, Edge, and IE display only B-level (Medium-risk) warnings, we think the risk level of RSA512 is C-level (High-risk).
-
-    RSA1024 is expectable to be broken within 2015 to 2020 \cite{Berlin2017An},
-    but all the four browsers don't display any warnings on certificates with RSA1024 keys.
-    They need to be improved on this.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Self-signed Server Certificate}
     Users can install self-signed server certificates to OS root store, Chrome,
         Edge, and IE will treat them secure.
@@ -41,8 +27,30 @@ In the experiment, we found that different browsers have different processing me
         Although CRLset is constantly updated, Chrome still consider my website is secure within a month after my server certificate was revoked.
         we think Chrome need to be improved on this.
 
-\subsection{key usage and extended key usage}
+\subsection{Weak Algorithm}
+    Several security incidents have shown that,
+        attackers can use SHA-1 and MD5 to colliding fraudulent certificates,
+    but Edge and IE don't display any warnings on certificates with SHA-1/MD5 signatures.
+    Edge and IE need to be improved on this.
 
+    RSA512 have been broken since 2009 \cite{cavallar2000factorization}, but Chrome, Edge, and IE display only B-level (Medium-risk) warnings, we think the risk level of RSA512 is C-level (High-risk).
+
+    RSA1024 is expectable to be broken within 2015 to 2020 \cite{Berlin2017An},
+    but all the four browsers don't display any warnings on certificates with RSA1024 keys.
+    They need to be improved on this.
+
+\subsection{Certificate Extension}
+\textbf{Basic Constraint}
+    We must strictly distinguish between server certificate and CA certificate.
+    However, when the ca flag field of a server certificate is set to ``true",
+        Chrome, Edge and IE think it safe.
+    We think this three browsers need to be improved on this.
+
+    In addition, if a CA has pathLenConstrait field, its subordinate CA should comply with this rule.
+    However, Firefox does not display any warnings on pathLenConstrait error.
+    We think Firefox need to be improved on this.
+
+\textbf{Extended Key Usage and Key Usage}
 According to RFC 5280, if a certificate contains both a key usage extension and an extended key usage extension,
     then both extensions MUST be processed independently
     and the certificate MUST only be used for a purpose consistent with both extensions.
@@ -58,6 +66,12 @@ For key usage and extended key usage of server certificate, there are two incorr
   % consistent with both extensions.  If there is no purpose consistent
    %with both extensions, then the certificate MUST NOT be used for any
    %purpose.(RFC 5280)
+   
+\subsection{CN and SAN}
+The four browsers have inconsistencies in checking CN and SAN.
+When visiting a domain whose domain name is included in the CN field and it does not have SAN field,
+Chrome displays a B-level (Medium-Risk) warning, 和Firefox, Edge, and IE的处理方式不一样，可能会导致实用性的问题，
+We think Chrome need to be improved on this.
 
 \subsection{HPKP}
     Of the four browsers, only Chrome and Firefox support HPKP.
@@ -73,34 +87,7 @@ For key usage and extended key usage of server certificate, there are two incorr
 
 %In order to control the browsing behavior of the internal network, some companies often pre-set the self-signed certificate in the computer in the office area, and replace the HTTPS connection certificate in the gateway to obtain the information contained in the HTTPS traffic, detect and prevent the information leakage inside the company, which is a typical MITM attack. Some malware may also use the same way to attack a personal computer. Many computer applications will trigger the UAC of the Windows system during installation. After clicking and agreeing, the computer settings can be modified. After the malware spoofs the user's consent, you can modify the computer settings, such as burying your own root certificate. Eavesdrop on all traffic through a self-signed certificate and send sensitive information to the attacker.
 
-\subsection{CN and SAN}
-The four browsers have inconsistencies in checking CN and SAN.
-When visiting a domain whose domain name is included in the CN field and it does not have SAN field, 
-Chrome displays a B-level (Medium-Risk) warning, 和Firefox, Edge, and IE的处理方式不一样，可能会导致实用性的问题，
-We think Chrome need to be improved on this.
 
 
-
-\subsection{Certificate Extension}
-\textbf{Basic Constraint}
-We must strictly distinguish between server certificate and CA certificate, and we cannot confuse them.
-However, when the ca flag field of a server certificate is set to true, Chrome, Edge and IE think it is safe.
-我们必须严格区分server certificate and CA certificate，不能将其混为一谈，
-但是当一个server certificate的ca flag字段设为true时，Chrome，Edge和IE居然认为他是安全的,
-We think this three browsers need to be improved on this
-
-另外，如果一个CA进行了pathLenConstrait字段的设置，那么它的子CA应该遵守这个设置，
-然而Firefox却将不遵守pathLenConstrait的错误，认为是安全的。
-We think Firefox need to be improved on this.
-
-Extended Key Usage and Key Usage:
-According to RFC 5280, if a certificate contains both a key usage extension and an extended key usage extension,
-    then both extensions MUST be processed independently
-    and the certificate MUST only be used for a purpose consistent with both extensions.
-    If there is no purpose consistent with both extensions, then the certificate MUST NOT be used for any purpose \cite{cooper2008rfc5280}.
-
-For key usage and extended key usage of server certificate, there are two incorrect browser security warnings.
-    First, Chrome, Edge, and IE does not display any warning on error of a server certificate that does not have extended key usage and has a incorrect key usage.
-    Second, all the four browsers does not display any warning on error of a server certificate that with a correct extended key usage and a incorrect key usage.
 
 
