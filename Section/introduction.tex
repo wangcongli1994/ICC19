@@ -36,11 +36,19 @@ Our study
 Some defects may allow a forged certificate to be accepted by users:
 \begin{itemize}
 \item
-Edge algorithm. +++++++
+Chrome, Firefox, Edge, IE: Weak Signature Algorithm. +++++++
+\item
+Edge, IE: Weak Digest Algorithm. +++++++
+\item
+Chrome, Edge, IE: CA flag. +++++++
 \item
 Firefox pathLenConstraint. ++++++++
 \item
 Chrome, certificate revocation. +++
+\item
+Chrome, Edge, IE: key usage and extended key usage. +++
+\item
+Chrome, Firefox: HPKP. +++
 \end{itemize}
 There are also some defects resulting in the problems of usability:
 \begin{itemize}
