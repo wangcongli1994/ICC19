@@ -22,6 +22,7 @@ Thus, each test has a dedicated DNS name and Nginx instance to serve the certifi
 The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0, and IE 11.0.9600.17031 on Windows 10. The results are summarized in Table I.
 \begin{table*}[htbp]
 \centering
+\caption{Browser Behaviors on HTTPS Errors}
 \begin{tabular}{p{2.2cm}|l|cccc}
 \toprule
 \multicolumn{2}{c|}{\multirow{2}{*}{HTTPS Errors}} & \multicolumn{4}{l}{Risk Levels of Browser Security Warnings} \\ \cline{3-6}
@@ -79,6 +80,14 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
  & ~~some resouces over plain HTTP & A & A & A & A \\
  & ~~first visit: HTTPS errors & B-\textgreater{}C & B-\textgreater{}C & B-\textgreater{}C & B-\textgreater{}C \\ \bottomrule
 \end{tabular}
+
+  \label{tab:addlabel}%
+  \vspace{6pt}
+
+\leftline{A, B, and C respectively represent Risk Level A, Risk Level B and Risk Level C of browser warnings.}
+\leftline{``Secure" means that the browsers don't display any warnings.}
+\leftline{``B-\textgreater{}C" means that the policy will raise the original B-level warning to Level C.}
+
 \end{table*}%
 
 
