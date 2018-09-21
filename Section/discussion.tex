@@ -38,11 +38,10 @@ In the experiment, we found that different browsers have different processing me
     RSA1024 is expectable to be broken within 2015 to 2020 \cite{Berlin2017An},
     but all the four browsers don't display any warnings on certificates with RSA1024 keys.
     They need to be improved on this.
-
 \subsection{Certificate Extension}
 \textbf{Basic Constraint}
     We must strictly distinguish between server certificate and CA certificate.
-    However, when the ca flag field of a server certificate is set to ``true",
+    However, when the CA flag field of a server certificate is set to ``true",
         Chrome, Edge and IE think it safe.
     We think this three browsers need to be improved on this.
 
@@ -66,7 +65,6 @@ For key usage and extended key usage of server certificate, there are two incorr
   % consistent with both extensions.  If there is no purpose consistent
    %with both extensions, then the certificate MUST NOT be used for any
    %purpose.(RFC 5280)
-   
 \subsection{CN and SAN}
 The four browsers have inconsistencies in checking CN and SAN.
 When visiting a domain whose domain name is included in the CN field and it does not have SAN field,

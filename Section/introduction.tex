@@ -36,26 +36,26 @@ Our study
 Some defects may allow a forged certificate to be accepted by users:
 \begin{itemize}
 \item
-Chrome, Firefox, Edge, IE: Weak Signature Algorithm. +++++++
+Chrome, Firefox, Edge, IE: Signature Algorithm. The four browsers consider RSA1024 secure.
 \item
-Edge, IE: Weak Digest Algorithm. +++++++
+Edge, IE: Digest Algorithm. Edge and IE consider SHA-1/MD5 secure.
 \item
-Chrome, Edge, IE: CA flag. +++++++
+Chrome, Edge, IE: CA flag. when the CA flag field of a server certificate is set to ¡°true¡±, Chrome, Edge and IE consider it secure.
 \item
-Firefox pathLenConstraint. ++++++++
+Firefox pathLenConstraint. when a subordinate CA does not comply with pathLenConstraint, Firefox consider it secure.
 \item
-Chrome, certificate revocation. +++
+Chrome, certificate revocation. Chrome does not display any warnings on revoked server certificates through CRL and OCSP. 
 \item
-Chrome, Edge, IE: key usage and extended key usage. +++
+Chrome, Edge, IE: key usage and extended key usage. Chrome, Edge, and IE don't display any warnings on certificates whose key usage and extended key usage is not consistent.
 \item
-Chrome, Firefox: HPKP. +++
+Chrome, Firefox: HPKP. Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
 \end{itemize}
 There are also some defects resulting in the problems of usability:
 \begin{itemize}
 \item
-Name validation, different. +++++
+Name validation, different. The four browsers have inconsistencies in checking CN and SAN.
 \item
-Firefox does not support self-signed certificate as server certificate. ++++
+Firefox does not support self-signed certificate as server certificate. when FireFox encounters a website using a self-signed certificate, the only way to make it work is adding a Security Exception for that particular website.
 \end{itemize}
 %The main process of web browser certificate validation is as follows:
 %    The web server sends an endpoint certificate referencing its domain name,
