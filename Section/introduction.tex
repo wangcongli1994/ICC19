@@ -9,7 +9,7 @@ Recently,
     the security of HTTPS is further enhanced by HPKP that pins the public key (or certificate) of the website in browsers \cite{Evans2015rfc7469},
      and HSTS that forces browsers to visit the website only using HTTPS but not HTTP \cite{hodges2012rfc6797}.
 
-There are various errors in the TLS negotiations and also the security enhancements of HTTPS.
+There are various errors in the TLS negotiations and also the security-enhancements of HTTPS.
 Browsers show security warnings with different levels, when different HTTPS errors happen:
 (\emph{a}) a low-risk warning is shown in the address bar, no interrupting the browsing;
 (\emph{b}) a medium-risk warning is shown as a full-screen page, interrupting the browsing,
@@ -20,7 +20,7 @@ and (\emph{d}) a fatal warning immediately close the connection and stop the bro
 
 These security warnings try to protect users to establish secure connections with the target website,
     but not a man-in-the-middle (MitM) attack.
-However, an error does not definitely result from the attackers. 
+However, an error does not definitely result from the attackers.
 So, in order to balance security and usability,
     each browser implements its own design of security procedures,
         producing different behaviors and warnings on HTTPS errors.
@@ -69,7 +69,7 @@ Chrome implements the procedure of name validation,
     with the field of commonName and the extension of subject alternative name.
 A server certificate considered as secure by Firefox, Edge and IE,
     may cause a security warning in Chrome.
-%Each browser has 
+%Each browser has
 %Name validation, different. The four browsers have inconsistencies in checking CN and SAN.
 \item
 \textcolor[rgb]{1.00,0.00,0.00}{Firefox does not support self-signed certificate as server certificate. when FireFox encounters a website using a self-signed certificate, the only way to make it work is adding a Security Exception for that particular website.}

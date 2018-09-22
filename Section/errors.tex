@@ -41,7 +41,7 @@ Browsers cannot build a complete certificate chain,
     %An incomplete chain error occurs, when all the attempts fail.
 
 \textbf{Expired server certificate.}
-The received server certificate has expired.
+The certificate has expired.
     %A certificate is only valid between its Not Before date and Not After date.
     %Expired certificate means that the Not After date is earlier than current time.
     %An expired certificate error occurs if the Not After date is earlier than current time.
@@ -121,34 +121,46 @@ Browsers check
     whether the certificate subject matches the domain visited or not,
     through the field of commonName and the extension of subject alternative name.
 %    Name validation error means that domain names listed in a server certificate don't match the domain we visited.
-There following errors may happen in commonName and/or subject alternative name.
+There following errors of name validation may happen in commonName and/or subject alternative name.
 
 %are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 
-\textbf{Domain Name Complete Mismatch.}
-    Domain Name Complete Mismatch means that, there may be a complete mismatch between the domain name visited and the certificate received.
-    For example, a user tries to visit www.baidu.com but gets a certificates for scholar.google.com (both CN and SAN are scholar.google.com).
+\textbf{Complete mismatch.}
+It means that,
+ there is no relation between the domain visited and the certificate subject.
+    For example, a user visits www.foo.com but receives a certificate for www.bar.com.
 
-\textbf{WWW Mismatch.}
-    A www mismatch occurs when a user visiting www.example.com gets a certificates for example.com (both CN and SAN are example.com).
+\textbf{WWW mismatch.}
+This error happens,
+    when a user visits www.foo.com but receives a certificates for foo.com.
 
-\textbf{Out-of-wildcard-scope Subdomain.}
-    A out-of-wildcard-scope subdomain occurs when a user visiting a.b.example.com gets a certificates for *.example.com (both CN and SAN are *.example.com).
+\textbf{Out-of-wildcard-scope subdomain.}
+This error happens,
+    when a user visits ab.xy.foo.com but receives a certificate for *.foo.com.
 
 %\textbf{Common Name or Subject Alternative Name Mismatch.}
     %Common Name (CN) and Subject Alternative Name (SAN) fields indicate the certificate subject identity information, and they are usually domain names.
 
-\subsubsection{HTTPS Security-Enhancement Error}
+\subsubsection{HTTPS Security-Enhancement}
 %\subsubsection{Certificate verification enhancement errors}
-    In recent years, some security-enhancement policies have been added to HTTPS. We will focus on HSTS and HPKP errors.
+In recent years, several security-enhancements of HTTPS are proposed.
+%    some security-enhancement policies have been added to HTTPS.
+    We focus on HSTS and HPKP only in this paper.
 
 \textbf{HPKP.}
 %    HTTP Public Key Pinning (HPKP) \cite{Evans2015rfc7469} is used by web sites to instruct browsers to remember ("pin") the sites' public key over a period of time.
-    A HPKP \cite{Evans2015rfc7469} error occurs when
-    any public key of the certificate chain provided by the website
-    does not match the pinned public keys.
+An HPKP error happens,
+    when
+    no public key in the received certificate chain %provided by the website
+    matches the pinned public keys  \cite{Evans2015rfc7469},
+        or    there is any error in the HPKP header.
 
 \textbf{HSTS.}
-    HTTP Strict Transport Security (HSTS) \cite{hodges2012rfc6797} directs browsers to interact with given sites only over HTTPS.
+%    HTTP Strict Transport Security (HSTS) \cite{hodges2012rfc6797} directs browsers to interact with given sites only over HTTPS.
+% HSTSµƒΩÈ…‹¡Ù‘⁄related workº¥ø…°£
+%
 %    This policy is declared by web sites via the STS header field including three directives: max-age, includeSubDomains, and preload.
-    An HSTS error means that a web site deploying HSTS has a certificate validation error.
+An HSTS error means that,
+    browsers visit an HSTS website through HTTP \cite{hodges2012rfc6797},
+    or there is any error in the HSTS header.
+%     a website deploying HSTS has a certificate validation error 
