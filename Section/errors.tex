@@ -1,25 +1,32 @@
 \subsection{HTTPS Errors}
 %    In this subsection,
 %    we focus on various types of errors that may trigger browser security warnings.
-This section lists
-the HTTPS errors of certificate verification of basic fields and extensions,
- name validation, and HTTPS security-enhancement.
+We list
+the errors of certificate verification of basic fields and extensions,
+ name validation, and also security-enhancement in HTTPS.
+These errors are induced in
+    the evaluated browsers.
 
-\subsubsection{Basic Certificate Validation Error}
-    Chain building Error occurs
-    if the certificate chain presented by a web server
-    cannot provide enough information for a browser to build a complete chain
-    from the endpoint certificate to a trusted root certificate in the browser¡¯s root store.
+\subsubsection{Certificate verification of basic fields}
+In the TLS negotiation,
+ a browser verifies the server certificate by building a valid certificate chain.
 
+%    Chain building Error occurs
+%    if the certificate chain presented by a web server
+%    cannot provide enough information for a browser to build a complete chain
+%    from the endpoint certificate to a trusted root certificate in the browser¡¯s root store.
 \textbf{Untrusted Root CA Certificate.}
-    Untrusted root CA certificate means that
-        the root certificate of the certificate chain is not trusted by the browser.
+The root CA certificate of the certificate chain, sent by the visit server,
+    is not trusted by browsers (i.e., not in the store of root CA certificates).
 %    This error occurs when the chain of intermediate CAs linking the server certificate to a root CA untrusted by browsers.
 
 \textbf{Untrusted Self-signed Server Certificate.}
-    Self-signed server certificate is a special case of root CA certificates.
+It is a special case of untrusted root CA certificates,
+    when the visited server also acts as a root CA.
         %whose subject and issuer are the same.
-    Similarly, self-signed certificate is not trusted by browsers and must be installed manually.
+The server certificate is self-signed,
+    and not trusted by browsers.
+%    Similarly, self-signed certificate is not trusted by browsers and must be installed manually.
 
 \textbf{Incomplete Certificate Chain.}
     Incomplete certificate chain means that
@@ -39,7 +46,7 @@ the HTTPS errors of certificate verification of basic fields and extensions,
     %An expired certificate error occurs if the Not After date is earlier than current time.
 
 \textbf{Revoked Server Certificate.}
-    Revoked server certificate means that 
+    Revoked server certificate means that
         the CA claims that the server certificate is no longer valid before it expires by CRL, OCSP, or CRLset.
 
     %For security reasons,
