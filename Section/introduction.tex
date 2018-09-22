@@ -43,7 +43,7 @@ Edge and IE consider MD5 and SHA-1 as secure,
 %Chrome, Firefox, Edge, IE: Signature Algorithm. The four browsers consider RSA1024 secure.
 %Edge, IE: Digest Algorithm. Edge and IE consider secure.
 \item
-Firefox does not process the Basic Constraints extension correctly,
+Firefox does not process the basic constraints extension correctly,
     including the fields of cA and pathLenConstraint.
 %Chrome, Edge, IE: CA flag. when the CA flag field of a server certificate is set to ¡°true¡±, Chrome, Edge and IE consider it secure.
 %Firefox pathLenConstraint. when a subordinate CA does not comply with pathLenConstraint, Firefox consider it secure.
@@ -66,7 +66,7 @@ There are also defects leading to the problems of usability:
 \item
 Chrome implements the procedure of name validation,
     different from other browsers,
-    with the field of Common Name and the extension of Subject Alternative Name.
+    with the field of commonName and the extension of subject alternative name.
 A server certificate considered as secure by Firefox, Edge and IE,
     may cause a security warning in Chrome.
 %Each browser has 

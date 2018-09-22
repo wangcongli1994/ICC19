@@ -8,7 +8,7 @@
 \subsection{Goal and Methodology}
 Our goal is to discloses browser defects on handling various HTTPS errors.
 
-we register a domain name and resolve many subdomains to our web server, and 
+we register a domain name and resolve many subdomains to our web server, and
     each subdomain has a certificate that violate one of the certificate constraints.
     We use browsers to visit these domains and observe the browsers' behavior.
 
@@ -174,7 +174,7 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
      Chrome, Edge, and IE display C-level (High-risk) warnings.
      Firefox's NSS root store does not accept a certificate whose CA flag is false, so we does test the Firefox for this HTTPS error.
 
-\textbf{Key Usage Extension and Extended Key Usage Extension.}
+\textbf{Key Usage and Extended Key Usage.}
     If a server certificate has Extended key usage field including serverAuth, no matter what the key usage is,
         all the four browsers consider it secure.
     If a server certificates has Extended key usage field not including serverAuth, no matter what the key usage is,
@@ -203,24 +203,24 @@ The evaluated browsers are Chrome 67.0.3396.99, Firefox 62.0, Edge 42.17134.1.0,
     Next, let's look at the warning behaviors of Chrome and Firefox.
     If the root certificate of the certificate chain is installed manually by the user, no HPKP errors will be warned.
     If the root certificate of the certificate chain is preloaded in browser root store,there are two scenarios.
-        (1)We received an incorrect HPKP header when we visit the website for the first time, such as nonnumeric max-age, pin-sha256 mismatch, 
+        (1)We received an incorrect HPKP header when we visit the website for the first time, such as nonnumeric max-age, pin-sha256 mismatch,
         then when we visit the website for the second time, no HPKP errors will be warned.
         (2)We received an correct HPKP header when we visit the website for the first time,
         then when we visit the website for the second time receiving incorrect HPKP header or not receiving any HPKP header, Chrome and Firefox will
         dispaly C-level (High-Risk) warnings.
-               
- \textbf{HSTS}    
-    Whenever you visit a website in the HSTS preload list, 
+
+ \textbf{HSTS}
+    Whenever you visit a website in the HSTS preload list,
         all the four browsers display C-level (High-Risk) warnings on B-level (Medium-Risk) HTTPS errors,
             and display A-level (Low-Risk) warnings on websites that transmit some resources over plain HTTP.
-   
+
     When we visit a website not in the HSTS preload list,there are two scenarios.
         (1)We received an incorrect HSTS header when we visit the website for the first time,
-        then when we visit the website for the second time, no HSTS errors will be warned.     
+        then when we visit the website for the second time, no HSTS errors will be warned.
         (2)We received an correct HSTS header when we visit the website for the first time,
         then when we visit the website for the second time encountering B-level (Medium-Risk) HTTPS errors,
         all the four browsers display C-level (High-Risk) warnings.
-        
+
 %The site's certificate must first be trusted by the browser, including server authentication and certificate/certificate chain verification. We first pin the sha256 value of the intermediate CA and any other sha256 value into the header, and the browser will cache the two sha256 values ??and verify them in the next access within the cache effective time. If the two sha256 values ??of the pin are in the same certificate chain, they will not be cached and will not prompt any errors.
 
 %If the next time the certificate issued by the site is valid and the certificate is in the pin list, the HPKP cache will be refreshed, including the SHA-256 value of the pin and the cache validity period, whichever comes first. If the intermediate CA of a certificate chain that a webmaster plans to replace is not in the current pin, you should keep using the original certificate or the alternate certificate and change the value of the other pin until the longest cache time, you can safely delete the old certificate's Pin.
