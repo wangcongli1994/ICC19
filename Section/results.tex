@@ -11,8 +11,8 @@ We attempt to analyze the browser security warnings
 We register a domain name and
     establish the website for it by Nginx.
 We induce different HTTPS errors
-    by 
-    (\emph{a}) invalid or defective certificate chains in TLS negotiations, 
+    by
+    (\emph{a}) invalid or defective certificate chains in TLS negotiations,
     (\emph{b}) mismatched public keys (or certificates) after HPKP pins the public keys in browsers,
     and (\emph{c}) HTTP connections after the HSTS policy is activated in browsers.
 Then, the evaluated browsers visit  the website one by one,
@@ -72,7 +72,7 @@ A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, r
 \multirow{17}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Verification\\of Extensions\end{tabular}} & server certificate &  &  &  &  \\
  & ~~incorrect CA falg (``CA flag" = true) & Secure & B & Secure & Secure \\
  & CA certificate &  &  &  &  \\
- & ~~incorrect CA falg (``CA flag" = false) & C & - & C & C \\
+ & ~~incorrect CA falg (``CA flag" = false) & C & B & C & C \\
  & ~~correct CA flag, incorrect PathLenConstraint & C & Secure & C & B \\ \cline{2-6}
  & server certificate &  &  &  &  \\
  & ~~no extended key usage, correct key usage & Secure & Secure & Secure & Secure \\
