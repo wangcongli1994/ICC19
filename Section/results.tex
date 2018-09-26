@@ -106,6 +106,7 @@ A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, r
  & ~~first visit: incorrect HPKP header, second visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
  & ~~first visit: correct HPKP header correct, second visit: incorrect/no HPKP header & C & C & Secure & Secure \\ \cline{2-6}
  & HSTS: not preload list &  &  &  &  \\
+ &~~some resouces over plain HTTP & A & A & A & A \\
  & ~~first visit: correct HSTS header, second visit: HTTPS error & B-\textgreater{}C & B-\textgreater{}C & B-\textgreater{}C & B-\textgreater{}C \\
  & ~~first visit: incorrect HSTS header, second visit: correct/incorrect/no HSTS header & Secure & Secure & Secure & Secure \\
  & HSTS: preload list &  &  &  &  \\
