@@ -55,10 +55,18 @@ The revocation status is distributed through CRL, OCSP, or CRLSet \cite{CRLSet}.
     %CA can claim that a certificate is no longer valid before it expires by CRL, OCSP, and CRLset.
     %A revoked certificate error occurs when the server uses a revoked certificate.
 
-\textbf{Weak signature algorithm.}
+
+
+
 %    Weak signature algorithm refers to the unsafe, practically breakable algorithm, such as RSA512, RSA1024 \cite{CAB2018BR}, and ECC160 \cite{NIST2005ECC}.
-The server certificate is signed by insecure signature algorithms,
-    such as RSA-512, RSA-1024 \cite{CAB2018BR}, or ECC-160 \cite{NIST2005ECC}.
+
+%\textbf{Weak signature algorithm.}
+%The server certificate is signed by insecure signature algorithms,
+  %  such as RSA-512, RSA-1024 \cite{CAB2018BR}, or ECC-160 \cite{NIST2005ECC}.
+\textbf{Weak key.}
+The server certificate contains an insecure public key,
+    such as 512-bit RSA key, 1024-bit RSA key \cite{CAB2018BR}, or 160-bit ECC key \cite{NIST2005ECC}.  
+    
     %The CA/Browser Forum allows RSA and ECC keys in certificates.
     %All RSA keys should be at least 2048 bits \cite{CAB2018BR},
     %and ECC keys should be at least 256 bits \cite{NIST2005ECC}.
@@ -74,7 +82,7 @@ The certificate  is signed
 The following certificate extensions are critical
         in certificate verification,
 and errors may happen when browsers process these extensions.
-    
+
 %    In addition to the basic certificate validation, we also consider the certificate extension validation: Basic Constraints, Key Usage, and Extended Key Usage.
 
 \textbf{Basic constraints.}
@@ -83,17 +91,17 @@ This extension consists two fields:
 The cA boolean indicates it is a CA certificate or not.
 %    CA certificates must set the ``CA flag" as true, and server certificates must set the ``CA flag" as false.
 The pathLenConstraint integer must appear on in a CA certificate,
-    and 
+    and
     it gives
         the maximum number of intermediate CA certificates following this CA certificate in a valid certificate path.
 
 \textbf{Key usage.}
 %    ``no key usage" means that the certificate does not have a key usage field.
 This extension defines the purpose(s) of the key pair bound in the certificate.
-\textcolor[rgb]{1.00,0.00,0.00}{According to xxxx,
+According to Frankencerts \cite{brubaker2014using},
     a CA certificate must include the keyCertSign usage,
-    and a TLS server certificate must include the keyEncipherment usage.}
-    
+    and a TLS server certificate must include the keyEncipherment usage.
+
 %    ``server certificate: incorrect key usage" means that the server certificates don't include "Key Encipherment" in their key usage field.
  %%%% 什么标准要求key encipherment需要有？必须明确给出来。5280没有这个要求！！？？
 %    ``server certificate: correct key usage" means that the server certificates include "Key Encipherment" in their key usage field.
@@ -109,7 +117,7 @@ This extension indicates one or more detailed purposes of the certified key pair
     in addition to the basic purpose(s) in the Key Usage extension.
 %    ``server certificate: incorrect extended key usage" means that the server certificates don't include ``serverAuth" in their extended key usage field.
 %    ``server certificate: correct extended key usage" means that the server certificates include ``serverAuth" in their extended key usage field \cite{cooper2008rfc5280}.
-\textcolor[rgb]{1.00,0.00,0.00}{A TLS server certificate must include the serverAuth extended key usage.}
+A TLS server certificate must include the serverAuth extended key usage. \cite{brubaker2014using}
     %Extended key usage extension further refines key usage extension.
     %If the extension is critical,
     %all server certificates must include "serverAuth" in their extended key usage extension.
@@ -163,4 +171,4 @@ An HPKP error happens,
 An HSTS error means that,
     browsers visit an HSTS website through HTTP \cite{hodges2012rfc6797},
     or there is any error in the HSTS header.
-%     a website deploying HSTS has a certificate validation error 
+%     a website deploying HSTS has a certificate validation error
