@@ -310,17 +310,23 @@ If the root certificate is from private store, no HPKP errors will be warned.
  
  
  \textbf{HSTS.}
- HSTS preload list is a list of domain 
-    Whenever you visit a website in \textcolor[rgb]{1.00,0.00,0.00}{the HSTS preload list}, % 什么是preload list？应该有解释。现在的结果，看起来，莫名其妙。
-        all the four browsers display C-level (High-Risk) warnings on B-level (Medium-Risk) HTTPS errors,
-            and display A-level (Low-Risk) warnings on websites that transmit some resources over plain HTTP.
+ HSTS is a trust-on-first-use policy, but HSTS has a preload list in the browsers. 
+ Whenever visiting the domain name in the preload list, 
+    the browser will only use HTTPS to initiate the connection.
+ This list is maintained by Google Chromium and is used by mainstream browsers like FireFox, Edge and IE.
+ 
+ 
+    Whenever you visit a website in the HSTS preload list, % 什么是preload list？应该有解释。现在的结果，看起来，莫名其妙。
+    if the website has HTTPS error including incomplete certificate chain, expired certificates, or any other Level-B medium-risk HTTPS errors mentioned in this paper,
+    all the four browsers will display Level-C high-risk warnings.
+        %all the four browsers display C-level (High-Risk) warnings on B-level (Medium-Risk) HTTPS errors,
+    All the four browsers display Level-A low-risk warnings on websites that transmit some resources over plain HTTP.
 
-    When we visit a website not in the HSTS preload list,there are two scenarios.
-        (1)We received an incorrect HSTS header when we visit the website for the first time,
-        then when we visit the website for the second time, no HSTS errors will be warned.
-        (2)We received an correct HSTS header when we visit the website for the first time,
-        then when we visit the website for the second time encountering B-level (Medium-Risk) HTTPS errors,
-        all the four browsers display C-level (High-Risk) warnings.
+    When we visit a website not in the HSTS preload list, 
+        if we received an correct HSTS header when we visit the website for the first time,
+        then when we visit the website for the second time encountering Level-B medium-risk HTTPS errors mentioned in this paper, 
+        all the four browsers display Level-C high-risk warnings.
+        All the four browsers display Level-A low-risk warnings on websites that transmit some resources over plain HTTP.
 
 %The site's certificate must first be trusted by the browser, including server authentication and certificate/certificate chain verification. We first pin the sha256 value of the intermediate CA and any other sha256 value into the header, and the browser will cache the two sha256 values ??and verify them in the next access within the cache effective time. If the two sha256 values ??of the pin are in the same certificate chain, they will not be cached and will not prompt any errors.
 
