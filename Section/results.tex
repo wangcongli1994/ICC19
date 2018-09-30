@@ -231,24 +231,26 @@ If a server certificate is signed by a CA certificate that has a correct cA flag
 
 
 \textbf{Key Usage and Extended Key Usage.}
-    If a server certificate has Extended key usage field including serverAuth, no matter what the key usage is,
+    We didn't designate key usage and the extend key usage as critical or non-critical.
+    If a server certificate has extended key usage field including serverAuth, no matter what the key usage is,
         all the four browsers consider it secure.
-    If a server certificates has Extended key usage field not including serverAuth, no matter what the key usage is,
-        all the four browsers display C-level (High-risk) warnings.
-    If a server certificates does not have Extended key usage field, and its key usage field is correct or does not have key usage field,
+    If a server certificates has extended key usage field not including serverAuth, no matter what the key usage is,
+        all the four browsers display Level-C high-risk warnings.
+    If a server certificates does not have extended key usage field, and its key usage field is correct or does not have key usage field,
         all the four browsers consider it secure.
     If a CA certificate has incorrect key usage field,
-        all the four browsers display C-level (High-risk) warnings.
+        all the four browsers display Level-C high-risk warnings.
 
 \subsection{Name Validation Errors}
     For domain name complete mismatch, www mismatch, and out-of-wildcard scope subdomain error,
-    all four browsers display B-level (Medium-risk) warnings.
+    all four browsers display Level-B medium-risk warnings.
 
+Next, SAN or CN incorrect means domain name complete mismatch.
     For correct SAN, no matter what the CN is, all the four browsers consider it secure.
-    For incorrect SAN, no matter what the CN is, all the four browsers display B-level (Medium-risk) warnings.
-    If the server certificate does not have SAN field, and the CN field is incorrect, all the four browsers display B-level (Medium-risk) warnings.
+    For incorrect SAN, no matter what the CN is, all the four browsers display Level-B medium-risk warnings.
+    If the server certificate does not have SAN field, and the CN field is incorrect, all the four browsers display Level-B medium-risk warnings.
     If the server certificate does not have SAN field, and the CN field is incorrect,
-    Chrome displays a B-level (Medium-risk) warning,
+    Chrome displays a Level-B medium-risk warning,
             but Firefox, Edge, and IE consider it secure.
 
 \subsection{HTTPS Security-Enhancement Errors}
