@@ -1,18 +1,6 @@
 \section{Discussion and Suggestion}
 In the experiment, we found that different browsers have different processing methods for some unsafe scenarios. Through comparison between them, we have summarized the existing risks of several browsers.
 
-\subsection{Self-signed Server Certificate}
-    Users can install self-signed server certificates to OS root store, Chrome,
-        Edge, and IE will treat them secure.
-    However, when FireFox encounters a website using a self-signed certificate,
-        the only way to make it work is adding a Security Exception for that particular website.
-    We think Firefox need to be improved on this.
-%For a self-signed server certificate, it is both a root certificate and a CA certificate. This type of certificate can be added to the "Trusted Root Certification Authorities" store on Windows systems and made available to Chrome and Edge browsers for secure access. Firefox has a self-built certificate manager, but the manager does not store the server certificate in the certificate store. That is, if you need Firefox to trust a self-signed certificate, you must sign a server certificate by using the CA certificate, and install the root CA certificate into the certificate manager of the Firefox browser.
-
-%When FireFox encounters a self-signed cert, it won't load the page. The way to make it work is to add a Security Exception for that particular website.
-
-%The NSS root certificate store
-
 \subsection{Revoked Server Certificate}
     99.9\% of the server certificates contains a CRL distribution point \cite{liu2015end},
         however, Chrome and Firefox don't display any warnings on revoked server certificates through CRL.
