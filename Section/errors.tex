@@ -3,13 +3,12 @@
 %    we focus on various types of errors that may trigger browser security warnings.
 We list
 the errors of certificate verification of basic fields and extensions,
- name validation, and also security-enhancement in HTTPS.
-These errors are induced in
-    the evaluated browsers.
+ name validation, and also security-enhancement of HTTPS.
+These errors are induced in the evaluated browsers.
 
 \subsubsection{Certificate Verification of Basic Fields}
-In the TLS negotiation,
- a browser verifies the server certificate by building a valid certificate chain.
+In the TLS negotiations,
+ a browser verifies the server certificate by building a certificate chain.
 Each of the following errors leads to an invalid certificate chain.
 
 %    Chain building Error occurs
@@ -21,13 +20,14 @@ The root CA certificate of the certificate chain, sent by the visit server,
     is not trusted by browsers (i.e., not in the store of root CA certificates).
 %    This error occurs when the chain of intermediate CAs linking the server certificate to a root CA untrusted by browsers.
 
-\textbf{Untrusted self-signed server certificate.}
+\textcolor[rgb]{1.00,0.00,0.00}{\textbf{Untrusted self-signed server certificate.}  %
+% 是否考虑删去这一条？反正没有什么区别，相比Untrusted root CA certificate.
 It is a special case of untrusted root CA certificates,
     when the visited server also acts as a root CA.
         %whose subject and issuer are the same.
 The server certificate is self-signed,
     and not trusted by browsers.
-%    Similarly, self-signed certificate is not trusted by browsers and must be installed manually.
+%    Similarly, self-signed certificate is not trusted by browsers and must be installed manually.}
 
 \textbf{Incomplete certificate chain.}
 Browsers cannot build a complete certificate chain,
@@ -65,8 +65,8 @@ The revocation status is distributed through CRL, OCSP, or CRLSet \cite{CRLSet}.
   %  such as RSA-512, RSA-1024 \cite{CAB2018BR}, or ECC-160 \cite{NIST2005ECC}.
 \textbf{Weak key.}
 The server certificate contains an insecure public key,
-    such as 512-bit RSA key, 1024-bit RSA key \cite{CAB2018BR}, or 160-bit ECC key \cite{NIST2005ECC}.  
-    
+    such as 512-bit RSA key, 1024-bit RSA key \cite{CAB2018BR}, or 160-bit ECC key \cite{NIST2005ECC}.
+
     %The CA/Browser Forum allows RSA and ECC keys in certificates.
     %All RSA keys should be at least 2048 bits \cite{CAB2018BR},
     %and ECC keys should be at least 256 bits \cite{NIST2005ECC}.
