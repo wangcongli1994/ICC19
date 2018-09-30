@@ -2,15 +2,15 @@
 HTTPS is becoming the de facto standard of secure web applications
  to provide  authentication, data confidentiality and integrity.
 It is used for hundreds of million of times every day in browsers \cite{felt2017measuring}.
-HTTPS implements HTTP over TLS,
-    and in the TLS negotiation, a browser verifies the server certificate by building a valid certificate chain,
+HTTPS implements HTTP over TLS.
+    In the TLS negotiation, a browser verifies the server certificate by building a certificate chain,
     and validates the certificate subject with the domain visited.
 Recently,
-    the security of HTTPS is further enhanced by HPKP that pins the public key (or certificate) of the website in browsers \cite{Evans2015rfc7469},
+    the security of HTTPS is further enhanced by HPKP that pins the public keys of the website in browsers \cite{Evans2015rfc7469},
      and HSTS that forces browsers to visit the website only using HTTPS but not HTTP \cite{hodges2012rfc6797}.
 
 There are various errors in the TLS negotiations and also the security-enhancements of HTTPS.
-Browsers show security warnings with different levels, when different HTTPS errors happen:
+Browsers show security warnings to users with different levels, when different HTTPS errors happen:
 (\emph{a}) a low-risk warning is shown in the address bar, no interrupting the browsing;
 (\emph{b}) a medium-risk warning is shown as a full-screen page, interrupting the browsing,
     and the user may choose to ignore the warning by actively clicking a button to continue;
@@ -20,59 +20,66 @@ and (\emph{d}) a fatal warning immediately close the connection and stop the bro
 
 These security warnings try to protect users to establish secure connections with the target website,
     but not a man-in-the-middle (MitM) attack.
-However, an error does not definitely result from the attackers.
-So, in order to balance security and usability,
+However, an error does not definitely result from the MitM attackers.
+In order to balance security and usability,
     each browser implements its own design of security procedures,
         producing different behaviors and warnings on HTTPS errors.
-This work presents a comprehensive list of HTTPS errors,
+This work presents a list of common HTTPS errors,
 and investigates the browser behaviors on each error.
-These errors cover certificate verification of basic fields and extensions,
+The error list covers certificate verification of basic fields and extensions,
         name validation, and HTTPS security-enhancement of HPKP and HSTS.
 
 The evaluated browsers are Chrome, Firefox, Edge, and IE on Windows 10.
 Our study
     discloses browser defects on handling HTTPS errors in terms of cryptographic algorithm,
      certificate extension, name validation,
-      certificate revocation, and self-signed certificate.
-Some defects may cause a forged or revoked certificate to be probably accepted by users:
+      certificate revocation, and HPKP.
+Some defects cause a forged or revoked certificate to be probably accepted by users:
 \begin{itemize}
 \item
-A certificate signed with weak cryptographic algorithms is accepted without warnings.
+A certificate signed (or forged) with weak cryptographic algorithms is accepted without warnings.
 Edge and IE consider MD5 and SHA-1 as secure,
-    and all these browsers accepted RSA-1024 without any warning.
+    and all these browsers accept RSA-1024 without any warning.
 %Chrome, Firefox, Edge, IE: Signature Algorithm. The four browsers consider RSA1024 secure.
 %Edge, IE: Digest Algorithm. Edge and IE consider secure.
 \item
-Firefox does not process the basic constraints extension correctly,
-    including the fields of cA and pathLenConstraint.
+Firefox does not process the Basic Constraints extension correctly.
+Thus, a malicious server (but not an accredited CA) may sign TLS server certificates arbitrarily,
+     and such forged certificate chains will be probably accepted by Firefox.
+    % including the fields of cA and pathLenConstraint.
 %Chrome, Edge, IE: CA flag. when the CA flag field of a server certificate is set to “true”, Chrome, Edge and IE consider it secure.
 %Firefox pathLenConstraint. when a subordinate CA does not comply with pathLenConstraint, Firefox consider it secure.
-\textcolor[rgb]{1.00,0.00,0.00}{Chrome, Edge and IE do not process the certificate extensions of Key Usage and Extended Key Usage correctly:
-even when these extensions appear inconsistently in certificates,
-    no warning shows.}   % 总结不够到位
+\textcolor[rgb]{1.00,0.00,0.00}{Chrome, Firefox, Edge and IE do not process the extensions of Key Usage and Extended Key Usage correctly.
+%even when these extensions appear inconsistently in certificates,    no warning shows.
+So a certificate signed for other purposes may be maliciously used in HTTPS, and accepted by these browsers.
+}   % 总结不够到位；我看结果的标准，怎么好像和以前的结果记录有变化？
 % key usage and extended key usage. Chrome, Edge, and IE don't display any warnings on certificates whose key usage and extended key usage is not consistent.
 \item
-Chrome does not check the revocation status of server certificates through commonly-used CRL and OCSP.
-\item
+Chrome does not check the certificate revocation status through commonly-used CRL and OCSP,
+    and Firefox does not support CRL. Thus,
+    a revoked TLS server certificate may still be accepted by Chrome and Firefox.
+\item 
 The HPKP support of Chrome and Firefox
     does not work well,
-    if the server certificate is verified by a user-installed root CA certificate.
+    when the certificate chain is verified by a user-installed root CA certificate.
+The security-enhancement of HPKP does not take effect always against MitM attacks.
 
 %: HPKP. Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
 \end{itemize}
-There are also defects leading to the problems of usability:
-\begin{itemize}
-\item
+There are also defects leading to the problems of usability.
+%\begin{itemize}
+%\item
 Chrome implements the procedure of name validation,
     different from other browsers,
-    with the field of commonName and the extension of subject alternative name.
-A server certificate considered as secure by Firefox, Edge and IE,
+    only with the field of commonName but not the extension of Subject Alternative Name (SAN).
+So a legitimate server certificate considered as secure by Firefox, Edge and IE,
     may cause a security warning in Chrome.
 %Each browser has
 %Name validation, different. The four browsers have inconsistencies in checking CN and SAN.
-\item
-\textcolor[rgb]{1.00,0.00,0.00}{Firefox does not support self-signed certificate as server certificate. when FireFox encounters a website using a self-signed certificate, the only way to make it work is adding a Security Exception for that particular website.}
-\end{itemize}
+%\item
+%\textcolor[rgb]{1.00,0.00,0.00}{Firefox does not support self-signed certificate as server certificate. when FireFox encounters a website using a self-signed certificate, the only way to make it work is adding a Security Exception for that particular website.}
+%\end{itemize}
+
 %The main process of web browser certificate validation is as follows:
 %    The web server sends an endpoint certificate referencing its domain name,
 %    as well as one or more intermediate certificates to a browser.
@@ -94,8 +101,8 @@ A server certificate considered as secure by Firefox, Edge and IE,
 \noindent\textbf{Contribution.} We present a comprehensive list of HTTPS errors,
         and investigate the security warnings of four mainstream browsers on these errors.
 Several defects are found in the analysis results,
-    and these defects may result in the problem of security or usability in HTTPS.
-We finally propose the suggestions to improve the development of browsers.
+    and these defects may result in the problems of security or usability in HTTPS.
+We finally present the suggestions to improve the browsers.
 %Based on the analysis results, we found that some browsers didn't handle properly,
 %    for example,
 %    firefox displays medium-risk warnings for manually installed self-signed certificates,
