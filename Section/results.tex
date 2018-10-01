@@ -7,18 +7,19 @@
 %    It needs to balance security, standards, and user experiences.
 \subsection{Goal and Methodology}
 We attempt to analyze the browser security warnings
-    of various HTTPS errors.
+    on various HTTPS errors.
 We register a domain name and
     establish the website for it by Nginx.
 We induce different HTTPS errors
     by
     (\emph{a}) invalid or defective certificate chains in TLS negotiations,
-    (\emph{b}) mismatched public keys (or certificates) after HPKP pins the public keys in browsers,
-    and (\emph{c}) HTTP connections after the HSTS policy is activated in browsers.
+    (\emph{b}) mismatched public keys after HPKP pins the public keys in browsers,
+    and (\emph{c}) HTTP connections after the HSTS policy is activated.
 Then, the evaluated browsers visit  the website one by one,
     and we record the browser behaviors.
-We generate key pairs and certificates of CAs and servers by OpenSSL,
-    and TLS 1.2 is adopted in the HTTPS connections.
+We utilize OpenSSL to generate key pairs and some certificates,
+    while some server certificates are applied from Let's Encrypt.
+TLS 1.2 is adopted in the HTTPS connections.
 
 %we register a domain name and resolve many subdomains to our web server, and
 %    each subdomain has a certificate that violate one of the certificate constraints.
@@ -47,7 +48,13 @@ We generate key pairs and certificates of CAs and servers by OpenSSL,
 The evaluated browsers are Chrome v67.0.3396.99,
  Firefox v62.0, Edge v42.17134.1.0, and IE v11.0.9600.17031 on Windows 10.
 The results are summarized in Table I.
-A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, respectively.
+A, B, and C represent a warning of low-risk, medium-risk, high-risk, respectively.
+D represent a fatal warning.
+In order to find the browser behaviors on specified HTTPS errors,
+   in each line of this table,
+    we induce only one error in the certificate chains or HTTP headers,
+    unless otherwise stated.
+% A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, respectively.
 
 \begin{table*}[htbp]
 \centering
@@ -117,7 +124,6 @@ A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, r
   \label{tab:addlabel}%
   \vspace{6pt}
 
-\leftline{A, B, and C respectively represent Risk Level A, Risk Level B and Risk Level C of browser warnings.}
 \leftline{``Secure" means that the browsers don't display any warnings.}
 \leftline{``B-\textgreater{}C" means that the policy will raise the original B-level warning to Level C.}
 
@@ -127,11 +133,19 @@ A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, r
 
 
 \subsection{Certificate Verification Errors of Basic Fields}
-\textbf{Untrusted root CA certificate.}
-We use OpenSSL to generate a self-signed root certificate(whose cA flag is true, pathLenConstraint is null, key usage is keyCertSign),
-    then use the root certificate to issue a valid server certificate (both CN and SAN of the server certificate contain the server's domain name, the key usage is keyEncipherment, extended key usage is serverAuth, and cA flag is false).
-When visiting the website, We will receive the server certificate and a Level-B medium-risk warning with the error hint ``NET::ERR\_CERT\_AUTHORITY\_INVALID".
-This warning can be avoided by installing the self-signed root certificate to the browsers' root certificate store
+In these tests,
+    the certificate extensions of Basic Constraints, Key Usage, Extended Key Usage and SAN,
+        are correctly set.
+The name in commonName also appears to be correct.
+
+\noindent\textbf{Untrusted root CA certificate.}
+We use OpenSSL to generate a certificate chain, %(whose cA flag is true, pathLenConstraint is null, key usage is keyCertSign),
+ %   then use the root certificate to issue a valid server certificate (both CN and SAN of the server certificate contain the server's domain name, the key usage is keyEncipherment, extended key usage is serverAuth, and cA flag is false).
+ and the root CA is not trusted by browsers.
+%When visiting the website, We will receive the server certificate and a Level-B medium-risk warning with the error hint ``NET::ERR\_CERT\_AUTHORITY\_INVALID''.
+All browsers show a Level B warning on this error.
+This warning is eliminated as we 
+can be avoided by installing the self-signed root certificate to the browsers' root certificate store
 (Chrome, Edge, IE use OS root certificate store as browser root certificate store, and Firefox has its own NSS root certificate store).
 
 
