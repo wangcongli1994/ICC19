@@ -58,7 +58,7 @@ A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, r
 \multicolumn{2}{c|}{} & Chrome & Firefox & Edge & IE \\ \midrule[1pt]
 \multirow{12}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Verification\\of Basic Fields\end{tabular}}
  & Untrusted root CA certificate & B & B & B & B \\
- & Untrusted self-signed server certificate & B & \textcolor[rgb]{1.00,0.00,0.00}{B[xx]} & B & B \\     % 这里应该有点什么专门的解释说明
+% & Untrusted self-signed server certificate & B & \textcolor[rgb]{1.00,0.00,0.00}{B[xx]} & B & B \\     % 这里应该有点什么专门的解释说明
  & Incomplete certificate chain & B & B & B & B \\
  & Expired server certificate & B & B & B & B \\ \cline{2-6}
  & Revoked server certificate (via CRL) & Secure & Secure & C & C \\
@@ -128,7 +128,7 @@ A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, r
 
 \subsection{Certificate Verification Errors of Basic Fields}
 \textbf{Untrusted root CA certificate.}
-We use OpenSSL to generate a self-signed root certificate(whose cA flag is true, pathLenConstraint is null, key usage is keyCertSign), 
+We use OpenSSL to generate a self-signed root certificate(whose cA flag is true, pathLenConstraint is null, key usage is keyCertSign),
     then use the root certificate to issue a valid server certificate (both CN and SAN of the server certificate contain the server's domain name, the key usage is keyEncipherment, extended key usage is serverAuth, and cA flag is false).
 When visiting the website, We will receive the server certificate and a Level-B medium-risk warning with the error hint ``NET::ERR\_CERT\_AUTHORITY\_INVALID".
 This warning can be avoided by installing the self-signed root certificate to the browsers' root certificate store
@@ -136,14 +136,15 @@ This warning can be avoided by installing the self-signed root certificate to th
 
 
 
-\textbf{Untrusted self-signed server certificate.}
+%%%%%%%%%%%%\textbf{Untrusted self-signed server certificate.}
 %Basic Constraint = cA flag + pathLenConstraint
-We use OpenSSL to generate a self-signed server certificate
-    (who does not have Basic Constraint field, key usage is keyEncipherment and keyCertSign, extended key usage is serverAuth, and both CN and SAN of the self-signed server certificate contain the server's domain name).
+%%%%%%%We use OpenSSL to generate a self-signed server certificate
+%%%%%%%    (who does not have Basic Constraint field, key usage is keyEncipherment and keyCertSign, extended key usage is serverAuth, and both CN and SAN of the self-signed server certificate contain the server's domain name).
 %% 应该说明出：与root CA之间的区分！root CA也有自己的安装过程？
-When we visit sites deploying self-signed server certificates, all four browsers display Level-B medium-risk warnings.
-After installing the self-signed certificates into the OS root store, Chrome, Edge, and IE consider it secure.
-The NSS root certificate store in Firefox does not accept self-signed server certificates, We need to avoid this warning by adding exception.
+%%%%%When we visit sites deploying self-signed server certificates, all four browsers display Level-B medium-risk warnings.
+%%%%%After installing the self-signed certificates into the OS root store, Chrome, Edge, and IE consider it secure.
+%%%%%%%%%The NSS root certificate store in Firefox does not accept self-signed server certificates, We need to avoid this warning by adding exception.
+
 %chrome显示的警告是NET::ERR_CERT_AUTHORITY_INVALID，Firefox显示的警告是MOZILLA_PKIX_ERROR_SELF_SIGNED_CERT
 %    After installing the self-signed certificates into the OS root store, Chrome, Edge, and IE consider it secure, but Firefox still displays a B-level (Medium-risk) warning.
 %   Firefox has its own trust certificate store.
@@ -157,7 +158,7 @@ The NSS root certificate store in Firefox does not accept self-signed server cer
 
 Other errors including incomplete certificate chain and expired certificate,
         all browsers show Level-B medium-risk warnings (The self-signed root certificate has been installed to the browsers' trust root certificate store).
-    
+
 
 
 
@@ -168,7 +169,7 @@ We only consider the case where the server certificate is revoked and all CA cer
                 When visiting this website, Chrome considers it secure, but Firefox, Edge, and IE display Level-C high-risk warnings.
 (\emph{b}) CRL. If a server certificate is only revoked through CRL, Chrome and Firefox consider it secure, but Edge and IE display Level-C high-risk warnings \cite{liu2015end}.
 (\emph{c})CRLset. If a revoked server certificate is included in CRLset, Chrome will displays a Level-C high-risk warning.
- 
+
 %\textcolor[rgb]{1.00,0.00,0.00}{    If a revoked certificate only contains available CRL field,
 %        Chrome and Firefox consider it secure,
  %           but Edge and IE display C-level (High-risk) warnings.}
@@ -183,9 +184,9 @@ We only consider the case where the server certificate is revoked and all CA cer
 %\textbf{Weak Signature Algorithm.}
 \textbf{Weak key.}
 In this weak key paragraph, all server certificates are signed by SHA-256 with RSA Encryption.
- When receiving a server certificate containing a 512-bit RSA key, 
+ When receiving a server certificate containing a 512-bit RSA key,
     Chrome, Firefox, and Edge display Level-B medium-risk warnings,
-            but IE display a C-level (High-risk) warning. 
+            but IE display a C-level (High-risk) warning.
  When receiving a server certificate containing a 1024-bit RSA key,
     all four browsers consider it secure.
  When receiving a server certificate containing a 160-bit ECC key,
@@ -194,34 +195,34 @@ In this weak key paragraph, all server certificates are signed by SHA-256 with R
 %\textbf{Weak Digest Algorithm.}
 \textbf{Weak hash algorithm.}
 In this weak hash algorithm paragraph, all server certificates are signed by RSA and the public key of server certificates are 1024-bit RSA key.
-    When receiving a server certificate signed by SHA-1 or MD5, 
-        Chrome and Firefox display Level-B medium-risk warnings, 
+    When receiving a server certificate signed by SHA-1 or MD5,
+        Chrome and Firefox display Level-B medium-risk warnings,
             but Edge and IE consider it secure.
 \subsection{Certificate Verification Errors of Extensions}
 \textbf{Basic constraints extension.}
-In this basic constraints extension paragraph, 
+In this basic constraints extension paragraph,
     the certificate chain contains three certificates: self-signed root CA certificate, intermediate certificate, and server certificate.
     The self-signed root CA certificate has been added to the browsers' trust root store as required.
 
 If a server certificate whose cA flag is incorrect (cA flag is true), but other fields is correct (key usage is key Enpherment, extended key usage is serverAuth),
     Chrome, Edge, and IE consider it secure,
     and Firefox displays a Level-B medium-risk warning.
-    
+
 If a server certificate whose cA flag is incorrect (cA flag is true), and other fields is incorrect (key usage is keyCertSign, does not have extended key usage field),
     Chrome, Edge, and IE consider it secure,
     and Firefox displays a Level-C high-risk warning.
- 
+
 If a server certificate is signed by a certificate whose cA flag is incorrect (cA flag is false), but other fields is correct (key usage is keyCertSign, does not have extended key usage field),
      Chrome, Edge, and IE display Level-C high-risk warnings,
      and Firefox displays a Level-B medium-risk warning.
      %\textcolor[rgb]{1.00,0.00,0.00}{Firefox's NSS root store does not accept a certificate whose CA flag is false, so we does test the Firefox for this HTTPS error.}  % 应该使用多级证书；root CA的flag正确，中间CA的flag错误，第三级证书！
 
-If a server certificate is signed by a certificate whose cA flag is incorrect (cA flag is false), and other fields is incorrect (key usage is key Enpherment, extended key usage is serverAuth, both CN and SAN contain some domain names). 
+If a server certificate is signed by a certificate whose cA flag is incorrect (cA flag is false), and other fields is incorrect (key usage is key Enpherment, extended key usage is serverAuth, both CN and SAN contain some domain names).
      Chrome, Edge, and IE display Level-C high-risk warnings,
      and Firefox displays a Level-B medium-risk warning.
 That is, if a server certificate whose cA flag is set to ``true", it can issue certificates for any domain names and may launch man-in-the-middle attacks successfully, because Firefox simply displays a bypassable Level-B medium-risk warning.
-     
-If a server certificate is signed by a CA certificate that has a correct cA flag (cA flag is true) 
+
+If a server certificate is signed by a CA certificate that has a correct cA flag (cA flag is true)
     but does not conform to PathLenConstraint (the PathLenConstraint of self-signed root CA certificate is 0),
     Chrome and Edge display Level-C high-risk warnings,
     Firefox consider it secure, and IE displays a Level-B medium-risk warning.
@@ -252,14 +253,14 @@ Next, SAN or CN incorrect means domain name complete mismatch.
 
 \subsection{HTTPS Security-Enhancement Errors}
 \textbf{HPKP.}
-``private store" means that the root certificate of the certificate chain is installed  manually by the user to the browsers' trust root store. 
+``private store" means that the root certificate of the certificate chain is installed  manually by the user to the browsers' trust root store.
     In this paragraph, the root certificate is generated by OpenSSL.
-``public store" means that root certificate of the certificate chain is trusted by browsers. 
+``public store" means that root certificate of the certificate chain is trusted by browsers.
     In this paragraph, the root certificate is from Let's Encrypt.
 
 Edge and IE don't support HPKP, so they don't display any warnings on HPKP errors.
     Chrome and Firefox have the same behaviors on HPKP validation.
-    
+
 %    Next, let's look at the warning behaviors of Chrome and Firefox.
 %If the root certificate of the certificate chain is installed manually by the user, no HPKP errors will be warned.
 If the root certificate is from private store, no HPKP errors will be warned.
@@ -267,10 +268,10 @@ If the root certificate is from private store, no HPKP errors will be warned.
         (1)We received an incorrect HPKP header when we visit the website for the first time, such as nonnumeric max-age, pin-sha256 mismatch,
         then when we visit the website for the second time, no HPKP errors will be warned.
         (2)We received a correct HPKP header when we visit the website for the first time,
-        then when we visit the website for the second time, 
+        then when we visit the website for the second time,
             if no certificate in the certificate chain matches the first time pinned certificates,
         a HPKP error will be warned, Chrome and Firefox will display Level-C high-risk warnings.
-       
+
 
 %correct HPKP header的意思是说, HPKP header遵循RFC7469的规定：HPKP header中至少有两个pin-sha256，一个在证书链上，一个不在证书链上,max-age的值是一个正数
 
@@ -304,25 +305,25 @@ If the root certificate is from private store, no HPKP errors will be warned.
 %第二次pin header = Cert A & C，发送C给浏览器
 %会报错，缓存里是第一次的pin值
 %总结：只有第一次pin对，第二次pin错的时候才会报错，其他时候都不报错
- 
- 
- 
+
+
+
  \textbf{HSTS.}
- HSTS is a trust-on-first-use policy, but HSTS has a preload list in the browsers. 
- Whenever visiting the domain name in the preload list, 
+ HSTS is a trust-on-first-use policy, but HSTS has a preload list in the browsers.
+ Whenever visiting the domain name in the preload list,
     the browser will only use HTTPS to initiate the connection.
  This list is maintained by Google Chromium and is used by mainstream browsers like FireFox, Edge and IE.
- 
- 
+
+
     Whenever you visit a website in the HSTS preload list, % 什么是preload list？应该有解释。现在的结果，看起来，莫名其妙。
     if the website has HTTPS error including incomplete certificate chain, expired certificates, or any other Level-B medium-risk HTTPS errors mentioned in this paper,
     all the four browsers will display Level-C high-risk warnings.
         %all the four browsers display C-level (High-Risk) warnings on B-level (Medium-Risk) HTTPS errors,
     All the four browsers display Level-A low-risk warnings on websites that transmit some resources over plain HTTP.
 
-    When we visit a website not in the HSTS preload list, 
+    When we visit a website not in the HSTS preload list,
         if we received an correct HSTS header when we visit the website for the first time,
-        then when we visit the website for the second time encountering Level-B medium-risk HTTPS errors mentioned in this paper, 
+        then when we visit the website for the second time encountering Level-B medium-risk HTTPS errors mentioned in this paper,
         all the four browsers display Level-C high-risk warnings.
         All the four browsers display Level-A low-risk warnings on websites that transmit some resources over plain HTTP.
 

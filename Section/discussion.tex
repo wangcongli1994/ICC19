@@ -14,6 +14,8 @@ In the experiment, we found that different browsers have different processing me
         and Chrome only displays warnings on revoked certificates through CRLSet.
         Although CRLset is constantly updated, Chrome still consider my website is secure within a month after my server certificate was revoked.
         we think Chrome need to be improved on this.
+        
+        
 
 \subsection{Weak Algorithm}
     Several security incidents have shown that,
@@ -54,10 +56,13 @@ For key usage and extended key usage of server certificate, there are two incorr
    %with both extensions, then the certificate MUST NOT be used for any
    %purpose.(RFC 5280)
 \subsection{CN and SAN}
-The four browsers have inconsistencies in checking CN and SAN.
+The CA/Browser Forum suggests that
+    deprecates the CN field and lists applicable names in SAN field.
+However, The four browsers have inconsistencies in checking CN and SAN.
 When visiting a domain whose domain name is included in the CN field and it does not have SAN field,
-Chrome displays a B-level (Medium-Risk) warning, 和Firefox, Edge, and IE的处理方式不一样，可能会导致实用性的问题，
-We think Chrome need to be improved on this.
+Chrome displays a Level-B medium-risk warning, but Firefox, Edge, and IE consider it secure.  
+This may lead to a problem of usability.
+
 
 \subsection{HPKP}
     Of the four browsers, only Chrome and Firefox support HPKP.
