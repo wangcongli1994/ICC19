@@ -127,16 +127,16 @@ A TLS server certificate must include the serverAuth extended key usage. \cite{b
     %Certificates are only valid for specific domain names.
 Browsers check
     whether the certificate subject matches the domain visited or not,
-    through the field of commonName and the extension of subject alternative name.
+    through the field of CN and the extension of subject alternative name.
 %    Name validation error means that domain names listed in a server certificate don't match the domain we visited.
-There following errors of name validation may happen in commonName and/or subject alternative name.
+There following errors of name validation may happen in CN and/or SAN.
 
 %are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 
 \textbf{Complete mismatch.}
 It means that,
  there is no relation between the domain visited and the certificate subject.
-    For example, a user visits www.foo.com but receives a certificate for www.bar.com.
+    For example, a user visits www.foo.com but receives a certificate for www.bar.org.
 
 \textbf{WWW mismatch.}
 This error happens,

@@ -78,42 +78,42 @@ In order to find the browser behaviors on specified HTTPS errors,
  & Weak hash algorithm (MD5) & B & B & Secure & Secure \\ \midrule[1pt]
 \multirow{17}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Verification\\of Extensions\end{tabular}}
  & Server certificate &  &  &  &  \\
- & ~~incorrect cA flag (true), correct extensions of Key Usage and Extended Key Usage & Secure & B & Secure & Secure \\
- & ~~incorrect cA flag (true), incorrect extension of Key Usage (keyCertSign) & Secure & C & Secure & Secure \\
+ & ~~incorrect cA flag (= true), correct Key Usage and Extended Key Usage & Secure & B & Secure & Secure \\
+ & ~~incorrect cA flag (= true), incorrect Key Usage (= keyCertSign) & Secure & C & Secure & Secure \\
  & CA certificate &  &  &  &  \\
- & ~~incorrect cA flag (false) & C & B & C & C \\
- & ~~correct cA flag (true), violated pathLenConstraint & C & Secure & C & B \\ \cline{2-6}
- & server certificate &  &  &  &  \\
- & ~~no extended key usage, correct key usage & Secure & Secure & Secure & Secure \\
- & ~~no extended key usage, incorrect key usage & Secure & C & Secure & Secure \\
- & ~~no extended key usage, no key usage & Secure & Secure & Secure & Secure \\
- & ~~correct extended key usage, correct key usage & Secure & Secure & Secure & Secure \\
- & ~~correct extended key usage, incorrect key usage & Secure & Secure & Secure & Secure \\
- & ~~correct extended key usaget, no key usage & Secure & Secure & Secure & Secure \\
- & ~~incorrect extended key usage, correct key usage & C & C & C & C \\
- & ~~incorrect extendedKeyUsage, incorrect key usage & C & C & C & C \\
- & ~~incorrect extendedKeyUsage, no key usage & C & C & C & C \\
+ & ~~incorrect cA flag (= false) & C & B & C & C \\
+ & ~~correct cA flag (= true), violated pathLenConstraint & C & Secure & C & B \\ \cline{2-6}
+ & Server certificate &  &  &  &  \\
+ & ~~correct Extended Key Usage, correct Key Usage & Secure & Secure & Secure & Secure \\
+ & ~~correct Extended Key Usage, incorrect Key Usage & Secure & Secure & Secure & Secure \\
+ & ~~correct Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\
+ & ~~incorrect Extended Key Usage, correct Key Usage & C & C & C & C \\
+ & ~~incorrect Extended Key Usage, incorrect Key Usage & C & C & C & C \\
+ & ~~incorrect Extended Key Usage, no Key Usage & C & C & C & C \\
+ & ~~no Extended Key Usage, correct Key Usage & Secure & Secure & Secure & Secure \\
+ & ~~no Extended Key Usage, incorrect Key Usage & Secure & C & Secure & Secure \\
+ & ~~no Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\
  & CA certificate &  &  &  &  \\
- & ~~incorrect key usage & C & C & C & C \\ \midrule[1pt]
+ & ~~incorrect Key Usage & C & C & C & C \\ \midrule[1pt]
 \multirow{11}{*}{\begin{tabular}[c]{@{}c@{}}Name Validation\end{tabular}}
- & \textcolor[rgb]{1.00,0.00,0.00}{domain name complete mismatch} & B & B & B & B \\  % 这个也是B，与WWW mismatch都一样，不合适！应该讨论
- & www mismatch & B & B & B & B \\
- & out-of-wildcard-scope subdomain error & B & B & B & B \\ \cline{2-6}
- & SAN and CN &  &  &  &  \\
+ & \textcolor[rgb]{1.00,0.00,0.00}{Complete mismatch} & B & B & B & B \\  % 这个也是B，与WWW mismatch都一样，不合适！应该讨论
+ & WWW mismatch & B & B & B & B \\
+ & Out-of-wildcard-scope subdomain error & B & B & B & B \\ \cline{2-6}
+ & Different SAN and CN &  &  &  &  \\
+ & ~~correct SAN, {incorrect CN} & Secure & Secure & Secure & Secure \\ 
  & ~~correct SAN, no CN & Secure & Secure & Secure & Secure \\
- & ~~correct SAN, \textcolor[rgb]{1.00,0.00,0.00}{incorrect CN} & Secure & Secure & Secure & Secure \\ % incorrect的具体做法是什么？
- & ~~incorrect SAN, no CN & B & B & B & B \\
  & ~~incorrect SAN, correct CN & B & B & B & B \\
  & ~~incorrect SAN, incorrect CN & B & B & B & B \\
- & ~~no SAN, incorrect CN & B & B & B & B \\
- & ~~no SAN, correct CN & B & Secure & Secure & Secure \\ \midrule[1pt]
+ & ~~incorrect SAN, no CN & B & B & B & B \\
+ & ~~no SAN, correct CN & B & Secure & Secure & Secure \\
+ & ~~no SAN, incorrect CN & B & B & B & B \\ \midrule[1pt]
 \multirow{13}{*}{\begin{tabular}[c]{@{}c@{}}HTTPS Security\\Enhancement\end{tabular}}
- & HPKP: \textcolor[rgb]{1.00,0.00,0.00}{private store} &  &  &  &  \\      % 什么是private/public store？要有合适的解释。
- & ~~first visit: incorrect HPKP header, second visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
- & ~~first visit: correct HPKP header, second visit: incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
- & HPKP: public store &  &  &  &  \\
- & ~~first visit: incorrect HPKP header, second visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
- & ~~first visit: correct HPKP header correct, second visit: incorrect/no HPKP header & C & C & Secure & Secure \\ \cline{2-6}
+ & HPKP, private store &  &  &  &  \\      % 什么是private/public store？要有合适的解释。
+ & ~~1st visit: incorrect HPKP header, 2nd visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
+ & ~~1st visit: correct HPKP header, 2nd visit: incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
+ & HPKP, public store &  &  &  &  \\
+ & ~~1st visit: incorrect HPKP header, 2nd visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
+ & ~~1st visit: correct HPKP header, 2nd visit: incorrect/no HPKP header & C & C & Secure & Secure \\ \cline{2-6}
  & HSTS: not preload list &  &  &  &  \\
  &~~some resouces over plain HTTP & A & A & A & A \\
  & ~~first visit: correct HSTS header, second visit: HTTPS error &C & C & C &C \\
@@ -137,7 +137,7 @@ In order to find the browser behaviors on specified HTTPS errors,
 In these tests,
     the certificate extensions of Basic Constraints, Key Usage, Extended Key Usage and SAN,
         are correctly set.
-The name in commonName also appears to be correct.
+The domain name in CN also appears to be correct.
 
 \textbf{Untrusted root CA certificate.}
 We use OpenSSL to generate a certificate chain, %(whose cA flag is true, pathLenConstraint is null, key usage is keyCertSign),
@@ -146,7 +146,7 @@ We use OpenSSL to generate a certificate chain, %(whose cA flag is true, pathLen
 %When visiting the website, We will receive the server certificate and a Level-B medium-risk warning with the error hint ``NET::ERR\_CERT\_AUTHORITY\_INVALID''.
 All browsers show a Level-B warning on this error.
 This warning is eliminated
- as we install the self-signed CA certificate in the root CA certificate store.
+ as we install the self-signed CA certificate in the browsers' root CA certificate store.
 Chrome, Edge and IE rely on the Windows root CA certificate store,
      and Firefox uses its own NSS certificate store.
 
@@ -222,6 +222,8 @@ On a server certificate binding a 160-bit ECC key pair,
 In these tests of certificate extensions,
     the certificate chain consist of one self-signed root CA certificate, an intermediate certificate, and the server certificate.
 The root CA certificate is installed in the browsers' certificate store.
+The extensions of Basic Constraints and Key Usage are critical, and
+the Extended Key Usage extension is non-critical.
 
 \textbf{Basic Constraints.}
 If the cA flag of the Basic Constraints extension is true in the server certificate
@@ -258,43 +260,63 @@ Chrome and Edge show Level-C high-risk warnings,
 
 
 \textbf{Key Usage and Extended Key Usage.}
-    We didn't designate key usage and the extend key usage as critical or non-critical.
-    If a server certificate has extended key usage field including serverAuth, no matter what the key usage is,
-        all the four browsers consider it secure.
-    If a server certificates has extended key usage field not including serverAuth, no matter what the key usage is,
-        all the four browsers display Level-C high-risk warnings.
-    If a server certificates does not have extended key usage field, and its key usage field is correct or does not have key usage field,
-        all the four browsers consider it secure.
-    If a CA certificate has incorrect key usage field,
-        all the four browsers display Level-C high-risk warnings.
+%    We didn't designate key usage and the extend key usage as critical or non-critical.
+As long as the server certificate is signed with the Extended Key Usage of serverAuth,
+     no mater what the Key Usage extension is,
+        all browsers consider the certificate chain as secure.
+As long as the server certificates is signed with the Extended Key Usage extension but no serverAuth,
+     no mater what the Key Usage extension is,
+        all browsers show Level-C high-risk warnings.
+
+When the server certificates is signed without the Extended Key Usage extension,
+    Firefox shows a Level-C warning if it is with the Key Usage extension but no keyEncipherment,
+    while other browsers always consider it as secure.
+
+If the CA certificate is with the Key Usage extension but no keyCertSign,
+        all browsers show Level-C high-risk warnings.
 
 \subsection{Name Validation Errors}
-    For domain name complete mismatch, www mismatch, and out-of-wildcard scope subdomain error,
-    all four browsers display Level-B medium-risk warnings.
+On any name validation error of complete mismatch, WWW mismatch, or out-of-wildcard scope subdomain,
+    all browsers show Level-B warnings.
+In these tests,
+    the field of commonName is set the same as  the SAN extension,
+and the SAN extension is non-critical.
 
-Next, SAN or CN incorrect means domain name complete mismatch.
-    For correct SAN, no matter what the CN is, all the four browsers consider it secure.
-    For incorrect SAN, no matter what the CN is, all the four browsers display Level-B medium-risk warnings.
-    If the server certificate does not have SAN field, and the CN field is incorrect, all the four browsers display Level-B medium-risk warnings.
-    If the server certificate does not have SAN field, and the CN field is incorrect,
-    Chrome displays a Level-B medium-risk warning,
-            but Firefox, Edge, and IE consider it secure.
+Next, the field of CN is set different from the SAN extension,
+    and incorrect CN (or SAN) means complete mismatch.
+As long as SAN is correct,
+    no matter what CN is,
+     all browsers consider it as secure.
+As long as SAN is incorrect,
+    no matter what CN is,
+     all browsers show Level-B warnings.
+
+If the server certificate signed without the SAN extension
+    and the CN field is set incorrect, all browsers show Level-B warnings.
+If the server certificate signed without the SAN extension
+    and the CN field is correct, 
+Firefox, Edge, and IE consider it as secure
+   but Chrome shows a Level-B warning.
 
 \subsection{HTTPS Security-Enhancement Errors}
 \textbf{HPKP.}
-``private store" means that the root certificate of the certificate chain is installed  manually by the user to the browsers' trust root store.
-    In this paragraph, the root certificate is generated by OpenSSL.
-``public store" means that root certificate of the certificate chain is trusted by browsers.
-    In this paragraph, the root certificate is from Let's Encrypt.
+In these tests,
+    the root CA certificate is (\emph{a}) generated by OpenSSL and then manually installed in the browsers' certificate store,
+            i.e., in the private store,
+    or (\emph{b}) trusted in browsers by default, i.e., in the public store.
+Let's Encrypt in the trusted root CA in these tests.
 
-Edge and IE don't support HPKP, so they don't display any warnings on HPKP errors.
-    Chrome and Firefox have the same behaviors on HPKP validation.
-
+Edge and IE do not support HPKP, so they do not show any warnings on HPKP errors.
+Chrome and Firefox have the same behaviors on HPKP validation.
+%
 %    Next, let's look at the warning behaviors of Chrome and Firefox.
 %If the root certificate of the certificate chain is installed manually by the user, no HPKP errors will be warned.
-If the root certificate is from private store, no HPKP errors will be warned.
-    If the root certificate of the certificate chain is from public store, there are two scenarios.
-        (1)We received an incorrect HPKP header when we visit the website for the first time, such as nonnumeric max-age, pin-sha256 mismatch,
+If the root CA certificate is in the private store,
+    there is no warning on HPKP errors.
+It seems that HPKP validation is not enabled.
+
+When the root CA certificate is in the public store, there are two categories of tests.
+(1) We received an incorrect HPKP header when we visit the website for the first time, such as nonnumeric max-age, pin-sha256 mismatch,
         then when we visit the website for the second time, no HPKP errors will be warned.
         (2)We received a correct HPKP header when we visit the website for the first time,
         then when we visit the website for the second time,
@@ -338,7 +360,7 @@ If the root certificate is from private store, no HPKP errors will be warned.
 
 
  \textbf{HSTS.}
- HSTS is a trust-on-first-use policy, but HSTS has a preload list in the browsers.
+ HSTS follows the trust-on-first-use policy, but HSTS has a preload list in the browsers.
  Whenever visiting the domain name in the preload list,
     the browser will only use HTTPS to initiate the connection.
  This list is maintained by Google Chromium and is used by mainstream browsers like FireFox, Edge and IE.
