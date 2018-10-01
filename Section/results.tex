@@ -76,11 +76,12 @@ In order to find the browser behaviors on specified HTTPS errors,
  & Weak key (160-bit ECC key) & D & D & D & D \\ \cline{2-6}
  & Weak hash algorithm (SHA-1) & B & B & Secure & Secure \\
  & Weak hash algorithm (MD5) & B & B & Secure & Secure \\ \midrule[1pt]
-\multirow{17}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Verification\\of Extensions\end{tabular}} & server certificate &  &  &  &  \\
- & ~~incorrect cA flag (``cA flag" = true), correct key usage & Secure & B & Secure & Secure \\
- & ~~incorrect cA flag (``cA flag" = true), incorrect key usage & Secure & C & Secure & Secure \\
+\multirow{17}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Verification\\of Extensions\end{tabular}}
+ & Server certificate &  &  &  &  \\
+ & ~~incorrect cA flag (true), correct extensions of Key Usage and Extended Key Usage & Secure & B & Secure & Secure \\
+ & ~~incorrect cA flag (true), incorrect extension of Key Usage (keyCertSign) & Secure & C & Secure & Secure \\
  & CA certificate &  &  &  &  \\
- & ~~incorrect cA flag (``cA flag" = false) & C & B & C & C \\
+ & ~~incorrect cA flag (= false) & C & B & C & C \\
  & ~~correct cA flag, incorrect PathLenConstraint & C & Secure & C & B \\ \cline{2-6}
  & server certificate &  &  &  &  \\
  & ~~no extended key usage, correct key usage & Secure & Secure & Secure & Secure \\
@@ -218,20 +219,25 @@ On a server certificate binding a 160-bit ECC key pair,
         Chrome and Firefox display Level-B warnings,
             but Edge and IE consider it as secure.
 \subsection{Certificate Verification Errors of Extensions}
-\textbf{Basic constraints extension.}
-In this basic constraints extension paragraph,
-    the certificate chain contains three certificates: self-signed root CA certificate, intermediate certificate, and server certificate.
-    The self-signed root CA certificate has been added to the browsers' trust root store as required.
+In these tests of certificate extensions,
+    the certificate chain consist of one self-signed root CA certificate, an intermediate certificate, and the server certificate.
+The root CA certificate is installed in the browsers' certificate store.
 
-If a server certificate whose cA flag is incorrect (cA flag is true), but other fields is correct (key usage is key Enpherment, extended key usage is serverAuth),
-    Chrome, Edge, and IE consider it secure,
-    and Firefox displays a Level-B medium-risk warning.
+\textbf{Basic Constraints extension.}
+If the cA flag of the Basic Constraints extension is true in the server certificate
+    while the key usage is set as a TLS server certificate (i.e.,
+    the Key Usage extension is keyEncipherment, and the Extended Key Usage extension is serverAuth),
+% whose cA flag is incorrect (cA flag is true), but other fields is correct (key usage is key Enpherment, extended key usage is serverAuth),
+    Chrome, Edge, and IE consider this certificate chain as secure,
+    but Firefox shows a Level-B warning.
+%
+If the cA flag is true in the server certificate
+    while the key usage is set as a CA certificate (i.e.,
+        the Key Usage extension is keyCertSign, and no Extended Key Usage extension),
+    Chrome, Edge, and IE consider it as secure,
+    but Firefox shows a Level-C warning.
 
-If a server certificate whose cA flag is incorrect (cA flag is true), and other fields is incorrect (key usage is keyCertSign, does not have extended key usage field),
-    Chrome, Edge, and IE consider it secure,
-    and Firefox displays a Level-C high-risk warning.
-
-If a server certificate is signed by a certificate whose cA flag is incorrect (cA flag is false), but other fields is correct (key usage is keyCertSign, does not have extended key usage field),
+If the intermediate CA certificate whose cA flag is incorrect (cA flag is false), but other fields is correct (key usage is keyCertSign, does not have extended key usage field),
      Chrome, Edge, and IE display Level-C high-risk warnings,
      and Firefox displays a Level-B medium-risk warning.
      %\textcolor[rgb]{1.00,0.00,0.00}{Firefox's NSS root store does not accept a certificate whose CA flag is false, so we does test the Firefox for this HTTPS error.}  % 应该使用多级证书；root CA的flag正确，中间CA的flag错误，第三级证书！
