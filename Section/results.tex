@@ -138,7 +138,7 @@ In these tests,
         are correctly set.
 The name in commonName also appears to be correct.
 
-\noindent\textbf{Untrusted root CA certificate.}
+\textbf{Untrusted root CA certificate.}
 We use OpenSSL to generate a certificate chain, %(whose cA flag is true, pathLenConstraint is null, key usage is keyCertSign),
  %   then use the root certificate to issue a valid server certificate (both CN and SAN of the server certificate contain the server's domain name, the key usage is keyEncipherment, extended key usage is serverAuth, and cA flag is false).
  and the root CA is not trusted by browsers.
@@ -171,13 +171,13 @@ Chrome, Edge and IE rely on the Windows root CA certificate store,
 %\textbf{Incomplete Certificate Chain.}
 %\textbf{Expired Certificate.}
 
-\noindent\textbf{Incomplete certificate chain, and expired server certificate.}
+\textbf{Incomplete certificate chain, and expired server certificate.}
 All browsers show Level-B warnings on an incomplete certificate chain, or expired server certificate.
 
 
 
 
-\noindent\textbf{Revoked server certificate.}
+\textbf{Revoked server certificate.}
 In the certificate chain,
 the server certificate is revoked and all CA certificates are not revoked.
 (\emph{a}) OCSP. The server certificate is signed and revoked by Let's Encrypt.
