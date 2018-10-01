@@ -71,9 +71,9 @@ In order to find the browser behaviors on specified HTTPS errors,
  & Revoked server certificate (via OCSP) & Secure & C & C & C \\
  & Revoked server certificate (via CRL) & Secure & Secure & C & C \\
  & Revoked server certificate (via CRLSet) & C & Secure & Secure & Secure \\ \cline{2-6}
- & Weak key (512-bit RSA key) & B & B & B & C \\
- & Weak key (1024-bit RSA key) & Secure & Secure & Secure & Secure \\
- & Weak key (160-bit ECC key) & D & D & D & D \\ \cline{2-6}
+ & Weak key (512-bit RSA) & B & B & B & C \\
+ & Weak key (1024-bit RSA) & Secure & Secure & Secure & Secure \\
+ & Weak key (160-bit ECC) & D & D & D & D \\ \cline{2-6}
  & Weak hash algorithm (SHA-1) & B & B & Secure & Secure \\
  & Weak hash algorithm (MD5) & B & B & Secure & Secure \\ \midrule[1pt]
 \multirow{17}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Verification\\of Extensions\end{tabular}}
