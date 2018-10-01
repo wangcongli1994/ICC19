@@ -98,7 +98,7 @@ In order to find the browser behaviors on specified HTTPS errors,
 \multirow{11}{*}{\begin{tabular}[c]{@{}c@{}}Name Validation\end{tabular}}
  & \textcolor[rgb]{1.00,0.00,0.00}{Complete mismatch} & B & B & B & B \\  % 这个也是B，与WWW mismatch都一样，不合适！应该讨论
  & WWW mismatch & B & B & B & B \\
- & Out-of-wildcard-scope subdomain error & B & B & B & B \\ \cline{2-6}
+ & Out-of-wildcard-scope subdomain & B & B & B & B \\ \cline{2-6}
  & Different SAN and CN &  &  &  &  \\
  & ~~correct SAN, {incorrect CN} & Secure & Secure & Secure & Secure \\ 
  & ~~correct SAN, no CN & Secure & Secure & Secure & Secure \\
@@ -114,18 +114,18 @@ In order to find the browser behaviors on specified HTTPS errors,
  & HPKP, public store &  &  &  &  \\
  & ~~1st visit: incorrect HPKP header, 2nd visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
  & ~~1st visit: correct HPKP header, 2nd visit: incorrect/no HPKP header & C & C & Secure & Secure \\ \cline{2-6}
- & HSTS: not preload list &  &  &  &  \\
- &~~some resouces over plain HTTP & A & A & A & A \\
- & ~~first visit: correct HSTS header, second visit: HTTPS error &C & C & C &C \\
- & HSTS: preload list &  &  &  &  \\
- & ~~some resouces over plain HTTP & A & A & A & A \\
- & ~~first visit: HTTPS errors & C &C & C & C \\ \bottomrule
+ & HSTS, not in preload list &  &  &  &  \\
+ &~~resource over plain HTTP & A & A & A & A \\
+ & ~~1st visit: correct HSTS header, 2nd visit: HTTPS error &C & C & C &C \\
+ & HSTS, in preload list &  &  &  &  \\
+ & ~~resource over plain HTTP & A & A & A & A \\
+ & ~~HTTPS error & C &C & C & C \\ \bottomrule
 \end{tabular}
 
   \label{tab:addlabel}%
   \vspace{6pt}
 
-\leftline{``Secure" means that the browsers don't display any warnings.}
+%\leftline{``Secure" means that the browsers don't display any warnings.}
 %\leftline{``B-\textgreater{}C" means that the policy will raise the original B-level warning to Level C.}
 
 \end{table*}%
@@ -279,10 +279,10 @@ If the CA certificate is with the Key Usage extension but no keyCertSign,
 On any name validation error of complete mismatch, WWW mismatch, or out-of-wildcard scope subdomain,
     all browsers show Level-B warnings.
 In these tests,
-    the field of commonName is set the same as  the SAN extension,
-and the SAN extension is non-critical.
+    the CN field is set the same as  the SAN extension,
+which is marked as non-critical.
 
-Next, the field of CN is set different from the SAN extension,
+Next, the CN field is set different from the SAN extension,
     and incorrect CN (or SAN) means complete mismatch.
 As long as SAN is correct,
     no matter what CN is,
@@ -316,12 +316,17 @@ If the root CA certificate is in the private store,
 It seems that HPKP validation is not enabled.
 
 When the root CA certificate is in the public store, there are two categories of tests.
-(1) We received an incorrect HPKP header when we visit the website for the first time, such as nonnumeric max-age, pin-sha256 mismatch,
-        then when we visit the website for the second time, no HPKP errors will be warned.
-        (2)We received a correct HPKP header when we visit the website for the first time,
-        then when we visit the website for the second time,
-            if no certificate in the certificate chain matches the first time pinned certificates,
-        a HPKP error will be warned, Chrome and Firefox will display Level-C high-risk warnings.
+An incorrect HPKP header is sent when the evaluated browser visits for the first time,
+ such as non-numeric max-age and pin-sha256 mismatch.
+No warning on HPKP errors is shown,
+        when the browser visits for the second time.
+A correct HPKP header is sent,
+when the evaluated browser visits for the first time.
+Then,
+    when the browser visits the website for the second time,
+        Chrome and Firefox show Level-C warnings
+            if an HPKP error happens (i.e.,
+        no certificate in the certificate chain matches the pinned public key).
 
 
 %correct HPKP header的意思是说, HPKP header遵循RFC7469的规定：HPKP header中至少有两个pin-sha256，一个在证书链上，一个不在证书链上,max-age的值是一个正数

@@ -65,12 +65,12 @@ The security-enhancement of HPKP does not take effect always against MitM attack
 
 %: HPKP. Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
 \end{itemize}
-There are also defects leading to the problems of usability.
+There are also defects on the problems of usability.
 %\begin{itemize}
 %\item
 Chrome implements the procedure of name validation,
     different from other browsers,
-    only with the field of commonName (or called CN) but not the extension of Subject Alternative Name (SAN).
+    only with the Subject Alternative Name (SAN) extension not the commonName (CN) field.
 So a legitimate server certificate considered as secure by Firefox, Edge and IE,
     may cause a security warning in Chrome.
 %Each browser has
