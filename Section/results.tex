@@ -68,8 +68,8 @@ In order to find the browser behaviors on specified HTTPS errors,
 % & Untrusted self-signed server certificate & B & \textcolor[rgb]{1.00,0.00,0.00}{B[xx]} & B & B \\     % 这里应该有点什么专门的解释说明
  & Incomplete certificate chain & B & B & B & B \\
  & Expired server certificate & B & B & B & B \\ \cline{2-6}
- & Revoked server certificate (via CRL) & Secure & Secure & C & C \\
  & Revoked server certificate (via OCSP) & Secure & C & C & C \\
+ & Revoked server certificate (via CRL) & Secure & Secure & C & C \\
  & Revoked server certificate (via CRLSet) & C & Secure & Secure & Secure \\ \cline{2-6}
  & Weak key (512-bit RSA key) & B & B & B & C \\
  & Weak key (1024-bit RSA key) & Secure & Secure & Secure & Secure \\
@@ -143,10 +143,11 @@ We use OpenSSL to generate a certificate chain, %(whose cA flag is true, pathLen
  %   then use the root certificate to issue a valid server certificate (both CN and SAN of the server certificate contain the server's domain name, the key usage is keyEncipherment, extended key usage is serverAuth, and cA flag is false).
  and the root CA is not trusted by browsers.
 %When visiting the website, We will receive the server certificate and a Level-B medium-risk warning with the error hint ``NET::ERR\_CERT\_AUTHORITY\_INVALID''.
-All browsers show a Level B warning on this error.
-This warning is eliminated as we 
-can be avoided by installing the self-signed root certificate to the browsers' root certificate store
-(Chrome, Edge, IE use OS root certificate store as browser root certificate store, and Firefox has its own NSS root certificate store).
+All browsers show a Level-B warning on this error.
+This warning is eliminated
+ as we install the self-signed CA certificate in the root CA certificate store.
+Chrome, Edge and IE rely on the Windows root CA certificate store,
+     and Firefox uses its own NSS certificate store.
 
 
 
@@ -170,17 +171,19 @@ can be avoided by installing the self-signed root certificate to the browsers' r
 %\textbf{Incomplete Certificate Chain.}
 %\textbf{Expired Certificate.}
 
-Other errors including incomplete certificate chain and expired certificate,
-        all browsers show Level-B medium-risk warnings (The self-signed root certificate has been installed to the browsers' trust root certificate store).
+\noindent\textbf{Incomplete certificate chain, and expired server certificate.}
+All browsers show Level-B warnings on an incomplete certificate chain, or expired server certificate.
 
 
 
 
-\textbf{Revoked certificate.}
-We only consider the case where the server certificate is revoked and all CA certificates are not revoked.
-(\emph{a}) OCSP. We get a certificate for our website’s domain from Let’s Encrypt, and then revoked it.
-                Let’s Encrypt only distributes revocation status through OCSP.
-                When visiting this website, Chrome considers it secure, but Firefox, Edge, and IE display Level-C high-risk warnings.
+\noindent\textbf{Revoked server certificate.}
+In the certificate chain,
+the server certificate is revoked and all CA certificates are not revoked.
+(\emph{a}) OCSP. The server certificate is signed and revoked by Let's Encrypt.
+    Let's Encrypt distributes the revocation status through OCSP.
+Firefox, Edge, and IE show Level-C warnings,
+    but Chrome considers it as secure.
 (\emph{b}) CRL. If a server certificate is only revoked through CRL, Chrome and Firefox consider it secure, but Edge and IE display Level-C high-risk warnings \cite{liu2015end}.
 (\emph{c})CRLset. If a revoked server certificate is included in CRLset, Chrome will displays a Level-C high-risk warning.
 
