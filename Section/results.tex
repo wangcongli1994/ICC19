@@ -184,8 +184,10 @@ the server certificate is revoked and all CA certificates are not revoked.
     Let's Encrypt distributes the revocation status through OCSP.
 Firefox, Edge, and IE show Level-C warnings,
     but Chrome considers it as secure.
-(\emph{b}) CRL. If a server certificate is only revoked through CRL, Chrome and Firefox consider it secure, but Edge and IE display Level-C high-risk warnings \cite{liu2015end}.
-(\emph{c})CRLset. If a revoked server certificate is included in CRLset, Chrome will displays a Level-C high-risk warning.
+(\emph{b}) CRL. When the server certificate is revoked through CRL,
+ Chrome and Firefox consider it as secure, while Edge and IE show Level-C warnings \cite{liu2015end}.
+(\emph{c}) CRLset. When the revoked server certificate is included in CRLset,
+ Chrome shows a Level-C warning.
 
 %\textcolor[rgb]{1.00,0.00,0.00}{    If a revoked certificate only contains available CRL field,
 %        Chrome and Firefox consider it secure,
@@ -200,21 +202,21 @@ Firefox, Edge, and IE show Level-C warnings,
 
 %\textbf{Weak Signature Algorithm.}
 \textbf{Weak key.}
-In this weak key paragraph, all server certificates are signed by SHA-256 with RSA Encryption.
- When receiving a server certificate containing a 512-bit RSA key,
-    Chrome, Firefox, and Edge display Level-B medium-risk warnings,
-            but IE display a C-level (High-risk) warning.
- When receiving a server certificate containing a 1024-bit RSA key,
-    all four browsers consider it secure.
- When receiving a server certificate containing a 160-bit ECC key,
-    all four browsers display Level-D fatal warnings.
+%In this weak key paragraph, all server certificates are signed by SHA-256 with RSA Encryption.
+ When receiving a server certificate binding a 512-bit RSA key pair,
+    Chrome, Firefox, and Edge show Level-B warnings,
+            while a C-level warning is shown in IE.
+On a server certificate binding a 1024-bit RSA key pair,
+    all browsers consider it as secure.
+On a server certificate binding a 160-bit ECC key pair,
+    all browsers show Level-D fatal warnings.
 
 %\textbf{Weak Digest Algorithm.}
 \textbf{Weak hash algorithm.}
-In this weak hash algorithm paragraph, all server certificates are signed by RSA and the public key of server certificates are 1024-bit RSA key.
+%In this weak hash algorithm paragraph, all server certificates are signed by RSA and the public key of server certificates are 1024-bit RSA key.
     When receiving a server certificate signed by SHA-1 or MD5,
-        Chrome and Firefox display Level-B medium-risk warnings,
-            but Edge and IE consider it secure.
+        Chrome and Firefox display Level-B warnings,
+            but Edge and IE consider it as secure.
 \subsection{Certificate Verification Errors of Extensions}
 \textbf{Basic constraints extension.}
 In this basic constraints extension paragraph,
