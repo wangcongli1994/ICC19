@@ -82,7 +82,7 @@ In order to find the browser behaviors on specified HTTPS errors,
  & ~~incorrect cA flag (true), incorrect extension of Key Usage (keyCertSign) & Secure & C & Secure & Secure \\
  & CA certificate &  &  &  &  \\
  & ~~incorrect cA flag (false) & C & B & C & C \\
- & ~~correct cA flag (true), incorrect PathLenConstraint & C & Secure & C & B \\ \cline{2-6}
+ & ~~correct cA flag (true), violated pathLenConstraint & C & Secure & C & B \\ \cline{2-6}
  & server certificate &  &  &  &  \\
  & ~~no extended key usage, correct key usage & Secure & Secure & Secure & Secure \\
  & ~~no extended key usage, incorrect key usage & Secure & C & Secure & Secure \\
@@ -223,7 +223,7 @@ In these tests of certificate extensions,
     the certificate chain consist of one self-signed root CA certificate, an intermediate certificate, and the server certificate.
 The root CA certificate is installed in the browsers' certificate store.
 
-\textbf{Basic Constraints extension.}
+\textbf{Basic Constraints.}
 If the cA flag of the Basic Constraints extension is true in the server certificate
     while the key usage is set as a common TLS server certificate (i.e.,
     the Key Usage extension is keyEncipherment, and the Extended Key Usage extension is serverAuth),
@@ -249,10 +249,12 @@ That is, if a TLS server holds a certificate where the cA flag is false,
  it can issue certificates for any domain names to launch MitM attacks,
  because Firefox only shows bypassable Level-B medium-risk warnings.
 
-If the server certificate is signed by a CA certificate that has a correct cA flag (cA flag is true)
-    but does not conform to PathLenConstraint (the PathLenConstraint of self-signed root CA certificate is 0),
-    Chrome and Edge display Level-C high-risk warnings,
-    Firefox consider it secure, and IE displays a Level-B medium-risk warning.
+If the pathLenConstraint integer of the Basic Constraints extension 
+    in the root CA certificate is 0 
+    and the cA flag is false in the intermediate CA certificate (i.e.,
+     the pathLenConstraint integer is violated in the certificate chain),
+Chrome and Edge show Level-C high-risk warnings,
+    Firefox consider it as secure, and IE shows a Level-B warning.
 
 
 \textbf{Key Usage and Extended Key Usage.}

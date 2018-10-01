@@ -26,7 +26,7 @@ The root CA certificate of the certificate chain, sent by the visit server,
 %    when the visited server also acts as a root CA.
 %The server certificate is self-signed,
 %    and not trusted by browsers.
-    
+
 %    Similarly, self-signed certificate is not trusted by browsers and must be installed manually.
 
 \textbf{Incomplete certificate chain.}
@@ -85,7 +85,7 @@ and errors may happen when browsers process these extensions.
 
 %    In addition to the basic certificate validation, we also consider the certificate extension validation: Basic Constraints, Key Usage, and Extended Key Usage.
 
-\textbf{Basic constraints.}
+\textbf{Basic Constraints.}
 This extension consists two fields:
  cA and pathLenConstraint \cite{cooper2008rfc5280}.
 The cA boolean indicates it is a CA certificate or not.
@@ -95,7 +95,7 @@ The pathLenConstraint integer must appear on in a CA certificate,
     it gives
         the maximum number of intermediate CA certificates following this CA certificate in a valid certificate path.
 
-\textbf{Key usage.}
+\textbf{Key Usage.}
 %    ``no key usage" means that the certificate does not have a key usage field.
 This extension defines the purpose(s) of the key pair bound in the certificate.
 According to Frankencerts \cite{brubaker2014using},
@@ -111,7 +111,7 @@ According to Frankencerts \cite{brubaker2014using},
     %all CA certificates must include "Certificate Signing" in their key usage extension, and
     %all server certificates must include "Key Encipherment" in their key usage extension.
 
-\textbf{Extended key usage.}
+\textbf{Extended Key Usage.}
 %    ``no extended key usage" means that the certificate does not have a extended key usage field.
 This extension indicates one or more detailed purposes of the certified key pair,
     in addition to the basic purpose(s) in the Key Usage extension.
