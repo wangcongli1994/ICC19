@@ -17,7 +17,9 @@ Each of the following errors leads to an invalid certificate chain.
 %    from the endpoint certificate to a trusted root certificate in the browser’s root store.
 \textbf{Untrusted root CA certificate.}
 The root CA certificate of the certificate chain, sent by the visit server,
-    is not trusted by browsers (i.e., not in the store of root CA certificates).
+    is not trusted by browsers (i.e., not in the root CA certificate store).
+
+    
 %    This error occurs when the chain of intermediate CAs linking the server certificate to a root CA untrusted by browsers.
 
 %\textcolor[rgb]{1.00,0.00,0.00}{\textbf{Untrusted self-signed server certificate.}}
@@ -63,7 +65,7 @@ The revocation status is distributed through CRL, OCSP, or CRLSet \cite{CRLSet}.
 %\textbf{Weak signature algorithm.}
 %The server certificate is signed by insecure signature algorithms,
   %  such as RSA-512, RSA-1024 \cite{CAB2018BR}, or ECC-160 \cite{NIST2005ECC}.
-\textbf{Weak key.}
+\textbf{Weak key pair.}
 The server certificate binds a key pair of weak algorithm,
     such as RSA-512/1024 \cite{CAB2018BR}, or ECC-160 \cite{NIST2005ECC}.
 
@@ -74,12 +76,12 @@ The server certificate binds a key pair of weak algorithm,
 
 \textbf{Weak hash algorithm.}
 The certificate  is signed
-    by insecure hash algorithms such as SHA-1 \cite{Google2017sha1} and MD5 \cite{wang2004collisions}.
+    by insecure hash algorithms such as SHA-1 \cite{sha1-collision} and MD5 \cite{wang2004collisions}.
     %According to the CA/Browser Forum,
     %supported digest algorithms are SHA-256, SHA-384, and SHA-512. The SHA-1 and MD5 digest algorithm have been shown to be insecure, such as two different PDF files with the same SHA-1 hash \cite{Google2017sha1}.
 
 \subsubsection{Certificate Verification of Extensions}
-The following certificate extensions are critical
+The following certificate extensions are important
         in certificate verification,
 and errors may happen when browsers process these extensions.
 
@@ -90,17 +92,17 @@ This extension consists two fields:
  cA and pathLenConstraint \cite{cooper2008rfc5280}.
 The cA boolean indicates it is a CA certificate or not.
 %    CA certificates must set the ``CA flag" as true, and server certificates must set the ``CA flag" as false.
-The pathLenConstraint integer must appear on in a CA certificate,
+The pathLenConstraint integer must appear in a CA certificate,
     and
     it gives
-        the maximum number of intermediate CA certificates following this CA certificate in a valid certificate path.
+        the maximum number of intermediate CA certificates following this CA certificate in a valid certificate chain.
 
 \textbf{Key Usage.}
 %    ``no key usage" means that the certificate does not have a key usage field.
 This extension defines the purpose(s) of the key pair bound in the certificate.
-According to Frankencerts \cite{brubaker2014using},
-    a CA certificate must include the keyCertSign usage,
-    and a TLS server certificate must include the keyEncipherment usage.
+%According to Frankencerts \cite{brubaker2014using},
+A CA certificate must include the keyCertSign usage,
+    and TLS server certificates with RSA key pairs must include the keyEncipherment usage \cite{cooper2008rfc5280}.
 
 %    ``server certificate: incorrect key usage" means that the server certificates don't include "Key Encipherment" in their key usage field.
  %%%% 什么标准要求key encipherment需要有？必须明确给出来。5280没有这个要求！！？？
@@ -113,11 +115,11 @@ According to Frankencerts \cite{brubaker2014using},
 
 \textbf{Extended Key Usage.}
 %    ``no extended key usage" means that the certificate does not have a extended key usage field.
-This extension indicates one or more detailed purposes of the certified key pair,
+It indicates one or more detailed purposes of the certified key pair,
     in addition to the basic purpose(s) in the Key Usage extension.
 %    ``server certificate: incorrect extended key usage" means that the server certificates don't include ``serverAuth" in their extended key usage field.
 %    ``server certificate: correct extended key usage" means that the server certificates include ``serverAuth" in their extended key usage field \cite{cooper2008rfc5280}.
-A TLS server certificate must include the serverAuth extended key usage. \cite{brubaker2014using}
+A TLS server certificate must include the serverAuth extended key usage \cite{cooper2008rfc5280}.
     %Extended key usage extension further refines key usage extension.
     %If the extension is critical,
     %all server certificates must include "serverAuth" in their extended key usage extension.

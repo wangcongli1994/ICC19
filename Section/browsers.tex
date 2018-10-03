@@ -5,10 +5,10 @@ Browser security warnings protect users against various network attacks,
     and we only consider the MitM attacks in HTTPS.
 The  attacks might be launched
      by using a forged or revoked certificate,
-    or deceiving browsers to visit the website through HTTP.
-When such HTTPS errors happen,
+    or deceiving browsers to visit the website through plain HTTP.
+When such errors happen,
     a browser shows the warnings in different way to ensure security while minimize the side effects of user experience,
-    because an HTTPS error is not definitely caused by a MitM attack.
+    because an HTTPS error is not definitely caused by MitM attacks.
 
 % We describe security warnings of major browsers.
 
@@ -31,11 +31,11 @@ On low-risk errors,
 \subsubsection{Medium-risk warning}
 For medium-risk errors, it shows a \emph{bypassable warning} that discourages users from continuing.
 For example,
-    the browser stops the webpage load and displays a full-screen warning with two options: ``Back to safety'' and ``Proceed to this website (unsafe)''. % 与图片不同？ why
-On medium-risk errors,
-    if the user bypasses (or clicks through)
+    the browser stops the webpage load and displays a full-screen warning with options: ``Back to safety'' and ``Proceed to this website (unsafe)''. % 与图片不同？ why
+%On medium-risk errors,
+If the user bypasses (or clicks through)
      the warning,
-     HTTPS connections are established to the website.
+     HTTPS connections are established.
 %For medium-risk errors, it will show a bypassable warning that discourages the user from continuing.
 %Bypassable HTTPS security warnings are the most common type of browser warning. Browsers use bypassable HTTPS security warning to treat the vast majority of HTTPS errors.
 \begin{figure}[htb]
@@ -49,7 +49,7 @@ On medium-risk errors,
 For high-risk errors, it shows a \emph{non-bypassable warning} that stops the browsing.
 For example,
     the browser displays a full-screen webpage explaining the error,
-     with a retry button.
+     with a ``Retry'' button.
 On high-risk errors,
     the browser closes HTTPS connections to the visited server.
 
