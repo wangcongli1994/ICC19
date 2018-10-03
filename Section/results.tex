@@ -84,27 +84,27 @@ In order to find the browser behaviors on specified HTTPS errors,
  & ~~incorrect cA flag (= false) & C & B & C & C \\
  & ~~correct cA flag (= true), violated pathLenConstraint & C & Secure & C & B \\ \cline{2-6}
  & Server certificate &  &  &  &  \\
- & ~~correct Extended Key Usage, correct Key Usage & Secure & Secure & Secure & Secure \\
- & ~~correct Extended Key Usage, incorrect Key Usage & Secure & Secure & Secure & Secure \\
- & ~~correct Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\
- & ~~incorrect Extended Key Usage, correct Key Usage & C & C & C & C \\
- & ~~incorrect Extended Key Usage, incorrect Key Usage & C & C & C & C \\
- & ~~incorrect Extended Key Usage, no Key Usage & C & C & C & C \\
+ & ~~correct Extended Key Usage, correct/incorrect/no Key Usage & Secure & Secure & Secure & Secure \\
+% & ~~correct Extended Key Usage, incorrect Key Usage & Secure & Secure & Secure & Secure \\
+% & ~~correct Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\
+ & ~~incorrect Extended Key Usage, correct/incorrect/no Key Usage & C & C & C & C \\
+% & ~~incorrect Extended Key Usage, incorrect Key Usage & C & C & C & C \\
+% & ~~incorrect Extended Key Usage, no Key Usage & C & C & C & C \\
  & ~~no Extended Key Usage, correct Key Usage & Secure & Secure & Secure & Secure \\
  & ~~no Extended Key Usage, incorrect Key Usage & Secure & C & Secure & Secure \\
  & ~~no Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\
  & CA certificate &  &  &  &  \\
  & ~~incorrect Key Usage & C & C & C & C \\ \midrule[1pt]
 \multirow{11}{*}{\begin{tabular}[c]{@{}c@{}}Name Validation\end{tabular}}
- & \textcolor[rgb]{1.00,0.00,0.00}{Complete mismatch} & B & B & B & B \\  % 这个也是B，与WWW mismatch都一样，不合适！应该讨论
+ & {Complete mismatch} & B & B & B & B \\  % 这个也是B，与WWW mismatch都一样，不合适！应该讨论
  & WWW mismatch & B & B & B & B \\
  & Out-of-wildcard-scope subdomain & B & B & B & B \\ \cline{2-6}
  & Different SAN and CN &  &  &  &  \\
- & ~~correct SAN, {incorrect CN} & Secure & Secure & Secure & Secure \\ 
- & ~~correct SAN, no CN & Secure & Secure & Secure & Secure \\
- & ~~incorrect SAN, correct CN & B & B & B & B \\
- & ~~incorrect SAN, incorrect CN & B & B & B & B \\
- & ~~incorrect SAN, no CN & B & B & B & B \\
+ & ~~correct SAN, {incorrect/no CN} & Secure & Secure & Secure & Secure \\ 
+% & ~~correct SAN, no CN & Secure & Secure & Secure & Secure \\
+ & ~~incorrect SAN, correct/incorrect/no CN & B & B & B & B \\
+% & ~~incorrect SAN, incorrect CN & B & B & B & B \\
+% & ~~incorrect SAN, no CN & B & B & B & B \\
  & ~~no SAN, correct CN & B & Secure & Secure & Secure \\
  & ~~no SAN, incorrect CN & B & B & B & B \\ \midrule[1pt]
 \multirow{13}{*}{\begin{tabular}[c]{@{}c@{}}HTTPS Security\\Enhancement\end{tabular}}

@@ -1,7 +1,7 @@
 \section{Introduction}
 HTTPS is becoming the de facto standard of secure web applications
- to provide  authentication, data confidentiality and integrity.
-It is used for hundreds of million of times every day in browsers \cite{felt2017measuring}.
+ to provide  authentication, data confidentiality and integrity \cite{felt2017measuring}.
+%It is used for hundreds of million of times every day in browsers .
 HTTPS implements HTTP over TLS.
     In the TLS negotiation, a browser verifies the server certificate by building a certificate chain,
     and validates the certificate subject with the domain visited.
@@ -15,12 +15,12 @@ Browsers show security warnings to users with different levels, when different H
 (\emph{b}) a medium-risk warning is shown as a full-screen page, interrupting the browsing,
     and the user may choose to ignore the warning by actively clicking a button to continue;
 (\emph{c}) a high-risk one is also shown as a full-screen page, stopping the browsing,
-    but the user may choose to retry by actively clicking a button;
+    but the user may actively choose to retry; % by clicking a button;
 and (\emph{d}) a fatal warning immediately close the connection and stop the browsing.
 
-These security warnings try to protect users to establish secure connections with the target website,
+The security warnings try to protect users to establish secure connections with the target website,
     but not a man-in-the-middle (MitM) attack.
-However, an error does not definitely result from the MitM attackers.
+However, an error does not definitely result from the MitM attacks.
 In order to balance security and usability,
     each browser implements its own design of security procedures,
         producing different behaviors and warnings on HTTPS errors.
@@ -32,14 +32,16 @@ The error list covers certificate verification of basic fields and extensions,
 The evaluated browsers are Chrome, Firefox, Edge, and IE on Windows 10.
 Our study
     discloses browser defects on handling HTTPS errors in terms of cryptographic algorithm,
-     certificate extension, name validation,
-      certificate revocation, and HPKP.
+     certificate extension, certificate revocation, name validation,
+      and HPKP.
 Some defects cause a forged or revoked certificate to be probably accepted by users:
 \begin{itemize}
 \item
-A certificate signed or forged with weak cryptographic algorithms is accepted without warnings.
-Edge and IE consider MD5 and SHA-1 as secure,
-    and all these browsers accept RSA-1024 without any warning.
+Because Edge and IE consider MD5 and SHA-1 as secure,
+    a certificate signed or forged with these weak cryptographic algorithms
+     is accepted without warnings.
+Meanwhile, all browsers accept server certificates binding an RSA-1024 key pair without any warning,
+        which is no longer approved by NIST since 2016 \cite{NIST2005ECC}.
 %Chrome, Firefox, Edge, IE: Signature Algorithm. The four browsers consider RSA1024 secure.
 %Edge, IE: Digest Algorithm. Edge and IE consider secure.
 \item
@@ -49,9 +51,9 @@ Thus, a malicious server (but not an accredited CA) may sign TLS server certific
     % including the fields of cA and pathLenConstraint.
 %Chrome, Edge, IE: CA flag. when the CA flag field of a server certificate is set to “true”, Chrome, Edge and IE consider it secure.
 %Firefox pathLenConstraint. when a subordinate CA does not comply with pathLenConstraint, Firefox consider it secure.
-\textcolor[rgb]{1.00,0.00,0.00}{Chrome, Firefox, Edge and IE do not process the extensions of Key Usage and Extended Key Usage correctly.
+Chrome, Firefox, Edge and IE do not process the extensions of Key Usage and Extended Key Usage correctly.
 %even when these extensions appear inconsistently in certificates,    no warning shows.
-So a certificate for other purposes may be maliciously used in HTTPS, and accepted by these browsers.}   % 总结不够到位；我看结果的标准，怎么好像和以前的结果记录有变化？
+So a certificate for other purposes may be maliciously used in HTTPS, and accepted by these browsers.   % 总结不够到位；我看结果的标准，怎么好像和以前的结果记录有变化？
 % key usage and extended key usage. Chrome, Edge, and IE don't display any warnings on certificates whose key usage and extended key usage is not consistent.
 \item
 Chrome does not check the certificate revocation status through commonly-used CRL and OCSP,
@@ -61,7 +63,7 @@ Chrome does not check the certificate revocation status through commonly-used CR
 The HPKP support of Chrome and Firefox
     does not work well,
     when the certificate chain is verified by a user-installed root CA certificate.
-The security-enhancement of HPKP does not take effect always against MitM attacks.
+So the security-enhancement of HPKP does not  always take effect. 
 
 %: HPKP. Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
 \end{itemize}
@@ -70,7 +72,7 @@ There are also defects on the problems of usability.
 %\item
 Chrome implements the procedure of name validation,
     different from other browsers,
-    only with the Subject Alternative Name (SAN) extension not the commonName (CN) field.
+    only with the Subject Alternative Name (SAN) extension but not the commonName (CN) field.
 So a legitimate server certificate considered as secure by Firefox, Edge and IE,
     may cause a security warning in Chrome.
 %Each browser has
@@ -101,7 +103,7 @@ So a legitimate server certificate considered as secure by Firefox, Edge and IE,
         and investigate the security warnings of four mainstream browsers on these errors.
 Several defects are found in the analysis results,
     and these defects may result in the problems of security or usability in HTTPS.
-We finally present the suggestions to improve the browsers.
+We finally present some suggestions to improve the browsers.
 %Based on the analysis results, we found that some browsers didn't handle properly,
 %    for example,
 %    firefox displays medium-risk warnings for manually installed self-signed certificates,
