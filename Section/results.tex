@@ -9,16 +9,14 @@
 We attempt to analyze the browser security warnings
     on various HTTPS errors.
 We register a domain name and
-    establish the website for it by Nginx.
+    establish the website by Nginx.
 We induce different HTTPS errors
     by
     (\emph{a}) invalid or defective certificate chains in TLS negotiations,
-    (\emph{b}) mismatched public keys after HPKP pins the public keys in browsers,
+    (\emph{b}) mismatched public keys after HPKP pins the public keys, % in browsers,
     and (\emph{c}) HTTP connections after the HSTS policy is activated.
-Then, the evaluated browsers visit  the website one by one,
-    and we record the browser behaviors.
 We utilize OpenSSL to generate key pairs and some certificates,
-    while some server certificates are applied from Let's Encrypt.
+    while some server certificates are issued by Let's Encrypt.
 TLS 1.2 is adopted in the HTTPS connections.
 
 %we register a domain name and resolve many subdomains to our web server, and
@@ -47,6 +45,8 @@ TLS 1.2 is adopted in the HTTPS connections.
 
 The evaluated browsers are Chrome v67.0.3396.99,
  Firefox v62.0, Edge v42.17134.1.0, and IE v11.0.9600.17031 on Windows 10.
+The browsers visit  the ``honeypot'' website,
+    and we record the browser behaviors.
 The results are summarized in Table I.
 A, B, and C represent a warning of low-risk, medium-risk, high-risk, respectively.
 D represent a fatal warning.
@@ -55,6 +55,8 @@ In order to find the browser behaviors on specified HTTPS errors,
     we induce only one error in the certificate chains or HTTP headers,
     unless otherwise stated.
 % A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, respectively.
+\textcolor[rgb]{1.00,0.00,0.00}{2048-bit RSA and SHA-256 are used in these tests,
+    except for the ones of weak key pair and weak hash algorithm.}      %% 这句话描述，对不对？
 
 \begin{table*}[htbp]
 \centering
@@ -140,14 +142,15 @@ In these tests,
 The domain name in CN also appears to be correct.
 
 \textbf{Untrusted root CA certificate.}
-We use OpenSSL to generate a certificate chain, %(whose cA flag is true, pathLenConstraint is null, key usage is keyCertSign),
- %   then use the root certificate to issue a valid server certificate (both CN and SAN of the server certificate contain the server's domain name, the key usage is keyEncipherment, extended key usage is serverAuth, and cA flag is false).
- and the root CA is not trusted by browsers.
-%When visiting the website, We will receive the server certificate and a Level-B medium-risk warning with the error hint ``NET::ERR\_CERT\_AUTHORITY\_INVALID''.
+%We use OpenSSL to generate a certificate chain,
+% and the root CA is not trusted by browsers.
+%%%% %(whose cA flag is true, pathLenConstraint is null, key usage is keyCertSign),
+%%%% %   then use the root certificate to issue a valid server certificate (both CN and SAN of the server certificate contain the server's domain name, the key usage is keyEncipherment, extended key usage is serverAuth, and cA flag is false).
+%%%% %When visiting the website, We will receive the server certificate and a Level-B medium-risk warning with the error hint ``NET::ERR\_CERT\_AUTHORITY\_INVALID''.
 All browsers show a Level-B warning on this error.
 This warning is eliminated
  as we install the self-signed CA certificate in the browsers' root CA certificate store.
-Chrome, Edge and IE rely on the Windows root CA certificate store,
+Chrome, Edge and IE rely on the Windows certificate store,
      and Firefox uses its own NSS certificate store.
 
 
@@ -185,8 +188,8 @@ the server certificate is revoked and all CA certificates are not revoked.
     Let's Encrypt distributes the revocation status through OCSP.
 Firefox, Edge, and IE show Level-C warnings,
     but Chrome considers it as secure.
-(\emph{b}) CRL. When the server certificate is revoked through CRL,
- Chrome and Firefox consider it as secure, while Edge and IE show Level-C warnings \cite{liu2015end}.
+(\emph{b}) \textcolor[rgb]{1.00,0.00,0.00}{CRL. When it is revoked through CRL,
+ Chrome and Firefox consider it as secure, while Edge and IE show Level-C warnings \cite{liu2015end}.}  %%% CRL实验，应该也是我们自己做。
 (\emph{c}) CRLset. When the revoked server certificate is included in CRLset,
  Chrome shows a Level-C warning.
 
@@ -206,10 +209,10 @@ Firefox, Edge, and IE show Level-C warnings,
 %In this weak key paragraph, all server certificates are signed by SHA-256 with RSA Encryption.
  When receiving a server certificate binding a 512-bit RSA key pair,
     Chrome, Firefox, and Edge show Level-B warnings,
-            while a C-level warning is shown in IE.
+            while a Level-C warning is shown in IE.
 On a server certificate binding a 1024-bit RSA key pair,
     all browsers consider it as secure.
-On a server certificate binding a 160-bit ECC key pair,
+When a 160-bit ECC key pair is bound,
     all browsers show Level-D fatal warnings.
 
 %\textbf{Weak Digest Algorithm.}
@@ -220,10 +223,10 @@ On a server certificate binding a 160-bit ECC key pair,
             but Edge and IE consider it as secure.
 \subsection{Certificate Verification Errors of Extensions}
 In these tests of certificate extensions,
-    the certificate chain consist of one self-signed root CA certificate, an intermediate certificate, and the server certificate.
+    the certificate chains consist of one self-signed root CA certificate, an intermediate certificate, and the server certificate.
 The root CA certificate is installed in the browsers' certificate store.
-The extensions of Basic Constraints and Key Usage are critical, and
-the Extended Key Usage extension is non-critical.
+\textcolor[rgb]{1.00,0.00,0.00}{The extensions of Basic Constraints and Key Usage are critical, and
+the Extended Key Usage extension is non-critical \cite{cooper2008rfc5280}.}
 
 \textbf{Basic Constraints.}
 If the cA flag of the Basic Constraints extension is true in the server certificate
@@ -234,7 +237,7 @@ If the cA flag of the Basic Constraints extension is true in the server certific
     but Firefox shows a Level-B warning.
 %
 If the cA flag is true in the server certificate
-    while the key usage is set as a common CA certificate (i.e.,
+    and the key usage is set as a common CA certificate (i.e.,
         the Key Usage extension is keyCertSign, and no Extended Key Usage extension),
     Chrome, Edge, and IE consider it as secure,
     but Firefox shows a Level-C warning.
@@ -247,7 +250,7 @@ Chrome, Edge, and IE show Level-C warnings,
 %If the cA flag is false in the intermediate CA certificate
 %    while the key usage is set as a common TLS server certificate,
 %    the results are the same.
-That is, if a TLS server holds a certificate where the cA flag is false,
+Therefore, even if a TLS server holds a certificate where the cA flag is false,
  it can issue certificates for any domain names to launch MitM attacks,
  because Firefox only shows bypassable Level-B medium-risk warnings.
 
@@ -282,7 +285,7 @@ In these tests,
     the CN field is set the same as  the SAN extension,
 which is marked as non-critical.
 
-Next, the CN field is set different from the SAN extension,
+Next, the CN field is set different from the non-critical SAN extension,
     and incorrect CN (or SAN) means complete mismatch.
 As long as SAN is correct,
     no matter what CN is,
@@ -302,12 +305,12 @@ Firefox, Edge, and IE consider it as secure
 \textbf{HPKP.}
 In these tests,
     the root CA certificate is (\emph{a}) generated by OpenSSL and then manually installed in the browsers' certificate store,
-            i.e., in the private store,
+            i.e., in the private certificate store,
     or (\emph{b}) trusted in browsers by default, i.e., in the public store.
-Let's Encrypt in the trusted root CA in these tests.
+Let's Encrypt is the publicly-trusted root CA in these tests.
 
 Edge and IE do not support HPKP, so they do not show any warnings on HPKP errors.
-Chrome and Firefox have the same behaviors on HPKP validation.
+Chrome and Firefox exhibit the same behaviors on HPKP validation.
 %
 %    Next, let's look at the warning behaviors of Chrome and Firefox.
 %If the root certificate of the certificate chain is installed manually by the user, no HPKP errors will be warned.
@@ -316,12 +319,12 @@ If the root CA certificate is in the private store,
 It seems that HPKP validation is not enabled.
 
 When the root CA certificate is in the public store, there are two categories of tests.
-An incorrect HPKP header is sent when the evaluated browser visits for the first time,
+(\emph{a}) An incorrect HPKP header is sent when the browser visits for the first time,
  such as non-numeric max-age and pin-sha256 mismatch.
-No warning on HPKP errors is shown,
+Then, no warning on HPKP errors is shown,
         when the browser visits for the second time.
-A correct HPKP header is sent,
-when the evaluated browser visits for the first time.
+(\emph{b}) A correct HPKP header is sent,
+when the browser visits for the first time.
 Then,
     when the browser visits the website for the second time,
         Chrome and Firefox show Level-C warnings
@@ -367,13 +370,13 @@ Then,
 \textbf{HSTS.}
 HSTS follows the trust-on-first-use policy, and it also supports the pre-loaded list in browsers \cite{hodges2012rfc6797}.
 When visiting a domain in the list,
-    the browser only uses HTTPS to initiate the connections.
+    the browser must use HTTPS. % to initiate the connections.
 %This list is maintained by Google Chromium and is used by mainstream browsers like FireFox, Edge and IE.
 
 
 When we visit a website in the HSTS pre-loaded list, 
     if there is an HTTPS error that causes Level-B warnings without HSTS (for example,
-        incomplete certificate chain, expired certificate, \textcolor[rgb]{1.00,0.00,0.00}{or any other Level-B medium-risk HTTPS errors}),  %% 具体哪些，列出来
+        incomplete certificate chain, expired certificate, \textcolor[rgb]{1.00,0.00,0.00}{or any other Level-B medium-risk HTTPS errors}),  %% 具体哪些，列出来；包括Level-D的错误吗？
     all browsers show Level-C warnings instead.
         %all the four browsers display C-level (High-Risk) warnings on B-level (Medium-Risk) HTTPS errors,
 All browsers show Level-A warnings if some resources are visited over plain HTTP.
