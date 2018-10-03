@@ -55,8 +55,8 @@ In order to find the browser behaviors on specified HTTPS errors,
     we induce only one error in the certificate chains or HTTP headers,
     unless otherwise stated.
 % A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, respectively.
-\textcolor[rgb]{1.00,0.00,0.00}{2048-bit RSA and SHA-256 are used in these tests,
-    except for the ones of weak key pair and weak hash algorithm.}      %% 这句话描述，对不对？
+2048-bit RSA and SHA-256 are used in these tests,
+    except for the ones of weak key pair and weak hash algorithm.      %% 这句话描述，对不对？  对！
 
 \begin{table*}[htbp]
 \centering
@@ -102,7 +102,7 @@ In order to find the browser behaviors on specified HTTPS errors,
  & WWW mismatch & B & B & B & B \\
  & Out-of-wildcard-scope subdomain & B & B & B & B \\ \cline{2-6}
  & Different SAN and CN &  &  &  &  \\
- & ~~correct SAN, {incorrect/no CN} & Secure & Secure & Secure & Secure \\ 
+ & ~~correct SAN, {incorrect/no CN} & Secure & Secure & Secure & Secure \\
 % & ~~correct SAN, no CN & Secure & Secure & Secure & Secure \\
  & ~~incorrect SAN, correct/incorrect/no CN & B & B & B & B \\
 % & ~~incorrect SAN, incorrect CN & B & B & B & B \\
@@ -254,8 +254,8 @@ Therefore, even if a TLS server holds a certificate where the cA flag is false,
  it can issue certificates for any domain names to launch MitM attacks,
  because Firefox only shows bypassable Level-B medium-risk warnings.
 
-If the pathLenConstraint integer of the Basic Constraints extension 
-    in the root CA certificate is 0 
+If the pathLenConstraint integer of the Basic Constraints extension
+    in the root CA certificate is 0
     and the cA flag is false in the intermediate CA certificate (i.e.,
      the pathLenConstraint integer is violated in the certificate chain),
 Chrome and Edge show Level-C high-risk warnings,
@@ -297,7 +297,7 @@ As long as SAN is incorrect,
 If the server certificate signed without the SAN extension
     and the CN field is set incorrect, all browsers show Level-B warnings.
 If the server certificate signed without the SAN extension
-    and the CN field is correct, 
+    and the CN field is correct,
 Firefox, Edge, and IE consider it as secure
    but Chrome shows a Level-B warning.
 
@@ -374,7 +374,7 @@ When visiting a domain in the list,
 %This list is maintained by Google Chromium and is used by mainstream browsers like FireFox, Edge and IE.
 
 
-When we visit a website in the HSTS pre-loaded list, 
+When we visit a website in the HSTS pre-loaded list,
     if there is an HTTPS error that causes Level-B warnings without HSTS (for example,
         incomplete certificate chain, expired certificate, \textcolor[rgb]{1.00,0.00,0.00}{or any other Level-B medium-risk HTTPS errors}),  %% 具体哪些，列出来；包括Level-D的错误吗？
     all browsers show Level-C warnings instead.
