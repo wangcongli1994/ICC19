@@ -18,10 +18,10 @@ Browsers show security warnings to users with different levels, when different H
     but the user may actively choose to retry; % by clicking a button;
 and (\emph{d}) a fatal warning immediately close the connection and stop the browsing.
 
-The security warnings try to protect users to establish secure connections with the target website,
-    but not a man-in-the-middle (MitM) attack.
+The security warnings aim to protect users to establish secure connections with the target website,
+    but not a man-in-the-middle (MitM) attacker.
 However, an error does not definitely result from the MitM attacks.
-In order to balance security and usability,
+So, in order to balance security and usability,
     each browser implements its own design of security procedures,
         producing different behaviors and warnings on HTTPS errors.
 This work presents a list of common HTTPS errors,
@@ -31,10 +31,11 @@ The error list covers certificate verification of basic fields and extensions,
 
 The evaluated browsers are Chrome, Firefox, Edge, and IE on Windows 10.
 Our study
-    discloses browser defects on handling HTTPS errors in terms of cryptographic algorithm,
-     certificate extension, certificate revocation, name validation,
-      and HPKP.
-Some defects cause a forged or revoked certificate to be probably accepted by users:
+    discloses the browser defects on handling HTTPS errors in terms of cryptographic algorithm,
+     certificate verification, %extension, certificate revocation,
+      name validation,
+      HPKP, and HSTS.
+Some serious defects cause a forged or revoked certificate to be probably accepted by users:
 \begin{itemize}
 \item
 Edge and IE consider MD5 as secure,
