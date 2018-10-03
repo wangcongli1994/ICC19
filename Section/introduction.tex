@@ -65,11 +65,11 @@ Chrome does not check the certificate revocation status through commonly-used CR
 The HPKP support of Chrome and Firefox
     does not work well,
     when the certificate chain is verified by a user-installed root CA certificate.
-So the security-enhancement of HPKP does not  always take effect. 
+So the security-enhancement of HPKP does not  always take effect.
 \item
 In all browsers,
     the visits over plain HTTP that violates the HSTS policy,
-        cause only the low-risk warnings, not interrupting the user's browsing.
+        trigger only the low-risk warnings, not interrupting the user's browsing.
 %: HPKP. Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
 However,
     such visits deviate from the user's requirements or probably result from the MitM attacks.
@@ -81,7 +81,7 @@ Chrome implements the procedure of name validation,
     different from other browsers,
     only with the Subject Alternative Name (SAN) extension but not the commonName (CN) field.
 So a legitimate server certificate considered as secure by Firefox, Edge and IE,
-    may cause a security warning in Chrome.
+    may trigger a security warning in Chrome.
 %Each browser has
 %Name validation, different. The four browsers have inconsistencies in checking CN and SAN.
 %\item
