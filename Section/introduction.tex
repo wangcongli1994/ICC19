@@ -37,11 +37,12 @@ Our study
 Some defects cause a forged or revoked certificate to be probably accepted by users:
 \begin{itemize}
 \item
-Because Edge and IE consider MD5 and SHA-1 as secure,
-    a certificate signed or forged with these weak cryptographic algorithms
+Edge and IE consider MD5 as secure,
+    so a certificate signed or forged with this weak algorithm \cite{md5-forged-cert1, md5-forged-cert2}
      is accepted without warnings.
 Meanwhile, all browsers accept server certificates binding an RSA-1024 key pair without any warning,
-        which is no longer approved by NIST since 2016 \cite{NIST2005ECC}.
+        which prohibited by CA/Browser Forum since 2014 \cite{CAB2018BR},
+            and by NIST since 2016 \cite{NIST2005ECC}.
 %Chrome, Firefox, Edge, IE: Signature Algorithm. The four browsers consider RSA1024 secure.
 %Edge, IE: Digest Algorithm. Edge and IE consider secure.
 \item
