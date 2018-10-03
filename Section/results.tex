@@ -114,12 +114,12 @@ In order to find the browser behaviors on specified HTTPS errors,
  & HPKP, public store &  &  &  &  \\
  & ~~1st visit: incorrect HPKP header, 2nd visit: correct/incorrect/no HPKP header & Secure & Secure & Secure & Secure \\
  & ~~1st visit: correct HPKP header, 2nd visit: incorrect/no HPKP header & C & C & Secure & Secure \\ \cline{2-6}
- & HSTS, not in preload list &  &  &  &  \\
- &~~resource over plain HTTP & A & A & A & A \\
- & ~~1st visit: correct HSTS header, 2nd visit: HTTPS error &C & C & C &C \\
- & HSTS, in preload list &  &  &  &  \\
+ & HSTS, in the pre-loaded list &  &  &  &  \\
+ & ~~any HTTPS error & C &C & C & C \\
  & ~~resource over plain HTTP & A & A & A & A \\
- & ~~HTTPS error & C &C & C & C \\ \bottomrule
+ & HSTS, not in the pre-loaded list &  &  &  &  \\
+ & ~~1st visit: correct HSTS header, 2nd visit: any HTTPS error &C & C & C &C \\
+ &~~1st visit: correct HSTS header, 2nd visit: resource over plain HTTP & A & A & A & A \\ \bottomrule
 \end{tabular}
 
   \label{tab:addlabel}%
@@ -364,24 +364,29 @@ Then,
 
 
 
- \textbf{HSTS.}
- HSTS follows the trust-on-first-use policy, but HSTS has a preload list in the browsers.
- Whenever visiting the domain name in the preload list,
-    the browser will only use HTTPS to initiate the connection.
- This list is maintained by Google Chromium and is used by mainstream browsers like FireFox, Edge and IE.
+\textbf{HSTS.}
+HSTS follows the trust-on-first-use policy, and it also supports the pre-loaded list in browsers \cite{hodges2012rfc6797}.
+When visiting a domain in the list,
+    the browser only uses HTTPS to initiate the connections.
+%This list is maintained by Google Chromium and is used by mainstream browsers like FireFox, Edge and IE.
 
 
-    Whenever you visit a website in the HSTS preload list, % 什么是preload list？应该有解释。现在的结果，看起来，莫名其妙。
-    if the website has HTTPS error including incomplete certificate chain, expired certificates, or any other Level-B medium-risk HTTPS errors mentioned in this paper,
-    all the four browsers will display Level-C high-risk warnings.
+When we visit a website in the HSTS pre-loaded list, 
+    if there is an HTTPS error that causes Level-B warnings without HSTS (for example,
+        incomplete certificate chain, expired certificate, \textcolor[rgb]{1.00,0.00,0.00}{or any other Level-B medium-risk HTTPS errors}),  %% 具体哪些，列出来
+    all browsers show Level-C warnings instead.
         %all the four browsers display C-level (High-Risk) warnings on B-level (Medium-Risk) HTTPS errors,
-    All the four browsers display Level-A low-risk warnings on websites that transmit some resources over plain HTTP.
+All browsers show Level-A warnings if some resources are visited over plain HTTP.
 
-    When we visit a website not in the HSTS preload list,
-        if we received an correct HSTS header when we visit the website for the first time,
-        then when we visit the website for the second time encountering Level-B medium-risk HTTPS errors mentioned in this paper,
-        all the four browsers display Level-C high-risk warnings.
-        All the four browsers display Level-A low-risk warnings on websites that transmit some resources over plain HTTP.
+After the visit with a correct HSTS header,
+    all browsers show the security warnings as the domain is in the pre-loaded list,
+     on different HTTPS errors.
+
+%    When we visit a website not in the HSTS preload list,
+%        if we received an correct HSTS header when we visit the website for the first time,
+%        then when we visit the website for the second time encountering Level-B medium-risk HTTPS errors mentioned in this paper,
+%        all the four browsers display Level-C high-risk warnings.
+%        All the four browsers display Level-A low-risk warnings on websites that transmit some resources over plain HTTP.
 
 %The site's certificate must first be trusted by the browser, including server authentication and certificate/certificate chain verification. We first pin the sha256 value of the intermediate CA and any other sha256 value into the header, and the browser will cache the two sha256 values ??and verify them in the next access within the cache effective time. If the two sha256 values ??of the pin are in the same certificate chain, they will not be cached and will not prompt any errors.
 
