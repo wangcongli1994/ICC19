@@ -65,8 +65,13 @@ The HPKP support of Chrome and Firefox
     does not work well,
     when the certificate chain is verified by a user-installed root CA certificate.
 So the security-enhancement of HPKP does not  always take effect. 
-
+\item
+In all browsers,
+    the visits over plain HTTP that violates the HSTS policy,
+        cause only the low-risk warnings, not interrupting the user's browsing.
 %: HPKP. Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
+However,
+    such visits deviate from the user's requirements or probably result from the MitM attacks.
 \end{itemize}
 There are also defects on the problems of usability.
 %\begin{itemize}

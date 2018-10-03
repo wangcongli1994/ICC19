@@ -1,5 +1,6 @@
 \section{Discussion and Suggestion}
-In the experiment, we found that different browsers have different processing methods for some unsafe scenarios. Through comparison between them, we have summarized the existing risks of several browsers.
+%In the experiment, we found that different browsers have different processing methods for some unsafe scenarios.
+%Through comparison between them, we have summarized the existing risks of several browsers.
 
 \subsection{Revoked Server Certificate}
     99.9\% of the server certificates contains a CRL distribution point \cite{liu2015end},
@@ -14,8 +15,8 @@ In the experiment, we found that different browsers have different processing me
         and Chrome only displays warnings on revoked certificates through CRLSet.
         Although CRLset is constantly updated, Chrome still consider my website is secure within a month after my server certificate was revoked.
         we think Chrome need to be improved on this.
-        
-        
+
+
 
 \subsection{Weak Algorithm}
     Several security incidents have shown that,
@@ -60,7 +61,7 @@ The CA/Browser Forum suggests that
     deprecates the CN field and lists applicable names in SAN field.
 However, The four browsers have inconsistencies in checking CN and SAN.
 When visiting a domain whose domain name is included in the CN field and it does not have SAN field,
-Chrome displays a Level-B medium-risk warning, but Firefox, Edge, and IE consider it secure.  
+Chrome displays a Level-B medium-risk warning, but Firefox, Edge, and IE consider it secure.
 This may lead to a problem of usability.
 
 
