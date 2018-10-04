@@ -78,16 +78,6 @@ However,
    %with both extensions, then the certificate MUST NOT be used for any
    %purpose.(RFC 5280)
 \subsection{Name Validation}
-%The CA/Browser Forum suggests that
-%    deprecates the CN field and lists applicable names in SAN field.
-The evaluated browsers behave inconsistently in name validation.
-Chrome checks the domain name \emph{only} in the SAN extension.
-Firefox, Edge, and IE consider a server certificate as secure,
-    if it contains the valid CN field but not the SAN extension;
-    on the contrary, it triggers Level-B warnings in Chrome.
-This may lead to a problem of usability:
-    a legitimate server certificate considered as secure by other browsers,
-    may trigger a security warning in Chrome.
 
 All browsers show Level-B warnings on different name validation errors:
 complete mismatch,
@@ -98,6 +88,16 @@ However,
     and complete mismatch shall trigger a higher-level warning.
 
 
+%The CA/Browser Forum suggests that
+%    deprecates the CN field and lists applicable names in SAN field.
+The evaluated browsers behave inconsistently in name validation.
+Chrome checks the domain name \emph{only} in the SAN extension.
+Firefox, Edge, and IE consider a server certificate as secure,
+    if it contains the valid CN field but not the SAN extension;
+    on the contrary, it triggers Level-B warnings in Chrome.
+This may lead to a problem of usability:
+    a legitimate server certificate considered as secure by other browsers,
+    may trigger a security warning in Chrome.
 
 \subsection{HPKP}
 HPKP is supported only in Chrome and Firefox.
@@ -120,3 +120,11 @@ So a website cannot enhance its HTTPS security by HPKP against MitM attacks,
 
 
 
+\subsection{HSTS}
+HSTS is supported by all evaluated browsers.
+The visits over plain HTTP that definitely violates the HSTS policy,
+ trigger only Level-A warnings, not interrupting the user's browsing.
+If the HSTS policy is activated by the pre-loaded list, which is explicitly configured by the user,
+    the user shall be notified on such visits over HTTP.
+If the HSTS policy is activated by the HSTS header, which is sent by the website,
+    such visits over plain HTTP are probably initiated by attackers because the website does not allow HTTP visits.
