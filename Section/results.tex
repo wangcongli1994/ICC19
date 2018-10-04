@@ -266,12 +266,12 @@ Chrome, Edge, and IE show Level-C warnings,
 %    the results are the same.
 Therefore, even if a TLS server holds a certificate where the cA flag is false,
  it can issue certificates for any domain names to launch MitM attacks,
- because Firefox only shows bypassable Level-B medium-risk warnings.
+ because Firefox shows only \emph{bypassable} Level-B medium-risk warnings.
 
-If the pathLenConstraint integer of the Basic Constraints extension
+If the pathLenConstraint field of the Basic Constraints extension
     in the root CA certificate is 0
-    and the cA flag is false in the intermediate CA certificate (i.e.,
-     the pathLenConstraint integer is violated in the certificate chain),
+    and the cA flag is true in the intermediate CA certificate (i.e.,
+     the pathLenConstraint field is violated in the certificate chain),
 Chrome and Edge show Level-C high-risk warnings,
     Firefox consider it as secure, and IE shows a Level-B warning.
 

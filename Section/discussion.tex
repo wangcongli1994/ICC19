@@ -47,21 +47,30 @@ On the contrary,
 
 \subsection{Certificate Extension}
 \textbf{Basic Constraints.}
-    We must strictly distinguish between server certificate and CA certificate.
-    However, when the CA flag field of a server certificate is set to ``true",
-        Chrome, Edge and IE think it safe.
-    We think this three browsers need to be improved on this.
-
-    In addition, if a CA has pathLenConstrait field, its subordinate CA should comply with this rule.
-    However, Firefox does not display any warnings on pathLenConstrait error.
-    We think Firefox need to be improved on this.
+The Basic Constraints extension is defined to distinguish CA certificates and non-CA ones \cite{cooper2008rfc5280}.
+However,
+    when the server certificate is verified by a certificate in which the cA flag is false,
+    i.e., a non-CA certificate holder acts as CAs to sign server certificates,
+            Firefox shows only bypassable Level-B warnings.
+Moreover, Firefox does not process the pathLenConstraint field correctly,
+    and the violated pathLenConstraint does not trigger warnings in Firefox.
+The defects may be exploited to launch successful MitM attacks.
+    
+If a CA acts as the TLS server in HTTPS,
+    i.e., the cA flag in the ``server'' certificate is true,
+Chrome, Edge and IE consider it as secure and show no warning.
+However, in our opinion,
+    such configurations are not common cases,
+    a Level-A warning shall be necessary.
 
 \textbf{Extended Key Usage and Key Usage.}
 If a certificate contains the extensions of both Key Usage and Extended Key Usage,
-    these extensions must be processed independently,
+    the extensions must be processed independently,
     and the certificate is only used for the purpose(s) consistent with both extensions  \cite{cooper2008rfc5280}.
 %If there is no purpose consistent with both extensions, then the certificate MUST NOT be used for any purpose \cite{cooper2008rfc5280}.
-
+This rule is not complied with in Chrome, Edge and IE:
+    when the server certificate includes only the serverAuth extended usage and the keyCertSign usage,
+     no warning is shown.
 
 Chrome, Edge, and IE do not process the Key Usage extension correctly,
     even if it is marked as critical.
