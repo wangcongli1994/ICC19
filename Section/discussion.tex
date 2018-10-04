@@ -78,29 +78,32 @@ However,
    %with both extensions, then the certificate MUST NOT be used for any
    %purpose.(RFC 5280)
 \subsection{Name Validation}
-The CA/Browser Forum suggests that
-    deprecates the CN field and lists applicable names in SAN field.
-However, The four browsers have inconsistencies in checking CN and SAN.
-When visiting a domain whose domain name is included in the CN field and it does not have SAN field,
-Chrome displays a Level-B medium-risk warning, but Firefox, Edge, and IE consider it secure.
-This may lead to a problem of usability.
+%The CA/Browser Forum suggests that
+%    deprecates the CN field and lists applicable names in SAN field.
+The evaluated browsers behave inconsistently in name validation.
+Chrome checks the domain name \emph{only} in the SAN extension.
+Firefox, Edge, and IE consider a server certificate as secure,
+    if it contains the valid CN field but not the SAN extension;
+    on the contrary, it triggers Level-B warnings in Chrome.
+This may lead to a problem of usability:
+    a legitimate server certificate considered as secure by other browsers,
+    may trigger a security warning in Chrome.
 
 All browsers show Level-B warnings on different name validation errors:
 complete mismatch,
 WWW mismatch and out-of-wildcard-scope subdomain.
 However,
     in our opinion,
-    these errors bring different levels of risk
+    these errors bring very different levels of risk
     and complete mismatch shall trigger a higher-level warning.
 
 
 
 \subsection{HPKP}
-    Of the four browsers, only Chrome and Firefox support HPKP.
+HPKP is supported in Chrome and Firefox.
     Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
     Thus, If a malware installs its root certificate on the user's computer,
         it may defeat the protections of HPKP and successfully launch the man-in-the-middle attack.
-    We think Chrome and Firefox need to be improved on this.
 
 %To enable certificate chain validation, Chrome has access to two stores of trust anchors: certificates that are empowered as issuers. One trust anchor store is the system or public trust anchor store, and the other other is the local or private trust anchor store. The public store is provided as part of the operating system, and intended to authenticate public internet servers. The private store contains certificates installed by the user or the administrator of the client machine. Private intranet servers should authenticate themselves with certificates issued by a private trust anchor.
 
