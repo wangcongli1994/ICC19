@@ -23,7 +23,7 @@ On low-risk errors,
  the browser still establishes HTTPS connections with the visited website.
 
 \begin{figure}[htb]
-\centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig1.png}}%记得换成chrome的截图
+\centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig1.png}}% 记得换成chrome的截图
 \caption{Low-risk warning in Chrome.}
 \label{fig-a}
 \end{figure}
@@ -56,17 +56,17 @@ On high-risk errors,
 %For high-risk errors, it will show a security warning that the user cannot bypass.
 %As a worst case scenario, the browser will prevent uses from continuing to browse the website by showing a security warning that the users cannot bypass.
 \begin{figure}[htbp]
-\centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig3.png}}%记得换成自己fireblossom.xyz网址的截图
+\centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig3.png}}% 记得换成自己fireblossom.xyz网址的截图
 \caption{High-risk warning in Chrome.}
 \label{fig-c}
 \end{figure}
 %this is probably because the website is supposed to establish a valid HTTPS connection, but the certificate chain fails to validate (e.g., a HTTPS certificate error occurs in a website that has deployed HSTS policy).
 
-\subsubsection{Fatal warning}
-On fatal errors, it \emph{immediately closes the connections} and stops the browsing.
-For example,
-    the browser displays a full-screen fatal warning,
-     discouraging any retrying.
+%\subsubsection{Fatal warning}
+%On fatal errors, it \emph{immediately closes the connections} and stops the browsing.
+%For example,
+ %   the browser displays a full-screen fatal warning,
+  %   discouraging any retrying.
 %On fatal errors,
 %    the browser immediately closes HTTPS connections to the server.
 
@@ -74,9 +74,9 @@ For example,
 %For fatal errors, it shows a warning stop uses' browsing.
 %The browser may fail to establish a HTTPS connection to the server for unsupported TLS version, cipher mismatch, or other reasons.
 %In this scenario, the browser cannot obtain certificates from the web server, let alone certificate validation, so the TLS handshake error is not discussed in this paper.
-\begin{figure}[htbp]
-\centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig4.png}}%截图需要再调整成清晰的
-\caption{Fatal warning in Chrome.}
-\label{fig-d}
-\end{figure}
+%\begin{figure}[htbp]
+%\centerline{\includegraphics[height=3cm,width=7cm]{Figure/fig4.png}}% 截图需要再调整成清晰的
+%\caption{Fatal warning in Chrome.}
+%\label{fig-d}
+%\end{figure}
 %Warning Images
