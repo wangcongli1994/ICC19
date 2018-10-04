@@ -19,7 +19,7 @@ Each of the following errors leads to an invalid certificate chain.
 The root CA certificate of the certificate chain, sent by the visit server,
     is not trusted by browsers (i.e., not in the root CA certificate store).
 
-    
+
 %    This error occurs when the chain of intermediate CAs linking the server certificate to a root CA untrusted by browsers.
 
 %\textcolor[rgb]{1.00,0.00,0.00}{\textbf{Untrusted self-signed server certificate.}}
@@ -119,7 +119,7 @@ It indicates one or more detailed purposes of the certified key pair,
     in addition to the basic purpose(s) in the Key Usage extension.
 %    ``server certificate: incorrect extended key usage" means that the server certificates don't include ``serverAuth" in their extended key usage field.
 %    ``server certificate: correct extended key usage" means that the server certificates include ``serverAuth" in their extended key usage field \cite{cooper2008rfc5280}.
-A TLS server certificate must include the serverAuth extended key usage \cite{cooper2008rfc5280}.
+A TLS server certificate must include the serverAuth extended usage \cite{cooper2008rfc5280}.
     %Extended key usage extension further refines key usage extension.
     %If the extension is critical,
     %all server certificates must include "serverAuth" in their extended key usage extension.

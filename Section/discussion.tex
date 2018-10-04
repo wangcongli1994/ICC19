@@ -46,7 +46,7 @@ On the contrary,
      which is stronger than 512-bit RSA \cite{ecc-vs-rsa}.
 
 \subsection{Certificate Extension}
-\textbf{Basic Constraint}
+\textbf{Basic Constraints.}
     We must strictly distinguish between server certificate and CA certificate.
     However, when the CA flag field of a server certificate is set to ``true",
         Chrome, Edge and IE think it safe.
@@ -56,15 +56,20 @@ On the contrary,
     However, Firefox does not display any warnings on pathLenConstrait error.
     We think Firefox need to be improved on this.
 
-\textbf{Extended Key Usage and Key Usage}
-According to RFC 5280, if a certificate contains both a key usage extension and an extended key usage extension,
-    then both extensions MUST be processed independently
-    and the certificate MUST only be used for a purpose consistent with both extensions.
-    If there is no purpose consistent with both extensions, then the certificate MUST NOT be used for any purpose \cite{cooper2008rfc5280}.
+\textbf{Extended Key Usage and Key Usage.}
+If a certificate contains the extensions of both Key Usage and Extended Key Usage,
+    these extensions must be processed independently,
+    and the certificate is only used for the purpose(s) consistent with both extensions  \cite{cooper2008rfc5280}.
+%If there is no purpose consistent with both extensions, then the certificate MUST NOT be used for any purpose \cite{cooper2008rfc5280}.
 
-For key usage and extended key usage of server certificate, there are two incorrect browser security warnings.
-    First, Chrome, Edge, and IE does not display any warning on error of a server certificate that does not have extended key usage and has a incorrect key usage.
-    Second, all the four browsers does not display any warning on error of a server certificate that with a correct extended key usage and a incorrect key usage.
+
+Chrome, Edge, and IE do not process the Key Usage extension correctly,
+    even if it is marked as critical.
+No warning is shown when the server certificate does not include the keyEncipherment usage.
+However,
+    these browsers process the non-critical Extended Key Usage extension correctly:
+    when the server certificate does not include the serverAuth extended usage,
+    Level-C warnings are shown.
 
 % If a certificate contains both a key usage extension and an extended
 %   key usage extension, then both extensions MUST be processed
