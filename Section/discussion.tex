@@ -20,7 +20,7 @@ Chrome checks the certificate revocation status
 Although CRLset is constantly updated,
     in our tests,
      Chrome still consider the HTTPS visits as secure \textcolor[rgb]{1.00,0.00,0.00}{within a month} after the server certificate was revoked. %% 有没有更加准确的时间？
-This certificate is issued by Let's Encrypt and the serial number is \textcolor[rgb]{1.00,0.00,0.00}{xxxx.}
+This certificate is issued by Let's Encrypt and the serial number is \textcolor[rgb]{0.00,0.07,1.00}{03e37c58091fb4056aa84130a1e54f8b58fd}.
 %        we think Chrome need to be improved on this.
 
 
@@ -43,7 +43,7 @@ The first factorization of 512-bit RSA was finished in 1999 \cite{cavallar2000fa
 However, Chrome, Edge, and IE show only \emph{bypassable} Level-B warnings on 512-bit RSA.
 On the contrary,
     these browsers show Level-D fatal warnings on a server certificate with 160-bit ECC key pair,
-     which is stronger than 512-bit RSA \cite{ecc-vs-rsa}. 
+     which is stronger than 512-bit RSA \cite{ecc-vs-rsa}.
 
 \subsection{Certificate Extension}
 \textbf{Basic Constraint}
@@ -80,14 +80,14 @@ When visiting a domain whose domain name is included in the CN field and it does
 Chrome displays a Level-B medium-risk warning, but Firefox, Edge, and IE consider it secure.
 This may lead to a problem of usability.
 
-All browsers show Level-B warnings on different name validation errors: 
+All browsers show Level-B warnings on different name validation errors:
 complete mismatch,
 WWW mismatch and out-of-wildcard-scope subdomain.
 However,
-    in our opinion, 
-    these errors bring different levels of risk 
+    in our opinion,
+    these errors bring different levels of risk
     and complete mismatch shall trigger a higher-level warning.
-    
+
 
 
 \subsection{HPKP}
