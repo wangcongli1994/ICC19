@@ -85,30 +85,30 @@ In order to find the browser behaviors on specified HTTPS errors,
  & CA certificate &  &  &  &  \\
  & ~~incorrect cA flag (= false) & C & B & C & C \\
  & ~~correct cA flag (= true), violated pathLenConstraint & C & Secure & C & B \\ \cline{2-6}
- & \textcolor[rgb]{1.00,0.00,0.00}{Server certificate, both key usage and extended key usage are non-critical} &  &  &  &  \\
- & ~~correct Extended Key Usage, correct/incorrect/no Key Usage & Secure & Secure & Secure & Secure \\
-% & ~~correct Extended Key Usage, incorrect Key Usage & Secure & Secure & Secure & Secure \\
-% & ~~correct Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\
- & ~~incorrect Extended Key Usage, correct/incorrect/no Key Usage & C & C & C & C \\
-% & ~~incorrect Extended Key Usage, incorrect Key Usage & C & C & C & C \\
-% & ~~incorrect Extended Key Usage, no Key Usage & C & C & C & C \\
- & ~~no Extended Key Usage, correct Key Usage & Secure & Secure & Secure & Secure \\
- & ~~no Extended Key Usage, incorrect Key Usage & Secure & C & Secure & Secure \\
- & ~~no Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\
- & CA certificate &  &  &  &  \\
- & ~~incorrect Key Usage & C & C & C & C \\ \cline{2-6}
+% & \textcolor[rgb]{1.00,0.00,0.00}{Server certificate, both key usage and extended key usage are non-critical} &  &  &  &  \\
+% & ~~correct Extended Key Usage, correct/incorrect/no Key Usage & Secure & Secure & Secure & Secure \\
+%% & ~~correct Extended Key Usage, incorrect Key Usage & Secure & Secure & Secure & Secure \\
+%% & ~~correct Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\
+% & ~~incorrect Extended Key Usage, correct/incorrect/no Key Usage & C & C & C & C \\
+%% & ~~incorrect Extended Key Usage, incorrect Key Usage & C & C & C & C \\
+%% & ~~incorrect Extended Key Usage, no Key Usage & C & C & C & C \\
+% & ~~no Extended Key Usage, correct Key Usage & Secure & Secure & Secure & Secure \\
+% & ~~no Extended Key Usage, incorrect Key Usage & Secure & C & Secure & Secure \\
+% & ~~no Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\
+% & CA certificate &  &  &  &  \\
+% & ~~incorrect Key Usage & C & C & C & C \\ \cline{2-6}
  %新做的实验，三级证书
- & \textcolor[rgb]{0.00,0.00,1.00}{Server certificate, key usage is critical and extended key usage is non-critical} &  &  &  &  \\
+ & {Server certificate} &  &  &  &  \\
  & ~~correct Extended Key Usage, correct/no Key Usage & Secure & Secure & Secure & Secure \\
- & ~~\textcolor[rgb]{0.00,0.00,1.00}{correct Extended Key Usage, incorrect Key Usage} & Secure & \textcolor[rgb]{0.00,0.00,1.00}{C} & Secure & Secure \\
+ & ~~{correct Extended Key Usage, incorrect Key Usage} & Secure & {C} & Secure & Secure \\
 % & ~~correct Extended Key Usage, incorrect Key Usage & Secure & Secure & Secure & Secure \\
 % & ~~correct Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\
  & ~~incorrect Extended Key Usage, correct/incorrect/no Key Usage & C & C & C & C \\
 % & ~~incorrect Extended Key Usage, incorrect Key Usage & C & C & C & C \\
 % & ~~incorrect Extended Key Usage, no Key Usage & C & C & C & C \\
- & ~~no Extended Key Usage, correct Key Usage & Secure & Secure & Secure & Secure \\
+ & ~~no Extended Key Usage, correct/no Key Usage & Secure & Secure & Secure & Secure \\
  & ~~no Extended Key Usage, incorrect Key Usage & Secure & C & Secure & Secure \\
- & ~~no Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\ 
+% & ~~no Extended Key Usage, no Key Usage & Secure & Secure & Secure & Secure \\
  & CA certificate &  &  &  &  \\
  & ~~incorrect Key Usage & C & C & C & C \\  \midrule[1pt]
 \multirow{11}{*}{\begin{tabular}[c]{@{}c@{}}Name Validation\end{tabular}}
