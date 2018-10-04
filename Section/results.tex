@@ -25,7 +25,7 @@ TLS 1.2 is adopted in the HTTPS connections.
 %All connections to the web server is encrypted and authenticated using TLS 1.2.
 
 
-%从域名商购得域名，并把该域名的所有子域名解析到我的服务器IP。根据实验安排首先生成一个自签名的根CA，安装根CA到系统和浏览器种，并使用该根CA对每一个实验的证书进行签名。对于每个证书：1.生成一个私钥 2.根据实验内容设置一个OpenSSL的配置文件 3.生成证书请求 4.使用OpenSSL签名 。
+%从域名商购得域名，并把该域名的所有子域名解析到我的服务器IP。 根据实验安排首先生成一个自签名的根CA，安装根CA到系统和浏览器种，并使用该根CA对每一个实验的证书进行签名。对于每个证书：1. 生成一个私钥 2.根据实验内容设置一个OpenSSL的配置文件 3.生成证书请求 4.使用OpenSSL签名 。
 %登陆实验服务器，安装使用node.js中的express模块建议一个web服务器并指定端口；安装Nginx并把所有实验的证书移动到服务器；编辑Nginx的服务器并为每个证书配置一个子域名并反向代理到web服务器端口；启动Nginx监听80和443端口。
 %分别使用4种不同内核的浏览器，以HTTPS的方式访问每一个实验对应的域名，浏览器会在握手完成前发送访问域名的SNI信息，服务器端的Nginx会根据浏览器发来的SNI信息分发相对应子域名的证书；浏览器收到证书，和服务器握手完成，建立HTTPS连接；浏览器根据证书和安全设置的不同情况会有不同的反应，对实验结果进行记录。
 
@@ -75,7 +75,8 @@ In order to find the browser behaviors on specified HTTPS errors,
  & Revoked server certificate (via CRLSet) & C & Secure & Secure & Secure \\ \cline{2-6}
  & Weak key pair (512-bit RSA) & B & B & B & C \\
  & Weak key pair (1024-bit RSA) & Secure & Secure & Secure & Secure \\
- & Weak key pair (160-bit ECC) & D & D & D & D \\ \cline{2-6}
+% & Weak key pair (160-bit ECC) & D & D & D & D \\
+ \cline{2-6}
  & Weak hash algorithm (SHA-1) & B & B & Secure & Secure \\
  & Weak hash algorithm (MD5) & B & B & Secure & Secure \\ \midrule[1pt]
 \multirow{17}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Verification\\of Extensions\end{tabular}}
@@ -226,8 +227,8 @@ Firefox, Edge, and IE show Level-C warnings,
             while a Level-C warning is shown in IE.
 On a server certificate binding a 1024-bit RSA key pair,
     all browsers consider it as secure.
-When a 160-bit ECC key pair is bound,
-    all browsers show Level-D fatal warnings.
+%When a 160-bit ECC key pair is bound,
+ %   all browsers show Level-D fatal warnings.
 
 %\textbf{Weak Digest Algorithm.}
 \textbf{Weak hash algorithm.}
