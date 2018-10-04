@@ -100,10 +100,14 @@ However,
 
 
 \subsection{HPKP}
-HPKP is supported in Chrome and Firefox.
-    Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
-    Thus, If a malware installs its root certificate on the user's computer,
-        it may defeat the protections of HPKP and successfully launch the man-in-the-middle attack.
+HPKP is supported only in Chrome and Firefox.
+However,
+        Chrome and Firefox do not conduct HPKP validation
+            when the certificate chain is verified by a root CA certificate installed by users.
+So a website cannot enhance its HTTPS security by HPKP against MitM attacks,
+    unless it applies for a certificate from the publicly-trusted CAs.
+ %   Thus, If a malware installs its root certificate on the user's computer,
+ %       it may defeat the protections of HPKP and successfully launch the man-in-the-middle attack.
 
 %To enable certificate chain validation, Chrome has access to two stores of trust anchors: certificates that are empowered as issuers. One trust anchor store is the system or public trust anchor store, and the other other is the local or private trust anchor store. The public store is provided as part of the operating system, and intended to authenticate public internet servers. The private store contains certificates installed by the user or the administrator of the client machine. Private intranet servers should authenticate themselves with certificates issued by a private trust anchor.
 
