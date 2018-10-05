@@ -9,13 +9,13 @@ Recently,
     the security of HTTPS is further enhanced by HPKP that pins the public keys of the website in browsers \cite{Evans2015rfc7469},
      and HSTS that forces browsers to visit the website only using HTTPS but not HTTP \cite{hodges2012rfc6797}.
 
-There are various errors in the TLS negotiations and also the security-enhancements of HTTPS.
-Browsers show security warnings to users with different levels, when different HTTPS errors happen:
+There are various errors in the TLS negotiations and the security-enhancements of HTTPS.
+Browsers show security warnings to users with different levels, on different HTTPS errors:
 (\emph{a}) a low-risk warning is shown in the address bar, no interrupting the browsing;
 (\emph{b}) a medium-risk warning is shown as a full-screen page, interrupting the browsing,
-    and the user may choose to ignore the warning by actively clicking a button to continue;
+    but the user may choose to ignore the warning by actively clicking to continue;
 and (\emph{c}) a high-risk one is also shown as a full-screen page, stopping the browsing,
-    but the user may actively choose to retry. % by clicking a button;
+    but the user may choose to retry. % by clicking a button;
 %and (\emph{d}) a fatal warning immediately close the connection and stop the browsing.
 
 The security warnings aim to protect users to establish secure connections with the target website,
