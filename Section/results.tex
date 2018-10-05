@@ -50,6 +50,10 @@ The browsers visit  the ``honeypot'' website,
 The results are summarized in Table I.
 A, B, and C represent a warning of low-risk, medium-risk, high-risk, respectively.
 %D represent a fatal warning.
+Level-D warnings are shown when it is impossible to establish HTTPS connections; 
+    for example,
+    the cryptographic algorithm in certificates is unsupported.
+
 In order to find the browser behaviors on specified HTTPS errors,
    in each line of this table,
     we induce only one error in the certificate chains or HTTP headers,
@@ -265,8 +269,8 @@ Chrome, Edge, and IE show Level-C warnings,
 %If the cA flag is false in the intermediate CA certificate
 %    while the key usage is set as a common TLS server certificate,
 %    the results are the same.
-Therefore, even if a TLS server holds a certificate where the cA flag is false,
- it can issue certificates for any domain names to launch MitM attacks,
+Therefore, even if an entity holds a certificate where the cA flag is false,
+ it can issue certificates for any domain names to launch successful MitM attacks, especially in Firefox,
  because Firefox shows only \emph{bypassable} Level-B medium-risk warnings.
 
 If the pathLenConstraint field of the Basic Constraints extension

@@ -64,19 +64,19 @@ However, in our opinion,
     a Level-A warning shall be necessary.
 
 \textbf{Extended Key Usage and Key Usage.}
-If a certificate contains the extensions of both Key Usage and Extended Key Usage,
-    the extensions must be processed independently,
+If a certificate contains the extensions of Key Usage and Extended Key Usage,
+    two extensions must be processed independently,
     and the certificate is only used for the purpose(s) consistent with both extensions  \cite{cooper2008rfc5280}.
 %If there is no purpose consistent with both extensions, then the certificate MUST NOT be used for any purpose \cite{cooper2008rfc5280}.
 This rule is not complied with in Chrome, Edge and IE:
-    when the server certificate includes only the serverAuth extended usage and the keyCertSign usage,
+    when the server certificate includes only the keyCertSign usage and the serverAuth extended usage,
      no warning is shown.
 
 Chrome, Edge, and IE do not process the Key Usage extension correctly,
     even if it is marked as critical.
-No warning is shown when the server certificate does not include the keyEncipherment usage.
+No warning is shown when the TLS server certificate does not include the keyEncipherment usage.
 However,
-    these browsers process the non-critical Extended Key Usage extension correctly:
+    these browsers process the \emph{non-critical} Extended Key Usage extension correctly:
     when the server certificate does not include the serverAuth extended usage,
     Level-C warnings are shown.
 
@@ -92,9 +92,9 @@ All browsers show Level-B warnings on different name validation errors:
 complete mismatch,
 WWW mismatch and out-of-wildcard-scope subdomain.
 However,
-    in our opinion,
+%    in our opinion,
     these errors bring very different levels of risk
-    and complete mismatch shall trigger a higher-level warning.
+    and it is necessary for complete mismatch to trigger a higher-level warning.
 
 
 %The CA/Browser Forum suggests that
@@ -130,10 +130,10 @@ So a website cannot enhance its HTTPS security by HPKP against MitM attacks,
 
 
 \subsection{HSTS}
-HSTS is supported by all evaluated browsers.
+%HSTS is supported by all evaluated browsers.
 The visits over plain HTTP that definitely violates the HSTS policy,
  trigger only Level-A warnings, not interrupting the user's browsing.
-If the HSTS policy is enforced by the pre-loaded list, which is explicitly configured by the user,
-    the user shall be notified on such visits over HTTP.
-If the HSTS policy is enforced  by the HSTS header, which is sent by the website,
-    such visits over plain HTTP are probably initiated by attackers because the website does not allow HTTP visits.
+If the HSTS policy is enforced by the pre-loaded list, which is manually configured by the user,
+    the user shall be explicitly notified on such visits over HTTP.
+If HSTS is enforced  by the HSTS header, which is sent by the website,
+    such visits over plain HTTP are probably initiated by attackers because the website itself does not allow HTTP visits.
