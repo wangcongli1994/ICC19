@@ -9,7 +9,7 @@
 We attempt to analyze the browser security warnings
     on various HTTPS errors.
 We register a domain name and
-    establish the website by Nginx.
+    build the website by Nginx.
 We induce different HTTPS errors
     by
     (\emph{a}) invalid or defective certificate chains in TLS negotiations,
@@ -51,12 +51,12 @@ The results are summarized in Table I.
 A, B, and C represent a warning of low-risk, medium-risk, high-risk, respectively.
 %D represent a fatal warning.
 
-In order to find the browser behaviors on specified HTTPS errors,
+In order to analyze the browser behaviors on specified HTTPS errors,
    in each line of this table,
     we induce only one error in the certificate chains or HTTP headers,
     unless otherwise stated.
 % A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, respectively.
-2048-bit RSA and SHA-256 are used in these tests,
+2048-bit RSA and SHA-256 are used, % in these tests,
     except for the tests of weak key pair and weak hash algorithm.      %% 这句话描述，对不对？  对！
 
 \begin{table*}[htbp]
@@ -164,7 +164,7 @@ The domain name in CN also appears to be correct.
 %%%% %(whose cA flag is true, pathLenConstraint is null, key usage is keyCertSign),
 %%%% %   then use the root certificate to issue a valid server certificate (both CN and SAN of the server certificate contain the server's domain name, the key usage is keyEncipherment, extended key usage is serverAuth, and cA flag is false).
 %%%% %When visiting the website, We will receive the server certificate and a Level-B medium-risk warning with the error hint ``NET::ERR\_CERT\_AUTHORITY\_INVALID''.
-All browsers show a Level-B warning on this error.
+All browsers show Level-B warnings.
 This warning is eliminated
  as we install the self-signed CA certificate in the browsers' root CA certificate store.
 Chrome, Edge and IE rely on the Windows certificate store,
@@ -201,8 +201,8 @@ All browsers show Level-B warnings on an incomplete certificate chain, or expire
 \textbf{Revoked server certificate.}
 In the certificate chain,
 the server certificate is revoked and all CA certificates are not revoked.
-(\emph{a}) OCSP. The server certificate is signed and revoked by Let's Encrypt.
-    Let's Encrypt distributes the revocation status through OCSP.
+(\emph{a}) OCSP. The server certificate is signed and revoked by Let's Encrypt,
+    which distributes the revocation status through OCSP.
 Firefox, Edge, and IE show Level-C warnings,
     but Chrome considers it as secure.
 (\emph{b}) CRL. When it is revoked through CRL,
@@ -227,7 +227,7 @@ Firefox, Edge, and IE show Level-C warnings,
  When receiving a server certificate binding a 512-bit RSA key pair,
     Chrome, Firefox, and Edge show Level-B warnings,
             while a Level-C warning is shown in IE.
-On a server certificate binding a 1024-bit RSA key pair,
+On a certificate binding a 1024-bit RSA key pair,
     all browsers consider it as secure.
 %When a 160-bit ECC key pair is bound,
  %   all browsers show Level-D fatal warnings.
@@ -239,21 +239,21 @@ On a server certificate binding a 1024-bit RSA key pair,
         Chrome and Firefox display Level-B warnings,
             but Edge and IE consider it as secure.
 \subsection{Certificate Verification Errors of Extensions}
-In these tests of certificate extensions,
-    the certificate chains consist of one self-signed root CA certificate, an intermediate certificate, and the server certificate.
+In these tests,
+    the certificate chains consist of one self-signed root CA certificate, an intermediate CA certificate, and the server certificate.
 The root CA certificate is installed in the browsers' certificate store.
 The extensions of Basic Constraints and Key Usage are marked as critical, and
 the Extended Key Usage extension is non-critical \cite{cooper2008rfc5280}.
 
 \textbf{Basic Constraints.}
-If the cA flag of the Basic Constraints extension is true in the server certificate
-    while the key usage is set as a common TLS server certificate (i.e.,
+If the cA flag of the Basic Constraints extension is true in the ``server'' certificate
+    but the key usage is set as a common TLS server certificate (i.e.,
     the Key Usage extension is keyEncipherment, and the Extended Key Usage extension is serverAuth),
 % whose cA flag is incorrect (cA flag is true), but other fields is correct (key usage is key Enpherment, extended key usage is serverAuth),
     Chrome, Edge, and IE consider this certificate chain as secure,
     but Firefox shows a Level-B warning.
 %
-If the cA flag is true in the server certificate
+If the cA flag is true in the ``server'' certificate
     and the key usage is set as a common CA certificate (i.e.,
         the Key Usage extension is keyCertSign, and no Extended Key Usage extension),
     Chrome, Edge, and IE consider it as secure,
@@ -262,26 +262,23 @@ If the cA flag is true in the server certificate
 As long as the cA flag is false in the intermediate CA certificate,
     whether the key usage is set as a CA certificate or a TLS server certificate,
 Chrome, Edge, and IE show Level-C warnings,
-     and Firefox shows a Level-B warning.
+     and Firefox shows a bypassable Level-B warning.
      %\textcolor[rgb]{1.00,0.00,0.00}{Firefox's NSS root store does not accept a certificate whose CA flag is false, so we does test the Firefox for this HTTPS error.}  % 应该使用多级证书；root CA的flag正确，中间CA的flag错误，第三级证书！
 %If the cA flag is false in the intermediate CA certificate
 %    while the key usage is set as a common TLS server certificate,
 %    the results are the same.
-Therefore, even if an entity holds a certificate where the cA flag is false,
- it can issue certificates for any domain names to launch successful MitM attacks, especially in Firefox,
- because Firefox shows only \emph{bypassable} Level-B medium-risk warnings.
 
-If the pathLenConstraint field of the Basic Constraints extension
+If the pathLenConstraint integer of the Basic Constraints extension
     in the root CA certificate is 0
     and the cA flag is true in the intermediate CA certificate (i.e.,
      the pathLenConstraint field is violated in the certificate chain),
-Chrome and Edge show Level-C high-risk warnings,
-    Firefox consider it as secure, and IE shows a Level-B warning.
+Chrome and Edge show Level-C high-risk warnings, IE shows a Level-B warning,
+    but Firefox consider it as secure.
 
 
 \textbf{Key Usage and Extended Key Usage.}
 %    We didn't designate key usage and the extend key usage as critical or non-critical.
-As long as the server certificate is signed with the Extended Key Usage of serverAuth,
+As long as the server certificate is signed with the serverAuth extended usage,
      no mater what the Key Usage extension is,
         all browsers consider the certificate chain as secure.
 As long as the server certificates is signed with the Extended Key Usage extension but no serverAuth,

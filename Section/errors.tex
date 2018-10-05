@@ -84,7 +84,7 @@ The certificate  is signed
 The following certificate extensions are important
         in certificate verification,
         and helpful to detect the MitM attacks by forged certificates.
-Errors may happen when browsers process these extensions.
+%Errors may happen when browsers process these extensions.
 
 %    In addition to the basic certificate validation, we also consider the certificate extension validation: Basic Constraints, Key Usage, and Extended Key Usage.
 
@@ -156,9 +156,9 @@ This error happens, for example,
 
 \subsubsection{HTTPS Security-Enhancement}
 %\subsubsection{Certificate verification enhancement errors}
-In recent years, several security-enhancements of HTTPS are proposed.
+HSTS and HPKP are the security-enhancements, adopted in mainstream browsers.
 %    some security-enhancement policies have been added to HTTPS.
-    We focus on HSTS and HPKP only in this paper.
+
 
 \textbf{HPKP.}
 %    HTTP Public Key Pinning (HPKP) \cite{Evans2015rfc7469} is used by web sites to instruct browsers to remember ("pin") the sites' public key over a period of time.
