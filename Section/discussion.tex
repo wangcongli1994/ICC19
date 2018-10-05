@@ -2,6 +2,29 @@
 %In the experiment, we found that different browsers have different processing methods for some unsafe scenarios.
 %Through comparison between them, we have summarized the existing risks of several browsers.
 
+In this section,
+    we emphasize the defects that may lead to successful MitM or impersonation attacks.
+
+\subsection{Weak Cryptographic Algorithm}
+The following cryptographic algorithms are publicly prohibited or unrecommended \cite{CAB2018BR, NIST2005ECC},
+but the processes of browsers can lead to (\emph{a}) forged certificates to be accepted
+  or (\emph{b}) broken key pairs to be used in TLS negotiations.
+
+The collisions of MD5 and SHA-1 have been found \cite{wang2004collisions, sha1-collision},
+    and the weakness of MD5 was exploited to successfully forge certificates \cite{md5-forged-cert1, md5-forged-cert2}.
+%Several security incidents have shown that,
+%        attackers can use SHA-1 and MD5 to colliding fraudulent certificates,
+However, Edge and IE do not show any warnings on certificates signed by MD5 or SHA-1.
+
+1024-bit RSA is expected to be broken within 2015 to 2020 \cite{Berlin2017An},
+    but none of the evaluated browsers show any warnings on certificates with 1024-bit RSA.
+The first factorization of 512-bit RSA was finished in 1999 \cite{cavallar2000factorization},
+    and an 512-bit RSA key pair was broken within 73 days by a desktop computer in 2009 \cite{rsa512broken}.
+However, Chrome, Edge, and IE show only \emph{bypassable} Level-B warnings on 512-bit RSA.
+%On the contrary,
+ %   these browsers show Level-D fatal warnings on a server certificate with 160-bit ECC key pair,
+  %   which is stronger than 512-bit RSA \cite{ecc-vs-rsa}.
+
 \subsection{Certificate Revocation}
 Most certificates in the Internet are revoked through CRL and/or OCSP,
     but CRL and OCSP are not supported by Chrome while Firefox does not support CRL.
@@ -14,57 +37,38 @@ The statistics in 2015  \cite{liu2015end} show that,
 %        however, Chrome does not display any warnings on revoked server certificates through OCSP.
 %        we think Chrome need to be improved on this.
 
-Chrome checks the certificate revocation status
-    only through CRLSet, which only covers 0.35\% of all revocations in the Internet \cite{liu2015end}.
+Chrome checks the revocation status
+    only through CRLSet \cite{CRLSet}, which covers only 0.35\% of all revocations in the Internet \cite{liu2015end}.
 %        and Chrome only displays warnings on revoked certificates through CRLSet.
-Although CRLset is constantly updated,
-    in our tests,
-     Chrome still consider the HTTPS visits as secure \textcolor[rgb]{1.00,0.00,0.00}{within a month} after the server certificate was revoked. %% 有没有更加准确的时间？
-This certificate is issued by Let's Encrypt and the serial number is 03e37c58091fb4056aa84130a1e54f8b58fd.
+%Although CRLset is constantly updated,   in our tests,
+%     Chrome still consider the HTTPS visits as secure \textcolor[rgb]{1.00,0.00,0.00}{within a month} after the server certificate was revoked. %% 有没有更加准确的时间？
+%This certificate is issued by Let's Encrypt and the serial number is 03e37c58091fb4056aa84130a1e54f8b58fd.
 %        we think Chrome need to be improved on this.
+So a compromised key pair can still be exploited to launch MitM or impersonation attacks after the certificate is revoked through CRL and OCSP,
+        and the attacks will probably succeed in Chrome.
 
 
-
-\subsection{Weak Cryptographic Algorithm}
-The following cryptographic algorithms are publicly prohibited or unrecommended \cite{CAB2018BR, NIST2005ECC},
-but the processes of browsers can lead to (\emph{a}) forged certificates to be accepted
-  or (\emph{b}) broken key pairs to be used in TLS negotiations.
-
-The collisions of MD5 and SHA-1 have been found \cite{wang2004collisions, sha1-collision},
-    and the weakness of MD5 was exploited to successfully forge certificates \cite{md5-forged-cert1, md5-forged-cert2}.
-%Several security incidents have shown that,
-%        attackers can use SHA-1 and MD5 to colliding fraudulent certificates,
-Edge and IE do not show any warnings on certificates signed by MD5 or SHA-1.
-
-1024-bit RSA is expected to be broken within 2015 to 2020 \cite{Berlin2017An},
-    but none of these evaluated mainstream browsers show any warnings on certificates with 1024-bit RSA  key pairs.
-The first factorization of 512-bit RSA was finished in 1999 \cite{cavallar2000factorization},
-    and an 512-bit RSA key pair was broken in 73 days by a desktop computer in 2009 \cite{rsa512broken}.
-However, Chrome, Edge, and IE show only \emph{bypassable} Level-B warnings on 512-bit RSA.
-%On the contrary,
- %   these browsers show Level-D fatal warnings on a server certificate with 160-bit ECC key pair,
-  %   which is stronger than 512-bit RSA \cite{ecc-vs-rsa}.
 
 \subsection{Certificate Extension}
-\textbf{Basic Constraints.}
+%\textbf{Basic Constraints.}
 The Basic Constraints extension is defined to distinguish CA certificates and non-CA ones \cite{cooper2008rfc5280}.
 However,
     when the server certificate is verified by a certificate in which the cA flag is false,
-    i.e., an entity holds a certificate where the cA flag is false, and acts as CAs to sign server certificates
-        for any domain names to launch MitM attacks, 
+    i.e., a non-CA entity acts as CAs to sign server certificates
+        for any domain names to launch attacks, 
             Firefox shows only bypassable Level-B warnings.
 Moreover, Firefox does not process the pathLenConstraint field correctly,
     and the violated pathLenConstraint does not trigger warnings in Firefox.
-The defects may be exploited to launch successful MitM attacks.
+These defects may be exploited to launch successful MitM and impersonation attacks.
 
 If a CA acts as the TLS server in HTTPS,
     i.e., the cA flag in the ``server'' certificate is true,
 Chrome, Edge and IE consider it as secure and show no warning.
 However, in our opinion,
-    such configurations are not common cases,
+    such configurations are rather uncommon cases,
     a Level-A warning shall be necessary.
 
-\textbf{Extended Key Usage and Key Usage.}
+%\textbf{Extended Key Usage and Key Usage.}
 If a certificate contains the extensions of Key Usage and Extended Key Usage,
     two extensions must be processed independently,
     and the certificate is only used for the purpose(s) consistent with both extensions  \cite{cooper2008rfc5280}.
@@ -72,14 +76,15 @@ If a certificate contains the extensions of Key Usage and Extended Key Usage,
 This rule is not complied with in Chrome, Edge and IE:
     when the server certificate includes only the keyCertSign usage and the serverAuth extended usage,
      no warning is shown.
-
+%
 Chrome, Edge, and IE do not process the Key Usage extension correctly,
     even if it is marked as critical.
 No warning is shown when the TLS server certificate does not include the keyEncipherment usage.
-However,
-    these browsers process the \emph{non-critical} Extended Key Usage extension correctly:
-    when the server certificate does not include the serverAuth extended usage,
-    Level-C warnings are shown.
+%However,
+%    these browsers process the \emph{non-critical} Extended Key Usage extension correctly:
+%    when the server certificate does not include the serverAuth extended usage,
+%    Level-C warnings are shown.
+So a certificate for other purposes may be maliciously used in HTTPS, and accepted by these browsers.
 
 % If a certificate contains both a key usage extension and an extended
 %   key usage extension, then both extensions MUST be processed
@@ -89,13 +94,13 @@ However,
    %purpose.(RFC 5280)
 \subsection{Name Validation}
 
-All browsers show Level-B warnings on different name validation errors:
+All browsers show bypassable Level-B warnings on different name validation errors:
 complete mismatch,
 WWW mismatch and out-of-wildcard-scope subdomain.
 However,
 %    in our opinion,
-    these errors bring very different levels of risk
-    and it is necessary for complete mismatch to trigger a higher-level warning.
+    these errors bring very different levels of risk,
+    and it is practicable to show a higher-level warning on complete mismatch because low-cost TLS server certificates are available.
 
 
 %The CA/Browser Forum suggests that
@@ -103,15 +108,25 @@ However,
 The evaluated browsers behave inconsistently in name validation.
 Chrome checks the domain name \emph{only} in the SAN extension.
 Firefox, Edge, and IE consider a server certificate as secure,
-    if it contains the valid CN field but not the SAN extension;
+    if it contains the valid CN field but no SAN;
     on the contrary, it triggers Level-B warnings in Chrome.
 This may lead to a problem of usability:
     a legitimate server certificate considered as secure by other browsers,
     may trigger a security warning in Chrome.
 
+
+
+\subsection{HSTS}
+%HSTS is supported by all evaluated browsers.
+The visits over plain HTTP that definitely violates the HSTS policy,
+ trigger only Level-A warnings, not interrupting the user's browsing.
+If the HSTS policy is enforced by the pre-loaded list, which is manually configured by the user,
+    the user shall be explicitly notified on such visits over HTTP.
+If HSTS is enforced  by the HSTS header, which is sent by the website,
+    such visits over plain HTTP are probably initiated by attackers because the website itself does not allow HTTP visits.
+
 \subsection{HPKP}
 HPKP is supported only in Chrome and Firefox.
-However,
         Chrome and Firefox do not conduct HPKP validation
             when the certificate chain is verified by a root CA certificate installed by users.
 So a website cannot enhance its HTTPS security by HPKP against MitM attacks,
@@ -128,13 +143,3 @@ So a website cannot enhance its HTTPS security by HPKP against MitM attacks,
 
 
 
-
-
-\subsection{HSTS}
-%HSTS is supported by all evaluated browsers.
-The visits over plain HTTP that definitely violates the HSTS policy,
- trigger only Level-A warnings, not interrupting the user's browsing.
-If the HSTS policy is enforced by the pre-loaded list, which is manually configured by the user,
-    the user shall be explicitly notified on such visits over HTTP.
-If HSTS is enforced  by the HSTS header, which is sent by the website,
-    such visits over plain HTTP are probably initiated by attackers because the website itself does not allow HTTP visits.

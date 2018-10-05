@@ -19,8 +19,8 @@ and (\emph{c}) a high-risk one is also shown as a full-screen page, stopping the
 %and (\emph{d}) a fatal warning immediately close the connection and stop the browsing.
 
 The security warnings aim to protect users to establish secure connections with the target website,
-    but not a man-in-the-middle (MitM) attacker.
-However, an error does not definitely result from the MitM attacks.
+    but not a man-in-the-middle (MitM) or impersonation attacker.
+However, an error does not definitely result from the attacks.
 So, in order to balance security and usability,
     each browser implements its own design of security procedures,
         producing different behaviors and warnings on HTTPS errors.
@@ -47,6 +47,10 @@ Meanwhile, all browsers show no warnings
 %Chrome, Firefox, Edge, IE: Signature Algorithm. The four browsers consider RSA1024 secure.
 %Edge, IE: Digest Algorithm. Edge and IE consider secure.
 \item
+Chrome does not check the certificate revocation status through commonly-used CRL and OCSP,
+    and Firefox does not support CRL. Thus,
+    a revoked TLS server certificate may be accepted by Chrome and Firefox.
+\item
 Firefox does not process the Basic Constraints extension correctly.
 Thus, a malicious server (but not an accredited CA) may sign TLS server certificates arbitrarily,
      and such forged certificate chains will be probably accepted by Firefox.
@@ -56,24 +60,20 @@ Thus, a malicious server (but not an accredited CA) may sign TLS server certific
 Chrome, %Firefox,
  Edge and IE do not process the extensions of Key Usage and Extended Key Usage correctly.
 %even when these extensions appear inconsistently in certificates,    no warning shows.
-So a certificate for other purposes may be maliciously used in HTTPS, and accepted by these browsers.   % 总结不够到位；我看结果的标准，怎么好像和以前的结果记录有变化？
+So a certificate for other purposes may be maliciously used in HTTPS, and accepted by these browsers.
 % key usage and extended key usage. Chrome, Edge, and IE don't display any warnings on certificates whose key usage and extended key usage is not consistent.
-\item
-Chrome does not check the certificate revocation status through commonly-used CRL and OCSP,
-    and Firefox does not support CRL. Thus,
-    a revoked TLS server certificate may be accepted by Chrome and Firefox.
-\item
-The HPKP support of Chrome and Firefox
-    does not work well,
-    when the certificate chain is verified by a user-installed root CA certificate.
-So the security-enhancement of HPKP does not  always take effect as expected.
 \item
 In all browsers,
     the visits over plain HTTP that violates the HSTS policy,
         trigger only the low-risk warnings, not interrupting the user's browsing.
 %: HPKP. Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
 However,
-    such visits deviate from the user's willing or probably result from the MitM attacks.
+    such visits deviate from the user's willing or probably result from the impersonation attacks.
+\item
+The HPKP support of Chrome and Firefox
+    does not work well,
+    when the certificate chain is verified by a user-installed root CA certificate.
+So the security-enhancement of HPKP does not  always take effect as expected.
 \end{itemize}
 There are also defects on the problems of usability.
 %\begin{itemize}
