@@ -133,7 +133,7 @@ So a website cannot enhance its HTTPS security by HPKP against MitM attacks,
 HSTS is supported by all evaluated browsers.
 The visits over plain HTTP that definitely violates the HSTS policy,
  trigger only Level-A warnings, not interrupting the user's browsing.
-If the HSTS policy is activated by the pre-loaded list, which is explicitly configured by the user,
+If the HSTS policy is enforced by the pre-loaded list, which is explicitly configured by the user,
     the user shall be notified on such visits over HTTP.
-If the HSTS policy is activated by the HSTS header, which is sent by the website,
+If the HSTS policy is enforced  by the HSTS header, which is sent by the website,
     such visits over plain HTTP are probably initiated by attackers because the website does not allow HTTP visits.
