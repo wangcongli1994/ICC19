@@ -38,16 +38,14 @@ The statistics in 2015  \cite{liu2015end} show that,
 %        we think Chrome need to be improved on this.
 
 Chrome checks the revocation status
-    only through CRLSet \cite{CRLSet}, which covers only 0.35\% of all revocations in the Internet \cite{liu2015end}.
+    only through CRLSet \cite{CRLSet}.
 %        and Chrome only displays warnings on revoked certificates through CRLSet.
 %Although CRLset is constantly updated,   in our tests,
 %     Chrome still consider the HTTPS visits as secure \textcolor[rgb]{1.00,0.00,0.00}{within a month} after the server certificate was revoked. %% 有没有更加准确的时间？
 %This certificate is issued by Let's Encrypt and the serial number is 03e37c58091fb4056aa84130a1e54f8b58fd.
 %        we think Chrome need to be improved on this.
 So a compromised key pair can still be exploited to launch MitM or impersonation attacks after the certificate is revoked through CRL and OCSP,
-        and the attacks will probably succeed in Chrome.
-
-
+        and the attacks will probably succeed in Chrome for CRLSet covers only 0.35\% of all revocations in the Internet \cite{liu2015end}.
 
 \subsection{Certificate Extension}
 %\textbf{Basic Constraints.}
@@ -55,7 +53,7 @@ The Basic Constraints extension is defined to distinguish CA certificates and no
 However,
     when the server certificate is verified by a certificate in which the cA flag is false,
     i.e., a non-CA entity acts as CAs to sign server certificates
-        for any domain names to launch attacks, 
+        for any domain names to launch attacks,
             Firefox shows only bypassable Level-B warnings.
 Moreover, Firefox does not process the pathLenConstraint field correctly,
     and the violated pathLenConstraint does not trigger warnings in Firefox.
