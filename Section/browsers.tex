@@ -5,10 +5,10 @@ Browser security warnings protect users against various network attacks,
     and we only consider the MitM attacks in HTTPS.
 The  attacks might be launched
      by using a forged or revoked certificate,
-    or deceiving browsers to visit the website through plain HTTP.
+    or deceiving users to visit the website through plain HTTP.
 When such errors happen,
-    a browser shows the warnings in different way to ensure security while minimize the side effects of user experience,
-    because an HTTPS error is not definitely caused by MitM attacks.
+    a browser shows the warnings in different ways to ensure security while minimize the side effects of user experience,
+    because an HTTPS error is not definitely caused by the MitM attacks.
 
 % We describe security warnings of major browsers.
 
@@ -62,13 +62,15 @@ On high-risk errors,
 \end{figure}
 %this is probably because the website is supposed to establish a valid HTTPS connection, but the certificate chain fails to validate (e.g., a HTTPS certificate error occurs in a website that has deployed HSTS policy).
 
-%\subsubsection{Fatal warning}
-%On fatal errors, it \emph{immediately closes the connections} and stops the browsing.
+\subsubsection{Fatal warning}
+On fatal errors, it \emph{immediately closes the connections} and stops the browsing.
 %For example,
  %   the browser displays a full-screen fatal warning,
   %   discouraging any retrying.
 %On fatal errors,
 %    the browser immediately closes HTTPS connections to the server.
+Such warnings are shown when it is impossible to establish HTTPS connections;
+    for example, due to unsupported protocol versions or algorithms.
 
 
 %For fatal errors, it shows a warning stop uses' browsing.

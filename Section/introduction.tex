@@ -35,15 +35,15 @@ Our study
      certificate verification, %extension, certificate revocation,
       name validation,
       HPKP, and HSTS.
-Some serious defects cause a forged or revoked certificate to be probably accepted by users:
+Some serious defects cause a forged or revoked certificate to be (probably) accepted by users:
 \begin{itemize}
 \item
 Edge and IE consider MD5 as secure,
-    so a certificate signed or forged with this weak algorithm \cite{md5-forged-cert1, md5-forged-cert2}
+    so a server certificate signed or forged by this broken algorithm \cite{md5-forged-cert1, md5-forged-cert2}
      is accepted without warnings.
-Meanwhile, all browsers accept server certificates binding an RSA-1024 key pair without any warning,
-        which is prohibited by CA/Browser Forum \cite{CAB2018BR}
-            and NIST \cite{NIST2005ECC}.
+Meanwhile, all browsers show no warnings
+    on certificates binding an RSA-1024 key pair,
+        which is prohibited by the community \cite{CAB2018BR, NIST2005ECC}.
 %Chrome, Firefox, Edge, IE: Signature Algorithm. The four browsers consider RSA1024 secure.
 %Edge, IE: Digest Algorithm. Edge and IE consider secure.
 \item
@@ -61,12 +61,12 @@ So a certificate for other purposes may be maliciously used in HTTPS, and accept
 \item
 Chrome does not check the certificate revocation status through commonly-used CRL and OCSP,
     and Firefox does not support CRL. Thus,
-    a revoked TLS server certificate may still be accepted by Chrome and Firefox.
+    a revoked TLS server certificate may be accepted by Chrome and Firefox.
 \item
 The HPKP support of Chrome and Firefox
     does not work well,
     when the certificate chain is verified by a user-installed root CA certificate.
-So the security-enhancement of HPKP does not  always take effect.
+So the security-enhancement of HPKP does not  always take effect as expected.
 \item
 In all browsers,
     the visits over plain HTTP that violates the HSTS policy,
@@ -79,10 +79,10 @@ There are also defects on the problems of usability.
 %\begin{itemize}
 %\item
 Chrome implements the procedure of name validation,
-    different from other browsers,
-    only with the Subject Alternative Name (SAN) extension but not the commonName (CN) field.
+    only with the Subject Alternative Name (SAN) extension but not the commonName (CN) field,
+        which is different from other browsers.
 So a legitimate server certificate considered as secure by Firefox, Edge and IE,
-    may trigger a security warning in Chrome.
+    may trigger a warning in Chrome.
 %Each browser has
 %Name validation, different. The four browsers have inconsistencies in checking CN and SAN.
 %\item
@@ -109,9 +109,9 @@ So a legitimate server certificate considered as secure by Firefox, Edge and IE,
 
 \noindent\textbf{Contribution.} We present a comprehensive list of HTTPS errors,
         and investigate the security warnings of four mainstream browsers on these errors.
-Several defects are found in the analysis results,
+Several defects are found,
     and these defects may result in the problems of security or usability in HTTPS.
-We finally present some suggestions to improve the browsers.
+We finally present some suggestions to improve the browsers' design of warnings.
 %Based on the analysis results, we found that some browsers didn't handle properly,
 %    for example,
 %    firefox displays medium-risk warnings for manually installed self-signed certificates,

@@ -2,9 +2,9 @@
 %    In this subsection,
 %    we focus on various types of errors that may trigger browser security warnings.
 We list
-the errors of certificate verification of basic fields and extensions,
- name validation, and also security-enhancement of HTTPS.
-These errors are induced in the evaluated browsers.
+the errors of certificate verification, %of basic fields and extensions,
+ name validation, and security-enhancement of HTTPS.
+%These errors are induced in the evaluated browsers.
 
 \subsubsection{Certificate Verification of Basic Fields}
 In the TLS negotiations,
@@ -33,7 +33,7 @@ The root CA certificate of the certificate chain, sent by the visit server,
 
 \textbf{Incomplete certificate chain.}
 Browsers cannot build a complete certificate chain,
-    starting from a self-signed certificate to the received server certificate.
+    starting from a self-signed root CA certificate to the server certificate.
  %   a complete certificate chain cannot be formed due to the lack of intermediate certificates.
     %In order to build a complete certificate chain,
     %browsers obtain the intermediate certificates in three ways.
@@ -50,8 +50,7 @@ The certificate has expired.
 
 \textbf{Revoked server certificate.}
 The received server certificate has been revoked.
-%The revocation status is distributed through CRL, OCSP, or CRLSet \cite{CRLSet}.
-The revocation status is distributed through CRL or OCSP.
+%%% The revocation status is distributed through CRL, OCSP, or CRLSet \cite{CRLSet}.
 %        the CA claims that the server certificate is no longer valid before it expires by CRL, OCSP, or CRLset.
 
     %For security reasons,
@@ -84,7 +83,8 @@ The certificate  is signed
 \subsubsection{Certificate Verification of Extensions}
 The following certificate extensions are important
         in certificate verification,
-and errors may happen when browsers process these extensions.
+        and helpful to detect the MitM attacks by forged certificates.
+Errors may happen when browsers process these extensions.
 
 %    In addition to the basic certificate validation, we also consider the certificate extension validation: Basic Constraints, Key Usage, and Extended Key Usage.
 
@@ -96,7 +96,7 @@ The cA boolean indicates it is a CA certificate or not.
 The pathLenConstraint integer must appear in a CA certificate,
     and
     it gives
-        the maximum number of intermediate CA certificates following this CA certificate in a valid certificate chain.
+        the maximum number of intermediate CA certificates following this certificate in a valid certificate chain.
 
 \textbf{Key Usage.}
 %    ``no key usage" means that the certificate does not have a key usage field.
@@ -132,7 +132,7 @@ Browsers check
     whether the certificate subject matches the domain visited or not,
     through the CN field and the SAN extension.
 %    Name validation error means that domain names listed in a server certificate don't match the domain we visited.
-There following errors of name validation may happen in CN and/or SAN.
+There following errors of name validation may happen.
 
 %are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 
@@ -144,10 +144,12 @@ It means that,
 \textbf{WWW mismatch.}
 This error happens, for example,
     when a user visits www.foo.com but receives a certificate for foo.com.
-
+Note that,
+    it is a complete mismatch,     when a user visits www.foo.com but receives a certificate for abc.foo.com.
+    
 \textbf{Out-of-wildcard-scope subdomain.}
 This error happens, for example,
-    when a user visits ab.xy.foo.com but receives a certificate for *.foo.com.
+    when a user visits abc.xyz.foo.com but receives a certificate for *.foo.com.
 
 %\textbf{Common Name or Subject Alternative Name Mismatch.}
     %Common Name (CN) and Subject Alternative Name (SAN) fields indicate the certificate subject identity information, and they are usually domain names.
