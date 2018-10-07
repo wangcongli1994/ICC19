@@ -390,7 +390,19 @@ When visiting a domain in the list,
 
 When we visit a website in the HSTS pre-loaded list,
     if there is an HTTPS error that triggers Level-B warnings without HSTS (for example,
-        incomplete certificate chain, expired certificate, \textcolor[rgb]{1.00,0.00,0.00}{or any other Level-B medium-risk HTTPS errors}),  %% 具体哪些，列出来；包括Level-D的错误吗？
+        untrusted root CA certificate, incomplete certificate chain, expired certificate, 
+        complete mismatch, WWW mismatch, out-of-wildcard-scope subdomain, 
+        %Weak key pair (512-bit RSA) in Chrome, Firefox, and Edge
+        %Weak hash algorithm (SHA-1) in Chrome, and Firefox
+        %Weak hash algorithm (MD5) in Chrome, and Firefox
+        %Server certificate: incorrect cA flag (= true), correct/no Key Usage and Extended Key Usage in Firefox
+        %CA certificate: incorrect cA flag (= false) in Firefox
+        %CA certificate: correct cA flag (= true), violated pathLenConstraint in IE
+        %incorrect SAN, correct/incorrect/no CN, 
+        %no SAN, correct CN in Firefox
+        %no SAN, incorrect CN
+        %这些都是，但是不知道怎么写，逗号和and和括号太多了
+        \textcolor[rgb]{1.00,0.00,0.00}{or any other Level-B medium-risk HTTPS errors}),  %% 具体哪些，列出来；包括Level-D的错误吗？不包括Level-D的错误
     all browsers show Level-C warnings instead.
         %all the four browsers display C-level (High-Risk) warnings on B-level (Medium-Risk) HTTPS errors,
 All browsers show Level-A warnings if some resources are visited over HTTP.
