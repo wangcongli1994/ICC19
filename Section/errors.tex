@@ -3,7 +3,7 @@
 %    we focus on various types of errors that may trigger browser security warnings.
 We list
 the errors of certificate verification, %of basic fields and extensions,
- name validation, and security-enhancement of HTTPS.
+ name validation, and HTTPS security-enhancement.
 %These errors are induced in the evaluated browsers.
 
 \subsubsection{Certificate Verification of Basic Fields}
@@ -93,7 +93,7 @@ This extension consists of two fields:
  cA and pathLenConstraint \cite{cooper2008rfc5280}.
 The cA boolean indicates it is a CA certificate or not.
 %    CA certificates must set the ``CA flag" as true, and server certificates must set the ``CA flag" as false.
-The pathLenConstraint integer must appear in a CA certificate,
+The pathLenConstraint integer appears in CA certificates,
     and
     it gives
         the maximum number of intermediate CA certificates following this certificate in a valid certificate chain.
@@ -129,10 +129,10 @@ A TLS server certificate must include the serverAuth extended usage \cite{cooper
 \subsubsection{Name Validation}
     %Certificates are only valid for specific domain names.
 Browsers check
-    whether the certificate subject matches the domain visited or not,
-    through the CN field and the SAN extension.
+    whether the certificate subject matches the domain visited,
+    through the commonName (CN) field and the Subject Alternative Name (SAN) extension.
 %    Name validation error means that domain names listed in a server certificate don't match the domain we visited.
-There following errors of name validation may happen.
+The following errors of name validation may happen.
 
 %are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 
@@ -146,7 +146,7 @@ This error happens, for example,
     when a user visits www.foo.com but receives a certificate for foo.com.
 Note that,
     this is a complete mismatch,     when the visit to www.foo.com receives a certificate for abc.foo.com.
-    
+
 \textbf{Out-of-wildcard-scope subdomain.}
 This error happens, for example,
     when a user visits abc.xyz.foo.com but receives a certificate for *.foo.com.
@@ -156,7 +156,7 @@ This error happens, for example,
 
 \subsubsection{HTTPS Security-Enhancement}
 %\subsubsection{Certificate verification enhancement errors}
-HSTS and HPKP are the security-enhancements, adopted in mainstream browsers.
+HSTS and HPKP are the security-enhancements adopted in mainstream browsers.
 %    some security-enhancement policies have been added to HTTPS.
 
 

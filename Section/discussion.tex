@@ -3,7 +3,10 @@
 %Through comparison between them, we have summarized the existing risks of several browsers.
 
 In this section,
-    we emphasize the defects that may lead to successful MitM or impersonation attacks.
+    we discuss the browser defects on handling HTTPS errors,
+    and present some suggestions.
+
++++++++++++++++++++++++++++++++++++
 
 \subsection{Weak Cryptographic Algorithm}
 The following cryptographic algorithms are publicly prohibited or unrecommended \cite{CAB2018BR, NIST2005ECC},
@@ -33,7 +36,7 @@ The statistics in 2015  \cite{liu2015end} show that,
 %        however, Chrome and Firefox don't display any warnings on revoked server certificates through CRL.
 %        we think Chrome and Firefox need to be improved on this.
 %
-    95\% contains a OCSP responder.
+    95\% contains an OCSP responder.
 %        however, Chrome does not display any warnings on revoked server certificates through OCSP.
 %        we think Chrome need to be improved on this.
 
@@ -57,14 +60,14 @@ However,
             Firefox shows only bypassable Level-B warnings.
 Moreover, Firefox does not process the pathLenConstraint field correctly,
     and the violated pathLenConstraint does not trigger warnings in Firefox.
-These defects may be exploited to launch successful MitM and impersonation attacks.
+These defects can be exploited to launch successful MitM and impersonation attacks.
 
 If a CA acts as the TLS server in HTTPS,
     i.e., the cA flag in the ``server'' certificate is true,
 Chrome, Edge and IE consider it as secure and show no warning.
-However, in our opinion,
-    such configurations are rather uncommon cases,
-    a Level-A warning shall be necessary.
+However, %in our opinion,
+    such configurations are rather uncommon,
+    and Level-A warnings shall be suitable.
 
 %\textbf{Extended Key Usage and Key Usage.}
 If a certificate contains the extensions of Key Usage and Extended Key Usage,
@@ -76,8 +79,8 @@ This rule is not complied with in Chrome, Edge and IE:
      no warning is shown.
 %
 Chrome, Edge, and IE do not process the Key Usage extension correctly,
-    even if it is marked as critical.
-No warning is shown when the TLS server certificate does not include the keyEncipherment usage.
+    even if it is marked as critical:
+no warning is shown when the TLS server certificate does not include the keyEncipherment usage.
 %However,
 %    these browsers process the \emph{non-critical} Extended Key Usage extension correctly:
 %    when the server certificate does not include the serverAuth extended usage,
@@ -98,19 +101,20 @@ WWW mismatch and out-of-wildcard-scope subdomain.
 However,
 %    in our opinion,
     these errors bring very different levels of risk,
-    and it is practicable to show a higher-level warning on complete mismatch because low-cost TLS server certificates are available.
+    and it is practicable to show a higher-level warning on complete mismatch
+     because low-cost TLS server certificates are available.
 
 
 %The CA/Browser Forum suggests that
 %    deprecates the CN field and lists applicable names in SAN field.
-The evaluated browsers behave inconsistently in name validation.
+The browsers behave inconsistently in name validation.
 Chrome checks the domain name \emph{only} in the SAN extension.
 Firefox, Edge, and IE consider a server certificate as secure,
-    if it contains the valid CN field but no SAN;
+    if it contains correct CN but no SAN;
     on the contrary, it triggers Level-B warnings in Chrome.
 This may lead to a problem of usability:
-    a legitimate server certificate considered as secure by other browsers,
-    may trigger a security warning in Chrome.
+    a legitimate certificate considered as secure by other browsers,
+    may trigger a warning in Chrome.
 
 
 
@@ -126,8 +130,8 @@ If HSTS is enforced  by the HSTS header, which is sent by the website,
 \subsection{HPKP}
 HPKP is supported only in Chrome and Firefox.
         Chrome and Firefox do not conduct HPKP validation
-            when the certificate chain is verified by a root CA certificate installed by users.
-So a website cannot enhance its HTTPS security by HPKP against MitM attacks,
+            when the certificate chain is verified by a user-installed root CA certificate.
+So a website cannot enhance its HTTPS security by HPKP,
     unless it applies for a certificate from the publicly-trusted CAs.
  %   Thus, If a malware installs its root certificate on the user's computer,
  %       it may defeat the protections of HPKP and successfully launch the man-in-the-middle attack.

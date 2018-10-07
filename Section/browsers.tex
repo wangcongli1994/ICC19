@@ -3,7 +3,7 @@
 \subsection{Browser Security Warnings}
 Browser security warnings protect users against various network attacks,
     and we only consider the MitM or impersonation attacks in HTTPS.
-The  attacks might be launched
+The  attacks may be launched
      by using a forged or revoked certificate,
     or deceiving users to visit the website through plain HTTP.
 When such errors happen,
@@ -46,10 +46,10 @@ If the user bypasses (or clicks through)
 %In this scenario, if there is an HTTPS error, the browser will stop the page load and display an HTTPS security warning explaining the cause of the error. Typically, users are able to click through the warning by clicking on a button, but this may be disabled if the website servers the HTTP Strict Transport Security (HSTS) or HTTP Public Key Pinning (HPKP) header. Although the HTTP(s) traffic we captured through Fiddler[ https://www.telerik.com/fiddler] shows the web page is not transmitted in plain text, clicking through the warning may allow an actual man-in-the-middle attack to proceed.
 
 \subsubsection{High-risk warning}
-For high-risk errors, it shows a \emph{non-bypassable warning} that stops the browsing.
+For high-risk errors, it shows a \emph{non-bypassable warning to stop the browsing}.
 For example,
     the browser displays a full-screen webpage explaining the error,
-     with a ``Retry'' button.
+     with a button to retry.
 On high-risk errors,
     the browser closes HTTPS connections to the visited server.
 

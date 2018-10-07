@@ -1,22 +1,20 @@
 \section{Introduction}
-HTTPS is becoming the de facto standard of secure web applications
- to provide  authentication, data confidentiality and integrity \cite{felt2017measuring}.
+HTTPS implements HTTP over TLS,
+    and provides authentication, data confidentiality and integrity for secure web applications \cite{https-rfc}.
 %It is used for hundreds of million of times every day in browsers .
-HTTPS implements HTTP over TLS.
     In the TLS negotiation, a browser verifies the server certificate by building a certificate chain,
     and validates the certificate subject with the domain visited.
-Recently,
-    the security of HTTPS is further enhanced by HPKP that pins the public keys of the website in browsers \cite{Evans2015rfc7469},
+The security of HTTPS is further enhanced by HPKP that pins the public keys of the website in browsers \cite{Evans2015rfc7469},
      and HSTS that forces browsers to visit the website only using HTTPS but not HTTP \cite{hodges2012rfc6797}.
 
-There are various errors in the TLS negotiations and the security-enhancements of HTTPS.
-Browsers show security warnings to users with different levels, on different HTTPS errors:
-(\emph{a}) a low-risk warning is shown in the address bar, no interrupting the browsing;
-(\emph{b}) a medium-risk warning is shown as a full-screen page, interrupting the browsing,
-    but the user may choose to ignore the warning by actively clicking to continue;
-and (\emph{c}) a high-risk one is also shown as a full-screen page, stopping the browsing,
-    but the user may choose to retry. % by clicking a button;
-and (\emph{d}) a fatal warning immediately close the connection and stop the browsing.
+There are various errors in the TLS negotiations and also the HTTPS security-enhancements.
+Browsers show security warnings to users with different levels, on different errors:
+(\emph{a}) a low-risk warning is shown in the address bar, not interrupting the browsing;
+(\emph{b}) a medium-risk warning is shown as a full-screen page to interrupt the browsing,
+    but the user may choose to ignore it by actively clicking to continue;
+(\emph{c}) a high-risk one is also shown as a full-screen page, stopping the browsing,
+    and the user may choose to retry; % by clicking a button;
+and (\emph{d}) a fatal warning immediately closes the connection and stops the browsing.
 
 The security warnings aim to protect users to establish secure connections with the target website,
     but not a man-in-the-middle (MitM) or impersonation attacker.
@@ -42,17 +40,17 @@ Edge and IE consider MD5 as secure,
     so a server certificate signed or forged by this broken algorithm \cite{md5-forged-cert1, md5-forged-cert2}
      is accepted without warnings.
 Meanwhile, all browsers show no warnings
-    on certificates binding an RSA-1024 key pair,
-        which is prohibited by the community \cite{CAB2018BR, NIST2005ECC}.
+    on certificates binding 1024-bit RSA key pairs,
+        which are prohibited in the community \cite{CAB2018BR, NIST2005ECC}.
 %Chrome, Firefox, Edge, IE: Signature Algorithm. The four browsers consider RSA1024 secure.
 %Edge, IE: Digest Algorithm. Edge and IE consider secure.
 \item
 Chrome does not check the certificate revocation status through commonly-used CRL and OCSP,
     and Firefox does not support CRL. Thus,
-    a revoked TLS server certificate may be accepted by Chrome and Firefox.
+    a revoked TLS server certificate may still be accepted by Chrome and Firefox.
 \item
 Firefox does not process the Basic Constraints extension correctly.
-Thus, a malicious server (but not an accredited CA) may sign TLS server certificates arbitrarily,
+Thus, a malicious server (but not a trusted CA) may sign TLS server certificates arbitrarily,
      and such forged certificate chains will be probably accepted by Firefox.
     % including the fields of cA and pathLenConstraint.
 %Chrome, Edge, IE: CA flag. when the CA flag field of a server certificate is set to ¡°true¡±, Chrome, Edge and IE consider it secure.
@@ -60,7 +58,7 @@ Thus, a malicious server (but not an accredited CA) may sign TLS server certific
 Chrome, %Firefox,
  Edge and IE do not process the extensions of Key Usage and Extended Key Usage correctly.
 %even when these extensions appear inconsistently in certificates,    no warning shows.
-So a certificate for other purposes may be maliciously used in HTTPS, and accepted by these browsers.
+So a certificate for other purposes may be maliciously used in HTTPS and accepted by these browsers.
 % key usage and extended key usage. Chrome, Edge, and IE don't display any warnings on certificates whose key usage and extended key usage is not consistent.
 \item
 In all browsers,
@@ -68,21 +66,27 @@ In all browsers,
         trigger only the low-risk warnings, not interrupting the user's browsing.
 %: HPKP. Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
 However,
-    such visits deviate from the user's willing or probably result from the impersonation attacks.
+    such visits deviate from the user's willing or probably result from the MitM or impersonation attacks.
 \item
 The HPKP support of Chrome and Firefox
     does not work well,
     when the certificate chain is verified by a user-installed root CA certificate.
 So the security-enhancement of HPKP does not  always take effect as expected.
 \end{itemize}
-There are also defects on the problems of usability.
 %\begin{itemize}
 %\item
-Chrome implements the procedure of name validation,
-    only with the Subject Alternative Name (SAN) extension but not the commonName (CN) field,
-        which is different from other browsers.
-So a legitimate server certificate considered as secure by Firefox, Edge and IE,
-    may trigger a warning in Chrome.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%There are also defects on the problems of usability.
+%Chrome implements the procedure of name validation,
+%    only with the Subject Alternative Name (SAN) extension but not the commonName (CN) field,
+%        which is different from other browsers.
+%So a legitimate server certificate considered as secure by Firefox, Edge and IE,
+%    may trigger a warning in Chrome.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
 %Each browser has
 %Name validation, different. The four browsers have inconsistencies in checking CN and SAN.
 %\item
@@ -111,7 +115,7 @@ So a legitimate server certificate considered as secure by Firefox, Edge and IE,
         and investigate the security warnings of four mainstream browsers on these errors.
 Several defects are found,
     and these defects may result in the problems of security or usability in HTTPS.
-We finally present some suggestions to improve the browsers' design of warnings.
+We finally present some suggestions to improve the browsers' design of security warnings on HTTPS errors.
 %Based on the analysis results, we found that some browsers didn't handle properly,
 %    for example,
 %    firefox displays medium-risk warnings for manually installed self-signed certificates,
