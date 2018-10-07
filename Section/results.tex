@@ -83,7 +83,7 @@ In order to analyze the browser behaviors on specified HTTPS errors,
  & Weak hash algorithm (MD5) & B & B & Secure & Secure \\ \midrule[1pt]
 \multirow{17}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Verification\\of Extensions\end{tabular}}
  & Server certificate &  &  &  &  \\
- & ~~incorrect cA flag (= true), correct Key Usage and Extended Key Usage & Secure & B & Secure & Secure \\
+ & ~~incorrect cA flag (= true), correct/no Key Usage and Extended Key Usage & Secure & B & Secure & Secure \\
  & ~~incorrect cA flag (= true), incorrect Key Usage (= keyCertSign) & Secure & C & Secure & Secure \\
  & CA certificate &  &  &  &  \\
  & ~~incorrect cA flag (= false) & C & B & C & C \\
@@ -310,7 +310,7 @@ As long as SAN is incorrect,
 
 If the server certificate is signed without the SAN extension
     and the CN field is set incorrect, all browsers show Level-B warnings.
-If it is signed without SAN 
+If it is signed without SAN
     and the CN field is correct,
 Firefox, Edge, and IE consider it as secure
    but Chrome shows a Level-B warning.
