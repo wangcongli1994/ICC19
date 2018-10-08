@@ -1,12 +1,16 @@
 \section{Related Work}
 %Previous studies have shown the need for analyzing browser security warnings of HTTPS errors.
 
-\cite{felt2017measuring}
+\cite{DBLP:conf/uss/FeltBKPBT17}
 
 %这一段讲Invalid Certificates.
 Researchers take large scale scans of HTTPS certificate ecosystem including IPv4 space, certificate transparency logs, and Alexa Top 1 Million websites
     to provide data sets of known certificates \cite{Durumeric2014Analysis, Durumeric2013ZMap, Holz2011The, Vandersloot2016Towards}.
 %    Using collections of certificates,
+    researchers build tools to measure certificate compliance with
+    community standards such as CA/Browser Forum Baseline Requirements, and RFC 5280.\cite{x509lint, certlint, kumar2018tracking}.
+    As a result, they find a large proportion of invalid certificate in the wild.%例如证书撤销，证书过期，弱算法
+    More than that, there are even many invalid certificates signed by browser-trusted CAs.
 
 %这一段讲错误分类、浏览器警告级别
 In 2013, Akhawe's study divided browser warnings into malware, phishing, and SSL warnings,
@@ -20,10 +24,6 @@ In 2013, Akhawe's study divided browser warnings into malware, phishing, and SSL
     Some researchers focus on measuring the quality of certificate validation in SSL/TLS implementations.
     Frankencert \cite{brubaker2014using} and Symcerts \cite{chau2017symcerts} are both designed to check whether SSL/TLS clients correctly validate X.509 certificates.
     RFCcert tests bugs in certificate validation of SSL/TLS implements by extracting rules directly from RFCs \cite{chen2018rfc}.
-    researchers build tools to measure certificate compliance with
-    community standards such as CA/Browser Forum Baseline Requirements, and RFC 5280.\cite{x509lint, certlint, kumar2018tracking}.
-    As a result, they find a large proportion of invalid certificate in the wild.%例如证书撤销，证书过期，弱算法
-    More than that, there are even many invalid certificates signed by browser-trusted CAs.
 
 %这一段讲 HPKP  HSTS
 A number of HTTPS security polices have been developed to enhance HTTPS security.
