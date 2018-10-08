@@ -17,8 +17,12 @@ The collisions of MD5 and SHA-1 have been found \cite{wang2004collisions, sha1-c
 %        attackers can use SHA-1 and MD5 to colliding fraudulent certificates,
 However, Edge and IE do not show any warnings on certificates signed by MD5 or SHA-1.
 
-1024-bit RSA is expected to be broken within 2015 to 2020 \cite{Berlin2017An},
-    but none of the evaluated browsers show any warnings on certificates with 1024-bit RSA.
+%1024-bit RSA is expected to be broken within 2015 to 2020 \cite{Berlin2017An},
+%1024-bit RSA is expected to be phased out.
+%1024-bit RSA can be broken now at a cost ranging from tens of thousands to hundreds of millions of dollars,
+%1024-bit RSA is at the greatest risk,
+1024-bit RSA can be broken now at an additional cost,
+    but none of the evaluated browsers show any warnings on certificates with 1024-bit RSA \cite{NIST2016Post-Quantum}. 
 The first factorization of 512-bit RSA was finished in 1999 \cite{DBLP:conf/fc/ValentaCLFBH16},
     and an 512-bit RSA key pair was broken within 73 days by a desktop computer in 2009 \cite{rsa512broken}.
 However, Chrome, Edge, and IE show only \emph{bypassable} Level-B warnings on 512-bit RSA.
