@@ -57,7 +57,7 @@ In order to analyze the browser behaviors on specified HTTPS errors,
     unless otherwise stated.
 % A, B, C, and D represent low-risk, medium-risk, high-risk, and fatal warnings, respectively.
 2048-bit RSA and SHA-256 are used, % in these tests,
-    except for the experiments of weak key pair and weak hash algorithm. 
+    except for the experiments of weak key pair and weak hash algorithm.
 
 \begin{table*}[htbp]
 \centering
@@ -286,12 +286,12 @@ As long as the server certificate is signed with the serverAuth extended usage,
         all browsers consider the certificate chain as secure.
 As long as the server certificates is signed with the Extended Key Usage extension but no serverAuth,
      no mater what the Key Usage extension is,
-        all browsers show Level-C high-risk warnings.
-
+        all browsers show Level-C high-risk warnings. 
+             
 When the server certificates is signed without the Extended Key Usage extension,
     Firefox shows a Level-C warning if it is with the Key Usage extension but no keyEncipherment,
     while other browsers always consider it as secure.
-
+    
 If the CA certificate is with the Key Usage extension but no keyCertSign,
         all browsers show Level-C high-risk warnings.
 
