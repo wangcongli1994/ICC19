@@ -1,11 +1,11 @@
 \section{Related Work}
 %Previous studies have shown the need for analyzing browser security warnings of HTTPS errors.
-
-\cite{DBLP:conf/uss/FeltBKPBT17}
+\noindent\textbf{HTTPS Adoption.} Several studies \cite{DBLP:conf/uss/FeltBKPBT17} \cite{Durumeric2014Analysis} \cite{Durumeric2013ZMap}  \cite{Holz2011The} 
+have measured HTTPS Adoption on the Web and gain insight into the current state of the HTTPS ecosystem by scanning the IPv4 address space, scanning Alexa websites, capturing TLS/SSL traffic from network links, or browser telemetry.
 
 %这一段讲Invalid Certificates.
-Researchers take large scale scans of HTTPS certificate ecosystem including IPv4 space, certificate transparency logs, and Alexa Top 1 Million websites
-    to provide data sets of known certificates \cite{Durumeric2014Analysis, Durumeric2013ZMap, Holz2011The, Vandersloot2016Towards}.
+%Researchers take large scale scans of HTTPS certificate ecosystem including IPv4 space, certificate transparency logs, and Alexa Top 1 Million websites
+ %   to provide data sets of known certificates \cite{Durumeric2014Analysis, Durumeric2013ZMap, Holz2011The, Vandersloot2016Towards}.
 %    Using collections of certificates,
 
 
@@ -25,7 +25,7 @@ In 2013, Akhawe's study divided browser warnings into malware, phishing, and SSL
     community standards such as CA/Browser Forum Baseline Requirements, and RFC 5280.\cite{x509lint, certlint, kumar2018tracking}.
     As a result, they find a large proportion of invalid certificate in the wild.%例如证书撤销，证书过期，弱算法
     More than that, there are even many invalid certificates signed by browser-trusted CAs.
-    
+
 %这一段讲 HPKP  HSTS
 A number of HTTPS security polices have been developed to enhance HTTPS security.
     As a result, many studies focus on the development of HTTPS security polices.
