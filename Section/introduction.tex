@@ -27,13 +27,14 @@ and investigates the browser behaviors on each error.
 The error list covers certificate verification of basic fields and extensions,
         name validation, and HTTPS security-enhancement of HPKP and HSTS.
 
-The evaluated browsers are Chrome, Firefox, Edge, and IE on Windows 10.
+Chrome, Firefox, Edge, and IE are evaluated. %on Windows 10.
 Our study
     discloses the browser defects on handling HTTPS errors in terms of cryptographic algorithm,
      certificate verification, %extension, certificate revocation,
       name validation,
       HPKP, and HSTS.
-Some serious defects cause a forged or revoked certificate to be (probably) accepted by users:
+Some serious defects cause a forged or revoked certificate to be (probably) accepted in HTTPS,
+    or the HTTPS security-enhancement to be ineffective:
 \begin{itemize}
 \item
 Edge and IE consider MD5 as secure,
@@ -111,11 +112,11 @@ So the security-enhancement of HPKP does not  always take effect as expected.
 %Our work focuses on the X.509 certificate validation rather than the whole process of HTTPS implements,
 %    but we hope our work can be useful for deploying HTTPS faster and better.
 
-\noindent\textbf{Contribution.} We present a comprehensive list of HTTPS errors,
-        and investigate the security warnings of four mainstream browsers on these errors.
+\noindent\textbf{Contribution.} We investigate the security warnings of mainstream browsers
+ on a comprehensive list of HTTPS errors.
 Several defects are found,
-    and these defects may result in the problems of security or usability in HTTPS.
-We finally present some suggestions to improve the browsers' design of security warnings on HTTPS errors.
+    which may result in the problems of security or usability in HTTPS.
+We also present suggestions to improve the browsers' design of warnings on HTTPS errors.
 %Based on the analysis results, we found that some browsers didn't handle properly,
 %    for example,
 %    firefox displays medium-risk warnings for manually installed self-signed certificates,
