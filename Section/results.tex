@@ -159,7 +159,7 @@ In these experiments,
         are correctly set.
 The domain name in CN is also correct.
 
-\textbf{Untrusted root CA certificate.}
+\noindent\textbf{Untrusted root CA certificate.}
 %We use OpenSSL to generate a certificate chain,
 % and the root CA is not trusted by browsers.
 %%%% %(whose cA flag is true, pathLenConstraint is null, key usage is keyCertSign),
@@ -173,7 +173,7 @@ Chrome, Edge and IE rely on the Windows certificate store,
 
 
 
-%%%%%%%%%%%%\textbf{Untrusted self-signed server certificate.}
+%%%%%%%%%%%%\noindent\textbf{Untrusted self-signed server certificate.}
 %Basic Constraint = cA flag + pathLenConstraint
 %%%%%%%We use OpenSSL to generate a self-signed server certificate
 %%%%%%%    (who does not have Basic Constraint field, key usage is keyEncipherment and keyCertSign, extended key usage is serverAuth, and both CN and SAN of the self-signed server certificate contain the server's domain name).
@@ -190,16 +190,16 @@ Chrome, Edge and IE rely on the Windows certificate store,
    %Third, click the ``Confirm Security Exception " button.
    %After all the steps have been completed, Firefox considers it secure.
 %
-%\textbf{Incomplete Certificate Chain.}
-%\textbf{Expired Certificate.}
+%\noindent\textbf{Incomplete Certificate Chain.}
+%\noindent\textbf{Expired Certificate.}
 
-\textbf{Incomplete certificate chain, and expired server certificate.}
+\noindent\textbf{Incomplete certificate chain, and expired server certificate.}
 All browsers show Level-B warnings on an incomplete certificate chain, or expired server certificate.
 
 
 
 
-\textbf{Revoked server certificate.}
+\noindent\textbf{Revoked server certificate.}
 The server certificate is revoked and all CA certificates are not revoked.
 (\emph{a}) OCSP. The server certificate is signed and revoked by Let's Encrypt,
     which distributes the revocation status through OCSP.
@@ -221,8 +221,8 @@ Chrome considers it as secure,
     %    Chrome displays a C-level (High-risk) warning,
      %       but Firefox, Edge and IE consider it secure.
 
-%\textbf{Weak Signature Algorithm.}
-\textbf{Weak key pair.}
+%\noindent\textbf{Weak Signature Algorithm.}
+\noindent\textbf{Weak key pair.}
 %In this weak key paragraph, all server certificates are signed by SHA-256 with RSA Encryption.
  When receiving a certificate binding a 512-bit RSA key pair,
 a Level-C warning is shown in IE,
@@ -232,8 +232,8 @@ On a certificate binding a 1024-bit RSA key pair,
 %When a 160-bit ECC key pair is bound,
  %   all browsers show Level-D fatal warnings.
 
-%\textbf{Weak Digest Algorithm.}
-\textbf{Weak hash algorithm.}
+%\noindent\textbf{Weak Digest Algorithm.}
+\noindent\textbf{Weak hash algorithm.}
 %In this weak hash algorithm paragraph, all server certificates are signed by RSA and the public key of server certificates are 1024-bit RSA key.
     When receiving a server certificate signed by SHA-1 or MD5,
         Chrome and Firefox show Level-B warnings,
@@ -245,7 +245,7 @@ The root CA certificate is installed in the browsers' certificate store.
 The extensions of Basic Constraints and Key Usage are marked as critical, and
 the Extended Key Usage extension is non-critical \cite{cooper2008rfc5280}.
 
-\textbf{Basic Constraints.}
+\noindent\textbf{Basic Constraints.}
 If the cA flag of the Basic Constraints extension is true in the ``server'' certificate
     but the key usage is set as a common TLS server certificate (i.e.,
     it includes the keyEncipherment usage and the serverAuth extended usage) or no key usage is specified,
@@ -279,19 +279,19 @@ Chrome and Edge show Level-C high-risk warnings, IE shows a Level-B warning,
     but Firefox considers it as secure.
 
 
-\textbf{Key Usage and Extended Key Usage.}
+\noindent\textbf{Key Usage and Extended Key Usage.}
 %    We didn't designate key usage and the extend key usage as critical or non-critical.
 As long as the server certificate is signed with the serverAuth extended usage,
      no mater what the Key Usage extension is,
         all browsers consider the certificate chain as secure.
 As long as the server certificates is signed with the Extended Key Usage extension but no serverAuth,
      no mater what the Key Usage extension is,
-        all browsers show Level-C high-risk warnings. 
-             
+        all browsers show Level-C high-risk warnings.
+
 When the server certificates is signed without the Extended Key Usage extension,
     Firefox shows a Level-C warning if it is with the Key Usage extension but no keyEncipherment,
     while other browsers always consider it as secure.
-    
+
 If the CA certificate is with the Key Usage extension but no keyCertSign,
         all browsers show Level-C high-risk warnings.
 
@@ -318,7 +318,7 @@ However, if it is with correct CN but without SAN,
 Chrome shows a Level-B warning while others consider it as secure.
 
 \subsection{HTTPS Security-Enhancement Errors}
-\textbf{HPKP.}
+\noindent\textbf{HPKP.}
 In these experiments,
     the root CA certificate is (\emph{a}) generated by OpenSSL and then installed in the browsers' certificate store,
             i.e., in the \emph{private} certificate store,
@@ -382,7 +382,7 @@ Then,
 
 
 
-\textbf{HSTS.}
+\noindent\textbf{HSTS.}
 HSTS follows the trust-on-first-use policy, and it also supports the pre-loaded list in browsers \cite{hodges2012rfc6797}.
 When visiting a domain in the list,
     the browser must use HTTPS. % to initiate the connections.

@@ -17,14 +17,15 @@ Each of the following errors leads to an invalid certificate chain.
 %    if the certificate chain presented by a web server
 %    cannot provide enough information for a browser to build a complete chain
 %    from the endpoint certificate to a trusted root certificate in the browser’s root store.
-\textbf{Untrusted root CA certificate.}
+%\noindent
+\noindent\textbf{Untrusted root CA certificate.}
 The root CA certificate of the certificate chain, sent by the visit server,
     is not trusted by browsers (i.e., not in the root CA certificate store).
 
 
 %    This error occurs when the chain of intermediate CAs linking the server certificate to a root CA untrusted by browsers.
 
-%\textcolor[rgb]{1.00,0.00,0.00}{\textbf{Untrusted self-signed server certificate.}}
+%\textcolor[rgb]{1.00,0.00,0.00}{\noindent\textbf{Untrusted self-signed server certificate.}}
 % 是否考虑删去这一条？反正没有什么区别，相比Untrusted root CA certificate.
 %It is a special case of untrusted root CA certificates,
 %    when the visited server also acts as a root CA.
@@ -33,7 +34,7 @@ The root CA certificate of the certificate chain, sent by the visit server,
 
 %    Similarly, self-signed certificate is not trusted by browsers and must be installed manually.
 
-\textbf{Incomplete certificate chain.}
+\noindent\textbf{Incomplete certificate chain.}
 Browsers cannot build a complete certificate chain,
     starting from a self-signed root CA certificate to the server certificate.
  %   a complete certificate chain cannot be formed due to the lack of intermediate certificates.
@@ -44,13 +45,13 @@ Browsers cannot build a complete certificate chain,
     %Third, browsers actively fetch the missing intermediate certificates through an AIA field.
     %An incomplete chain error occurs, when all the attempts fail.
 
-\textbf{Expired server certificate.}
+\noindent\textbf{Expired server certificate.}
 The certificate has expired.
     %A certificate is only valid between its Not Before date and Not After date.
     %Expired certificate means that the Not After date is earlier than current time.
     %An expired certificate error occurs if the Not After date is earlier than current time.
 
-\textbf{Revoked server certificate.}
+\noindent\textbf{Revoked server certificate.}
 The received server certificate has been revoked.
 %%% The revocation status is distributed through CRL, OCSP, or CRLSet \cite{CRLSet}.
 %        the CA claims that the server certificate is no longer valid before it expires by CRL, OCSP, or CRLset.
@@ -64,10 +65,10 @@ The received server certificate has been revoked.
 
 %    Weak signature algorithm refers to the unsafe, practically breakable algorithm, such as RSA512, RSA1024 \cite{CAB2018BR}, and ECC160 \cite{NIST2005ECC}.
 
-%\textbf{Weak signature algorithm.}
+%\noindent\textbf{Weak signature algorithm.}
 %The server certificate is signed by insecure signature algorithms,
   %  such as RSA-512, RSA-1024 \cite{CAB2018BR}, or ECC-160 \cite{NIST2005ECC}.
-\textbf{Weak key pair.}
+\noindent\textbf{Weak key pair.}
 The server certificate binds a key pair of weak algorithm,
     such as 512/1024-bit RSA \cite{CAB2018BR}.%, or 160-bit ECC \cite{NIST2005ECC}.
 
@@ -76,7 +77,7 @@ The server certificate binds a key pair of weak algorithm,
     %and ECC keys should be at least 256 bits \cite{NIST2005ECC}.
     %A weak signature algorithm error occurs when the key length does not meet the requirements.
 
-\textbf{Weak hash algorithm.}
+\noindent\textbf{Weak hash algorithm.}
 The certificate  is signed
     by insecure hash algorithms such as SHA-1 \cite{sha1-collision} and MD5 \cite{wang2004collisions}.
     %According to the CA/Browser Forum,
@@ -90,7 +91,7 @@ The following extensions are important
 
 %    In addition to the basic certificate validation, we also consider the certificate extension validation: Basic Constraints, Key Usage, and Extended Key Usage.
 
-\textbf{Basic Constraints.}
+\noindent\textbf{Basic Constraints.}
 This extension consists of two fields:
  cA and pathLenConstraint \cite{cooper2008rfc5280}.
 The cA boolean indicates it is a CA certificate or not.
@@ -100,7 +101,7 @@ The pathLenConstraint integer appears in CA certificates,
     it gives
         the maximum number of intermediate CA certificates following this certificate in a valid certificate chain.
 
-\textbf{Key Usage.}
+\noindent\textbf{Key Usage.}
 %    ``no key usage" means that the certificate does not have a key usage field.
 This extension defines the purpose(s) of the key pair bound in the certificate.
 %According to Frankencerts \cite{brubaker2014using},
@@ -116,7 +117,7 @@ A CA certificate must include the keyCertSign usage,
     %all CA certificates must include "Certificate Signing" in their key usage extension, and
     %all server certificates must include "Key Encipherment" in their key usage extension.
 
-\textbf{Extended Key Usage.}
+\noindent\textbf{Extended Key Usage.}
 %    ``no extended key usage" means that the certificate does not have a extended key usage field.
 It indicates one or more detailed purposes of the certified key pair,
     in addition to the basic purpose(s) in the Key Usage extension.
@@ -138,22 +139,22 @@ The following errors of name validation may happen.
 
 %are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 
-\textbf{Complete mismatch.}
+\noindent\textbf{Complete mismatch.}
 It means that,
  there is no relation between the domain visited and the certificate subject.
     For example, a user visits www.foo.com but receives a certificate for www.bar.org.
 
-\textbf{WWW mismatch.}
+\noindent\textbf{WWW mismatch.}
 This error happens, for example,
     when a user visits www.foo.com but receives a certificate for foo.com.
 Note that,
     this is a complete mismatch,     when the visit to www.foo.com receives a certificate for abc.foo.com.
 
-\textbf{Out-of-wildcard-scope subdomain.}
+\noindent\textbf{Out-of-wildcard-scope subdomain.}
 This error happens, for example,
     when a user visits abc.xyz.foo.com but receives a certificate for *.foo.com.
 
-%\textbf{Common Name or Subject Alternative Name Mismatch.}
+%\noindent\textbf{Common Name or Subject Alternative Name Mismatch.}
     %Common Name (CN) and Subject Alternative Name (SAN) fields indicate the certificate subject identity information, and they are usually domain names.
 
 \subsubsection{HTTPS Security-Enhancement}
@@ -162,7 +163,7 @@ HSTS and HPKP are the security-enhancements adopted in mainstream browsers.
 %    some security-enhancement policies have been added to HTTPS.
 
 
-\textbf{HPKP.}
+\noindent\textbf{HPKP.}
 %    HTTP Public Key Pinning (HPKP) \cite{Evans2015rfc7469} is used by web sites to instruct browsers to remember ("pin") the sites' public key over a period of time.
 An HPKP error happens,
     when
@@ -170,7 +171,7 @@ An HPKP error happens,
     matches the pinned public keys  \cite{Evans2015rfc7469},
         or    there is any error in the HPKP header.
 
-\textbf{HSTS.}
+\noindent\textbf{HSTS.}
 %    HTTP Strict Transport Security (HSTS) \cite{hodges2012rfc6797} directs browsers to interact with given sites only over HTTPS.
 % HSTS的介绍留在related work即可。
 %
