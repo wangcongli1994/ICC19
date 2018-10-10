@@ -11,7 +11,7 @@ the errors of certificate verification, %of basic fields and extensions,
 \subsubsection{Certificate Verification of Basic Fields}
 In the TLS negotiations,
  a browser verifies the server certificate by building a certificate chain.
-Each of the following errors leads to an invalid certificate chain.
+Each of the following errors leads to an invalid certificate chain  \cite{cooper2008rfc5280}.
 
 %    Chain building Error occurs
 %    if the certificate chain presented by a web server
@@ -93,13 +93,13 @@ The following extensions are important
 
 \noindent\textbf{Basic Constraints.}
 This extension consists of two fields:
- cA and pathLenConstraint \cite{cooper2008rfc5280}.
+ cA and pathLenConstraint.
 The cA boolean indicates it is a CA certificate or not.
 %    CA certificates must set the ``CA flag" as true, and server certificates must set the ``CA flag" as false.
 The pathLenConstraint integer appears in CA certificates,
     and
-    it gives
-        the maximum number of intermediate CA certificates following this certificate in a valid certificate chain.
+    gives
+        the maximum number of intermediate CA certificates following this certificate in a valid chain.
 
 \noindent\textbf{Key Usage.}
 %    ``no key usage" means that the certificate does not have a key usage field.

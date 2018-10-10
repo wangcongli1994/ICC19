@@ -1,41 +1,53 @@
 \section{Related Work}
 %Previous studies have shown the need for analyzing browser security warnings of HTTPS errors.
-\noindent\textbf{HTTPS Adoption.} 
-Several studies \cite{DBLP:conf/uss/FeltBKPBT17, Durumeric2014Analysis, Durumeric2013ZMap, Holz2011The}.
-have measured HTTPS Adoption on the Web and gain insight into the current state of the HTTPS ecosystem by scanning the IPv4 address space, scanning Alexa websites, capturing TLS/SSL traffic from network links, or browser telemetry.
+ZMap \cite{Durumeric2013ZMap} conducted comprehensive scans of port 443 in the Internet and retrieve TLS certificates
+    and \cite{DBLP:conf/uss/FeltBKPBT17} measured HTTPS adoption on the web
+    from the perspectives of both users web developers in 2017.
+TLS server certificates are collected
+     to present the status of the deployed X.509 PKI \cite{Durumeric2014Analysis, Holz2011The}.
+
 
 %这一段讲Invalid Certificates.
 %Researchers take large scale scans of HTTPS certificate ecosystem including IPv4 space, certificate transparency logs, and Alexa Top 1 Million websites
  %   to provide data sets of known certificates \cite{Durumeric2014Analysis, Durumeric2013ZMap, Holz2011The, Vandersloot2016Towards}.
 %    Using collections of certificates,
-\noindent\textbf{Invalid Certificates.}
+
 %researchers build tools to measure certificate compliance with
  %   community standards such as CA/Browser Forum Baseline Requirements, and RFC 5280.\cite{x509lint, certlint, kumar2018tracking}.
   %  As a result, they find a large proportion of invalid certificate in the wild.%例如证书撤销，证书过期，弱算法
    % More than that, there are even many invalid certificates signed by browser-trusted CAs.
-Some studies of the HTTPS adoption also find a large proportion of invalid certificate in the wild \cite{kumar2018tracking, Chung2016Measuring, Durumeric2014Analysis, Holz2011The}.
+The surveys of the HTTPS certificate ecosystem \cite{kumar2018tracking, Chung2016Measuring, Durumeric2014Analysis, Holz2011The}
+    uncover a large proportion of invalid certificate chains in the wild.
 %这一段讲FrankenCerts
 %Other than large scale scans of HTTPS ecosystem,
-    Some researchers focus on measuring the quality of certificate validation in SSL/TLS implementations.
-    Frankencert \cite{brubaker2014using} and Symcerts \cite{chau2017symcerts} are both designed to check whether SSL/TLS clients correctly validate X.509 certificates.
-    RFCcert tests bugs in certificate validation of SSL/TLS implements by extracting rules directly from RFCs \cite{chen2018rfc}.
+Frankencerts \cite{brubaker2014using} and SymCerts \cite{chau2017symcerts} 
+    analyzed the implementations of X.509 certificate validation in TLS software,
+    by automated adversarial testing and symbolic execution,
+while RFCcert \cite{chen2018rfc} finished the differential testing of certificate validation by extracting rules from RFCs.
+These works disclose the bugs of certificate validation in popular SSL/TLS libraries, but not the browser defects in our work.
 
 %这一段讲错误分类、浏览器警告级别
-\noindent\textbf{HTTPS Errors.} 
-In 2013, Akhawe's study divided browser warnings into malware, phishing, and SSL warnings,
-    and studied the probability of users ignoring warnings \cite{Akhawe2013Alice}.
-    The 2017 study by Acer et al. further subdivided browser error warnings into server-side errors, client-side errors, and network errors,
-    and counted the number of errors \cite{Acer2017Where}.
-    Bernhard Amann's research proposes three categories: certificate chain construction error, certificate chain verification error and domain name verification error, and gives suggestions for reducing the probability of error \cite{Akhawe2013Here}.
+Akhawe et al. studied the browser warnings of malware, phishing and TLS error,
+    and analyzed the probabilities that the warnings are ignored by users \cite{Akhawe2013Alice}.
+\cite{Acer2017Where}    investigated the root causes of HTTPS certificate errors in the field,
+    and found that a wide range of non-attack circumstances trigger browser warnings.
+Akhawe et al. \cite{Akhawe2013Here} studied the TLS warnings based on a large-scale measurement of user data,
+    and identified the low-risk scenarios that consume a large chunk of the user attention by using internal browser code.
+Compared with these studies focusing on the TLS warnings the wild,
+    we attempt to find the browser defects on handling HTTPS errors,
+     which may cause a forged or revoked certificate to be accepted or the security-enhancement to be ineffective.
+Besides,
+    they do not cover the warnings on HTTPS security-enhancement errors.
+
+%    Bernhard Amann's research proposes three categories: certificate chain construction error, certificate chain verification error and domain name verification error, and gives suggestions for reducing the probability of error \cite{Akhawe2013Here}.
 
 %这一段讲 HPKP  HSTS
-\noindent\textbf{HSTS and HPKP.} 
-A number of HTTPS security polices have been developed to enhance HTTPS security.
-    As a result, many studies focus on the development of HTTPS security polices.
-    Clark et al. \cite{Clark2013SoK} provide a theoretical evaluation of HTTPS policies for improve the HTTPS security.
-    Amann et al. \cite{Amann2017Mission} analyze the deployment of HSTS and HPKP in servers.
+Clark et al. \cite{Clark2013SoK} provide a comprehensive survey of HTTPS security-enhancements.
+%A number of HTTPS security polices have been developed to enhance HTTPS security.
+%    As a result, many studies focus on the development of HTTPS security polices.
+    Amann et al. \cite{Amann2017Mission} analyze the deployment of HSTS and HPKP in web servers,
     %Pokeinthe \cite{pokeinthe2017HSTS} ran a scan of the Alexa Top 1 Million websites in Q2 2017. The results shows a more than 40 percent increase in the use of HSTS preloded and HPKP in a year.
-    Santos et al. \cite{Santos2016Implementation} measure the implementation state of HSTS and HPKP in both browsers and servers.
+   while Santos et al. \cite{Santos2016Implementation} measure the implementation state of HSTS and HPKP in both browsers and servers.
 %    Across these early studies, we find that, although HSTS and HPKP are growing in adoption, the deployment is disappointing,  misconfigurations may higher your risk.
 
 
