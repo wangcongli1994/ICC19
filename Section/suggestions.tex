@@ -21,20 +21,18 @@ In this section,
 \subsection{Weak Cryptographic Algorithm}
 Edge and IE should gradually stop accepting certificates signed by MD5 or SHA-1, 
     and display Level-B warnings on MD5 and SHA-1.
+    
+Chrome, Edge, and IE should show \emph{unbypassable} Level-C warnings on 512-bit RSA.
+Chrome, Firefox, Edge, and IE should show Level-B warnings on certificates with 1024-bit RSA.
 \subsection{Certificate Revocation}
 Chrome checks the revocation status
     generally through CRLSet \cite{CRLSet} that covers only 0.35\% of all revocations in the Internet \cite{liu2015end}.
 Chrome should collect more revoked certificates that belong to popular websites, 
     since they will impact the largest fraction of Internet.
-
 \subsection{Certificate Extension}
 %\textbf{Basic Constraints.}
-The Basic Constraints extension is defined to distinguish CA certificates and non-CA ones \cite{cooper2008rfc5280}.
-However,
     when the server certificate is verified by a certificate in which the cA flag is false,
-    i.e., a non-CA entity acts as CAs to sign server certificates
-        for any domain names to launch attacks,
-            Firefox shows only bypassable Level-B warnings.
+            Firefox should show Level-C warnings.
 Moreover, Firefox does not process the pathLenConstraint field correctly,
     and the violated pathLenConstraint does not trigger warnings.
 These defects can be exploited to launch successful MitM and impersonation attacks on Firefox.
@@ -54,29 +52,21 @@ If a certificate contains the extensions of Key Usage and Extended Key Usage,
 This rule is not complied with in Chrome, Edge and IE:
     when the server certificate includes only the keyCertSign usage and the serverAuth extended usage,
      no warning is shown.
-%
+
 Chrome, Edge, and IE do not process the Key Usage extension correctly,
     even if it is marked as critical:
 no warning is shown when the TLS server certificate does not include the keyEncipherment usage.
-%However,
-%    these browsers process the \emph{non-critical} Extended Key Usage extension correctly:
-%    when the server certificate does not include the serverAuth extended usage,
-%    Level-C warnings are shown.
+
 So a certificate for other purposes may be maliciously used in HTTPS, and accepted by these browsers.
 
-% If a certificate contains both a key usage extension and an extended
-%   key usage extension, then both extensions MUST be processed
- %  independently and the certificate MUST only be used for a purpose
-  % consistent with both extensions.  If there is no purpose consistent
-   %with both extensions, then the certificate MUST NOT be used for any
-   %purpose.(RFC 5280)
+
 \subsection{Name Validation}
 
 All browsers show bypassable Level-B warnings on different name validation errors:
 complete mismatch,
 WWW mismatch and out-of-wildcard-scope subdomain.
 However,
-%    in our opinion,
+
     these errors bring very different levels of risk,
     and it is practicable to show a higher-level warning on complete mismatch
      because low-cost TLS server certificates are available.
@@ -110,13 +100,5 @@ HPKP is supported only in Chrome and Firefox.
             when the certificate chain is verified by a user-installed root CA certificate.
 So a website cannot enhance its HTTPS security by HPKP,
     unless it applies for a certificate from the publicly-trusted CAs.
- %   Thus, If a malware installs its root certificate on the user's computer,
- %       it may defeat the protections of HPKP and successfully launch the man-in-the-middle attack.
 
-%To enable certificate chain validation, Chrome has access to two stores of trust anchors: certificates that are empowered as issuers. One trust anchor store is the system or public trust anchor store, and the other other is the local or private trust anchor store. The public store is provided as part of the operating system, and intended to authenticate public internet servers. The private store contains certificates installed by the user or the administrator of the client machine. Private intranet servers should authenticate themselves with certificates issued by a private trust anchor.
-
-%Chrome does not perform pin validation when the certificate chain chains up to a private trust anchor. A key result of this policy is that private trust anchors can be used to proxy (or MITM) connections, even to pinned sites. ¡°Data loss prevention¡± appliances, firewalls, content filters, and malware can use this feature to defeat the protections of key pinning.
-% We deem this acceptable because the proxy or MITM can only be effective if the client machine has already been configured to trust the proxy¡¯s issuing certificate ¡ª that is, the client is already under the control of the person who controls the proxy (e.g. the enterprise¡¯s IT administrator). If the client does not trust the private trust anchor, the proxy¡¯s attempt to mediate the connection will fail as it should.
-
-%In order to control the browsing behavior of the internal network, some companies often pre-set the self-signed certificate in the computer in the office area, and replace the HTTPS connection certificate in the gateway to obtain the information contained in the HTTPS traffic, detect and prevent the information leakage inside the company, which is a typical MITM attack. Some malware may also use the same way to attack a personal computer. Many computer applications will trigger the UAC of the Windows system during installation. After clicking and agreeing, the computer settings can be modified. After the malware spoofs the user's consent, you can modify the computer settings, such as burying your own root certificate. Eavesdrop on all traffic through a self-signed certificate and send sensitive information to the attacker.
 
