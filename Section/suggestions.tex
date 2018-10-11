@@ -9,3 +9,151 @@
 %\subsection{Minimize the validity period of the certificate}
 %For personal websites, the revoked certificate is not detected by Chrome(section 5.3), and Chrome is one of the most popular browsers. A workable approach is to minimize the validity of the certificate and update the certificate regularly.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discussion and Suggestion}
+%In the experiment, we found that different browsers have different processing methods for some unsafe scenarios.
+%Through comparison between them, we have summarized the existing risks of several browsers.
+
+In this section,
+    we present some suggestions to reduce browser defects on handling HTTPS errors.
+
+\subsection{Weak Cryptographic Algorithm}
+The following cryptographic algorithms are publicly prohibited or unrecommended \cite{CAB2018BR, NIST2005ECC},
+but the processes of browsers can lead to (\emph{a}) forged certificates to be accepted
+  or (\emph{b}) broken key pairs to be used in TLS negotiations.
+
+The collisions of MD5 and SHA-1 have been found \cite{wang2004collisions, sha1-collision},
+    and the weakness of MD5 was exploited to successfully forge certificates \cite{md5-forged-cert1, md5-forged-cert2}.
+%Several security incidents have shown that,
+%        attackers can use SHA-1 and MD5 to colliding fraudulent certificates,
+However, Edge and IE do not show any warnings on certificates signed by MD5 or SHA-1.
+
+The first factorization of 512-bit RSA was finished in 1999 \cite{cavallar2000factorization},
+    and an 512-bit RSA key pair is broken in four hours using the Amazon EC2 platform in 2016 \cite{DBLP:conf/fc/ValentaCLFBH16}.
+However, Chrome, Edge, and IE show only \emph{bypassable} Level-B warnings on 512-bit RSA.
+%On the contrary,
+ %   these browsers show Level-D fatal warnings on a server certificate with 160-bit ECC key pair,
+  %   which is stronger than 512-bit RSA \cite{ecc-vs-rsa}.
+%1024-bit RSA is expected to be broken within 2015 to 2020 \cite{Berlin2017An},
+%1024-bit RSA is expected to be phased out.
+%1024-bit RSA can be broken now at a cost ranging from tens of thousands to hundreds of millions of dollars,
+%1024-bit RSA is at the greatest risk,
+1024-bit RSA is now expected to be broken at a cost ranging from tens of thousands to hundreds of millions of dollars  \cite{NIST2016Post-Quantum},
+    but none of the evaluated browsers show any warnings on certificates with 1024-bit RSA.
+
+\subsection{Certificate Revocation}
+Most certificates in the Internet are revoked through CRL and/or OCSP,
+    but CRL and OCSP are not supported by Chrome while Firefox does not support CRL.
+The statistics in 2015  \cite{liu2015end} show that,
+    99.9\% of server certificates contains a CRL distribution point, and
+%        however, Chrome and Firefox don't display any warnings on revoked server certificates through CRL.
+%        we think Chrome and Firefox need to be improved on this.
+%
+    95\% contains an OCSP responder.
+%        however, Chrome does not display any warnings on revoked server certificates through OCSP.
+%        we think Chrome need to be improved on this.
+
+Chrome checks the revocation status
+    generally through CRLSet \cite{CRLSet}.
+%        and Chrome only displays warnings on revoked certificates through CRLSet.
+%Although CRLset is constantly updated,   in our tests,
+%     Chrome still consider the HTTPS visits as secure \textcolor[rgb]{1.00,0.00,0.00}{within a month} after the server certificate was revoked. %% 有没有更加准确的时间？
+%This certificate is issued by Let's Encrypt and the serial number is 03e37c58091fb4056aa84130a1e54f8b58fd.
+%        we think Chrome need to be improved on this.
+So a compromised key pair probably can still be exploited to launch MitM or impersonation attacks after the certificate is revoked through CRL and OCSP,
+        and the attacks will probably succeed in Chrome for CRLSet covers only 0.35\% of all revocations in the Internet \cite{liu2015end}.
+
+\subsection{Certificate Extension}
+%\textbf{Basic Constraints.}
+The Basic Constraints extension is defined to distinguish CA certificates and non-CA ones \cite{cooper2008rfc5280}.
+However,
+    when the server certificate is verified by a certificate in which the cA flag is false,
+    i.e., a non-CA entity acts as CAs to sign server certificates
+        for any domain names to launch attacks,
+            Firefox shows only bypassable Level-B warnings.
+Moreover, Firefox does not process the pathLenConstraint field correctly,
+    and the violated pathLenConstraint does not trigger warnings.
+These defects can be exploited to launch successful MitM and impersonation attacks on Firefox.
+
+If a CA acts as the TLS server in HTTPS,
+    i.e., the cA flag in the ``server'' certificate is true,
+Chrome, Edge and IE consider it as secure and show no warning.
+However, %in our opinion,
+    such configurations are rather uncommon,
+    and Level-A warnings shall be suitable.
+
+%\textbf{Extended Key Usage and Key Usage.}
+If a certificate contains the extensions of Key Usage and Extended Key Usage,
+    two extensions must be processed independently,
+    and the certificate is only used for the purpose(s) consistent with both extensions  \cite{cooper2008rfc5280}.
+%If there is no purpose consistent with both extensions, then the certificate MUST NOT be used for any purpose \cite{cooper2008rfc5280}.
+This rule is not complied with in Chrome, Edge and IE:
+    when the server certificate includes only the keyCertSign usage and the serverAuth extended usage,
+     no warning is shown.
+%
+Chrome, Edge, and IE do not process the Key Usage extension correctly,
+    even if it is marked as critical:
+no warning is shown when the TLS server certificate does not include the keyEncipherment usage.
+%However,
+%    these browsers process the \emph{non-critical} Extended Key Usage extension correctly:
+%    when the server certificate does not include the serverAuth extended usage,
+%    Level-C warnings are shown.
+So a certificate for other purposes may be maliciously used in HTTPS, and accepted by these browsers.
+
+% If a certificate contains both a key usage extension and an extended
+%   key usage extension, then both extensions MUST be processed
+ %  independently and the certificate MUST only be used for a purpose
+  % consistent with both extensions.  If there is no purpose consistent
+   %with both extensions, then the certificate MUST NOT be used for any
+   %purpose.(RFC 5280)
+\subsection{Name Validation}
+
+All browsers show bypassable Level-B warnings on different name validation errors:
+complete mismatch,
+WWW mismatch and out-of-wildcard-scope subdomain.
+However,
+%    in our opinion,
+    these errors bring very different levels of risk,
+    and it is practicable to show a higher-level warning on complete mismatch
+     because low-cost TLS server certificates are available.
+
+
+%The CA/Browser Forum suggests that
+%    deprecates the CN field and lists applicable names in SAN field.
+The browsers behave inconsistently in name validation.
+Chrome checks the domain name \emph{only} in the SAN extension.
+Firefox, Edge, and IE consider a server certificate as secure,
+    if it contains correct CN but no SAN;
+    on the contrary, it triggers Level-B warnings in Chrome.
+This may lead to a problem of usability:
+    a legitimate certificate considered as secure by other browsers,
+    may trigger a warning in Chrome.
+
+
+
+\subsection{HSTS}
+%HSTS is supported by all evaluated browsers.
+The visits over plain HTTP that definitely violates the HSTS policy,
+ trigger only Level-A warnings, not interrupting the user's browsing.
+If the HSTS policy is enforced by the pre-loaded list, which is manually configured by the user,
+    the user shall be explicitly notified on such visits over HTTP.
+If HSTS is enforced  by the HSTS header, which is sent by the website,
+    such visits over plain HTTP are probably initiated by attackers because the website itself does not allow HTTP visits.
+
+\subsection{HPKP}
+HPKP is supported only in Chrome and Firefox.
+        Chrome and Firefox do not conduct HPKP validation
+            when the certificate chain is verified by a user-installed root CA certificate.
+So a website cannot enhance its HTTPS security by HPKP,
+    unless it applies for a certificate from the publicly-trusted CAs.
+ %   Thus, If a malware installs its root certificate on the user's computer,
+ %       it may defeat the protections of HPKP and successfully launch the man-in-the-middle attack.
+
+%To enable certificate chain validation, Chrome has access to two stores of trust anchors: certificates that are empowered as issuers. One trust anchor store is the system or public trust anchor store, and the other other is the local or private trust anchor store. The public store is provided as part of the operating system, and intended to authenticate public internet servers. The private store contains certificates installed by the user or the administrator of the client machine. Private intranet servers should authenticate themselves with certificates issued by a private trust anchor.
+
+%Chrome does not perform pin validation when the certificate chain chains up to a private trust anchor. A key result of this policy is that private trust anchors can be used to proxy (or MITM) connections, even to pinned sites. “Data loss prevention” appliances, firewalls, content filters, and malware can use this feature to defeat the protections of key pinning.
+% We deem this acceptable because the proxy or MITM can only be effective if the client machine has already been configured to trust the proxy’s issuing certificate — that is, the client is already under the control of the person who controls the proxy (e.g. the enterprise’s IT administrator). If the client does not trust the private trust anchor, the proxy’s attempt to mediate the connection will fail as it should.
+
+%In order to control the browsing behavior of the internal network, some companies often pre-set the self-signed certificate in the computer in the office area, and replace the HTTPS connection certificate in the gateway to obtain the information contained in the HTTPS traffic, detect and prevent the information leakage inside the company, which is a typical MITM attack. Some malware may also use the same way to attack a personal computer. Many computer applications will trigger the UAC of the Windows system during installation. After clicking and agreeing, the computer settings can be modified. After the malware spoofs the user's consent, you can modify the computer settings, such as burying your own root certificate. Eavesdrop on all traffic through a self-signed certificate and send sensitive information to the attacker.
+
