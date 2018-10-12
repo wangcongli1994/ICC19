@@ -46,7 +46,7 @@ Chrome checks the revocation status
 
 \noindent\textbf{Suggestion.} Chrome should collect more revoked certificates into CRLSet, %that belong to popular websites,
 %    since they will impact the largest fraction of Internet.
-if it does not want to support CRL and OCSP.
+if it does not want to support CRL or OCSP.
 
 %Most certificates in the Internet are revoked through CRL and/or OCSP,
  %   but CRL and OCSP are not supported by Chrome while Firefox does not support CRL.
@@ -98,7 +98,7 @@ no warning is shown when the TLS server certificate does not include the keyEnci
 So a certificate for other purposes may be maliciously used in HTTPS, and accepted by these browsers.
 
 \noindent\textbf{Suggestion.} The process of certificate extensions must be improved:
-the Basic Constraints extension in Firefox, and the extensions of Key Usage  and Extended Key Usage in Chrome, Edge and IE.
+the Basic Constraints extension by Firefox, and the extensions of Key Usage  and Extended Key Usage by Chrome, Edge and IE.
 
 % If a certificate contains both a key usage extension and an extended
 %   key usage extension, then both extensions MUST be processed
@@ -113,11 +113,14 @@ All browsers show the same bypassable Level-B warnings on name validation errors
 complete mismatch,
 WWW mismatch and out-of-wildcard-scope subdomain.
 
+\noindent\textbf{Suggestion.} It is practicable to show higher-level warnings on complete mismatch,
+     because low-cost TLS server certificates are available.
+
 
 
 %The CA/Browser Forum suggests that
 %    deprecates the CN field and lists applicable names in SAN field.
-The browsers behave inconsistently in name validation.
+\vspace{1mm}The browsers behave inconsistently in name validation.
 Chrome checks the domain name \emph{only} in the SAN extension.
 Firefox, Edge, and IE consider a server certificate as secure,
     if it contains correct CN but no SAN;
@@ -126,10 +129,7 @@ This may lead to a problem of usability:
     a legitimate certificate considered as secure by other browsers,
     may trigger a warning in Chrome.
 
-\noindent\textbf{Suggestion.} Show higher-level warnings on complete mismatch,
-     because low-cost TLS server certificates are available.
-
-The same process of name validation shall be enforced in different browsers gradually,
+\noindent\textbf{Suggestion.} The same process of name validation shall be enforced in different browsers gradually,
 to deprecate the usage of CN,
     as recommenced by CA/Browser Forum \cite{CAB2018BR},
 
