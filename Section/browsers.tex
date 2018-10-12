@@ -12,6 +12,7 @@ When such errors happen,
 
 % We describe security warnings of major browsers.
 
+
 \subsubsection{Low-risk warning}
 For low-risk errors, it shows a security indicator \emph{not interrupting the user's browsing}.
 For example,
@@ -19,14 +20,8 @@ For example,
 %In this scenario, a passive security indicator indicates minor HTTPS errors by removing lock icon, changing lock icon’s color, providing textual information, or by other means without interrupting the user’s browsing.
 %This is probably because webmaster has configured his website correctly, including purchasing a valid certificate, but the website still contains images or scripts over plain HTTP.
 %Although the browser was able to establish a valid HTTPS connection, there are still minor problems.
-On low-risk errors,
- the browser still establishes HTTPS connections with the visited website.
+On low-risk errors, the browser still establishes HTTPS connections with the visited website. %Fig. 1 shows the Low-risk warning in Chrome.  connections with the visited website. Fig. 1 shows the Low-risk warning
 
-\begin{figure}[htb]
-\centerline{\includegraphics[height=2.5cm,width=7cm]{Figure/fig1.png}}% 记得换成chrome的截图
-\caption{Low-risk warning in Chrome.}
-\label{fig-a}
-\end{figure}
 
 \subsubsection{Medium-risk warning}
 For medium-risk errors, it shows a \emph{bypassable warning} that discourages users from continuing.
@@ -38,7 +33,16 @@ If the user bypasses (or clicks through)
      HTTPS connections are established.
 %For medium-risk errors, it will show a bypassable warning that discourages the user from continuing.
 %Bypassable HTTPS security warnings are the most common type of browser warning. Browsers use bypassable HTTPS security warning to treat the vast majority of HTTPS errors.
-\begin{figure}[htb]
+\begin{figure}[t]
+%\setlength{\belowcaptionskip}{-2cm}
+\centerline{\includegraphics[height=2.4cm,width=7cm]{Figure/fig1.png}}% 记得换成chrome的截图
+\centering
+\caption{Low-risk warning in Chrome.}
+\label{fig-a}
+\end{figure}
+
+\begin{figure}[!h]
+%\setlength{\belowcaptionskip}{-2cm}
 \centerline{\includegraphics[height=3.5cm,width=7cm]{Figure/fig2.png}}
 \caption{Medium-risk warning in Chrome.}
 \label{fig-b}
@@ -56,6 +60,7 @@ On high-risk errors,
 %For high-risk errors, it will show a security warning that the user cannot bypass.
 %As a worst case scenario, the browser will prevent uses from continuing to browse the website by showing a security warning that the users cannot bypass.
 \begin{figure}[htbp]
+%\setlength{\belowcaptionskip}{-2cm}
 \centerline{\includegraphics[height=3.5cm,width=7cm]{Figure/fig3.png}}% 记得换成自己fireblossom.xyz网址的截图
 \caption{High-risk warning in Chrome.}
 \label{fig-c}
