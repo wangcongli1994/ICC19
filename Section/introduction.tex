@@ -8,7 +8,7 @@ The security of HTTPS is further enhanced by HPKP that pins the public keys of t
      and HSTS that forces browsers to visit the website only using HTTPS but not HTTP \cite{hodges2012rfc6797}.
 
 There are various errors in the TLS negotiations and also the HTTPS security-enhancements.
-Browsers show security warnings to users with different levels, on different errors:
+Browsers show security warnings to users with different levels on different errors:
 (\emph{a}) a low-risk warning is shown in the address bar, not interrupting the browsing;
 (\emph{b}) a medium-risk warning is shown as a full-screen page to interrupt the browsing,
     but the user may choose to ignore it by actively clicking to continue;
@@ -28,8 +28,8 @@ The error list covers certificate verification of basic fields and extensions,
         name validation, and HTTPS security-enhancement of HPKP and HSTS.
 
 Chrome, Firefox, Edge, and IE are evaluated. %on Windows 10.
-Our study
-    discloses the browser defects on handling HTTPS errors in terms of cryptographic algorithm,
+The results
+    disclose the browser defects on handling HTTPS errors in terms of cryptographic algorithm,
      certificate verification, %extension, certificate revocation,
       name validation,
       HPKP, and HSTS.
@@ -50,14 +50,14 @@ Chrome does not check the certificate revocation status through commonly-used CR
     and Firefox does not support CRL. Thus,
     a revoked TLS server certificate may still be accepted by Chrome and Firefox.
 \item
-Firefox does not process the Basic Constraints extension correctly.
+Firefox does not correctly process the Basic Constraints extension.
 Thus, a malicious server (but not a trusted CA) may sign TLS server certificates arbitrarily,
      and such forged certificate chains will be probably accepted by Firefox.
     % including the fields of cA and pathLenConstraint.
 %Chrome, Edge, IE: CA flag. when the CA flag field of a server certificate is set to ¡°true¡±, Chrome, Edge and IE consider it secure.
 %Firefox pathLenConstraint. when a subordinate CA does not comply with pathLenConstraint, Firefox consider it secure.
 Chrome, %Firefox,
- Edge and IE do not process the extensions of Key Usage and Extended Key Usage correctly.
+ Edge and IE do not  correctly process the extensions of Key Usage and Extended Key Usage.
 %even when these extensions appear inconsistently in certificates,    no warning shows.
 So a certificate for other purposes may be maliciously used in HTTPS and accepted by these browsers.
 % key usage and extended key usage. Chrome, Edge, and IE don't display any warnings on certificates whose key usage and extended key usage is not consistent.
@@ -67,7 +67,7 @@ In all browsers,
         trigger only the low-risk warnings, not interrupting the user's browsing.
 %: HPKP. Chrome and Firefox does not perform HPKP check when the certificate chain chains up to a root certificate installed by the user.
 However,
-    such visits deviate from the user's willing or probably result from the MitM or impersonation attacks.
+    such visits certainly deviate from the user's willing or probably result from the MitM or impersonation attacks.
 \item
 The HPKP support of Chrome and Firefox
     does not work well,

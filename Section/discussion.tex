@@ -2,11 +2,12 @@
 %In the experiment, we found that different browsers have different processing methods for some unsafe scenarios.
 %Through comparison between them, we have summarized the existing risks of several browsers.
 
-%In this section,
- %   we discuss the browser defects on handling HTTPS errors,
-  %  and present some suggestions.
 In this section,
-    we present some suggestions to reduce browser defects on handling HTTPS errors.
+    we discuss the browser defects on handling HTTPS errors,
+    and present some suggestions.
+%In this section,
+%    we present some suggestions to reduce browser defects on handling HTTPS errors.
+
 \subsection{Weak Cryptographic Algorithm}
 The following cryptographic algorithms are publicly prohibited or unrecommended \cite{CAB2018BR, NIST2005ECC},
 but the processes of browsers can lead to (\emph{a}) forged certificates to be accepted
@@ -30,18 +31,22 @@ However, Chrome, Edge, and IE show only \emph{bypassable} Level-B warnings on 51
 %1024-bit RSA is at the greatest risk,
 1024-bit RSA is now expected to be broken at a cost ranging from tens of thousands to hundreds of millions of dollars  \cite{NIST2016Post-Quantum},
     but none of the evaluated browsers show any warnings on certificates with 1024-bit RSA.
-    
-\noindent\textbf{Suggestions:} (\emph{a})Edge and IE should gradually stop accepting certificates signed by MD5 or SHA-1,
-    and display Level-B warnings on MD5 and SHA-1.
-    (\emph{b})Chrome, Edge, and IE should show \emph{unbypassable} Level-C warnings on 512-bit RSA.
-    (\emph{c})Chrome, Firefox, Edge, and IE should show Level-B warnings on certificates with 1024-bit RSA.
+
+\noindent\textbf{Suggestion.}
+The certificates with MD5 or 512-bit RSA must be rejected.
+The ones with SHA-1 or 1024-bit RSA should be rejected, or trigger Level-B warnings at least.
+%Edge and IE should gradually stop accepting certificates signed by MD5 or SHA-1,
+%    and display Level-B warnings on MD5 and SHA-1.
+%    (\emph{b})Chrome, Edge, and IE should show \emph{unbypassable} Level-C warnings on .
+%    (\emph{c})Chrome, Firefox, Edge, and IE should show Level-B warnings on certificates with 1024-bit RSA.
 \subsection{Certificate Revocation}
 Chrome checks the revocation status
-    generally through CRLSet \cite{CRLSet} that covers only 0.35\% of all revocations in the Internet \cite{liu2015end},
-    so a compromised key pair probably can still be exploited to launch MitM or impersonation attacks after the certificate is revoked through CRL and OCSP.
-    
-\noindent\textbf{Suggestions:} Chrome should collect more revoked certificates that belong to popular websites,
-    since they will impact the largest fraction of Internet.
+    through CRLSet \cite{CRLSet} that covers only 0.35\% of all revocations in the Internet \cite{liu2015end},
+    so a compromised key pair can probably still be exploited to launch MitM or impersonation attacks after the certificate is revoked through CRL and OCSP.
+
+\noindent\textbf{Suggestion.} Chrome should collect more revoked certificates into CRLSet, %that belong to popular websites,
+%    since they will impact the largest fraction of Internet.
+if it does not want to support CRL and OCSP.
 
 %Most certificates in the Internet are revoked through CRL and/or OCSP,
  %   but CRL and OCSP are not supported by Chrome while Firefox does not support CRL.
@@ -66,11 +71,12 @@ Moreover, Firefox does not process the pathLenConstraint field correctly,
     and the violated pathLenConstraint does not trigger warnings.
 These defects can be exploited to launch successful MitM and impersonation attacks on Firefox.
 
+
 If a CA acts as the TLS server in HTTPS,
     i.e., the cA flag in the ``server'' certificate is true,
 Chrome, Edge and IE consider it as secure and show no warning.
 However, %in our opinion,
-    such configurations are rather uncommon,
+    such configurations are rather unusual,
     and Level-A warnings shall be suitable.
 
 %\textbf{Extended Key Usage and Key Usage.}
@@ -83,13 +89,16 @@ This rule is not complied with in Chrome, Edge and IE:
      no warning is shown.
 %
 Chrome, Edge, and IE do not process the Key Usage extension correctly,
-    even if it is marked as critical:
+    even if it is marked as \emph{critical}:
 no warning is shown when the TLS server certificate does not include the keyEncipherment usage.
 %However,
 %    these browsers process the \emph{non-critical} Extended Key Usage extension correctly:
 %    when the server certificate does not include the serverAuth extended usage,
 %    Level-C warnings are shown.
 So a certificate for other purposes may be maliciously used in HTTPS, and accepted by these browsers.
+
+\noindent\textbf{Suggestion.} The process of certificate extensions must be improved:
+the Basic Constraints extension in Firefox, and the extensions of Key Usage  and Extended Key Usage in Chrome, Edge and IE.
 
 % If a certificate contains both a key usage extension and an extended
 %   key usage extension, then both extensions MUST be processed
@@ -99,13 +108,11 @@ So a certificate for other purposes may be maliciously used in HTTPS, and accept
    %purpose.(RFC 5280)
 \subsection{Name Validation}
 
-All browsers show bypassable Level-B warnings on different name validation errors:
+All browsers show the same bypassable Level-B warnings on name validation errors with very different levels of risk:
 complete mismatch,
 WWW mismatch and out-of-wildcard-scope subdomain.
-However,
-%    in our opinion,
-    these errors bring very different levels of risk,
-    and it is practicable to show a higher-level warning on complete mismatch
+
+\noindent\textbf{Suggestion.} Show higher-level warnings on complete mismatch,
      because low-cost TLS server certificates are available.
 
 
@@ -120,16 +127,21 @@ This may lead to a problem of usability:
     a legitimate certificate considered as secure by other browsers,
     may trigger a warning in Chrome.
 
-
+\noindent\textbf{Suggestion.} The same process of name validation shall be enforced in different browsers gradually,
+to deprecate the usage of CN,
+    as recommenced by CA/Browser Forum \cite{CAB2018BR}, 
 
 \subsection{HSTS}
 %HSTS is supported by all evaluated browsers.
-The visits over plain HTTP that definitely violates the HSTS policy,
+The visits over plain HTTP that definitely violate the HSTS policy,
  trigger only Level-A warnings, not interrupting the user's browsing.
 If the HSTS policy is enforced by the pre-loaded list, which is manually configured by the user,
     the user shall be explicitly notified on such visits over HTTP.
 If HSTS is enforced  by the HSTS header, which is sent by the website,
     such visits over plain HTTP are probably initiated by attackers because the website itself does not allow HTTP visits.
+
+\noindent\textbf{Suggestion.} Level-C warnings, or Level-B at least, must be shown 
+when the visits violate the HSTS policy.
 
 \subsection{HPKP}
 HPKP is supported only in Chrome and Firefox.
@@ -137,6 +149,9 @@ HPKP is supported only in Chrome and Firefox.
             when the certificate chain is verified by a user-installed root CA certificate.
 So a website cannot enhance its HTTPS security by HPKP,
     unless it applies for a certificate from the publicly-trusted CAs.
+
+\noindent\textbf{Suggestion.} HPKP shall be supported also with the private certificate store.
+
  %   Thus, If a malware installs its root certificate on the user's computer,
  %       it may defeat the protections of HPKP and successfully launch the man-in-the-middle attack.
 

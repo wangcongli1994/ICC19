@@ -1,7 +1,7 @@
 \subsection{HTTPS Errors}
 We list
 the errors of certificate verification, %of basic fields and extensions,
- name validation, and HTTPS security-enhancement.
+ name validation, and HTTPS security-enhancement as follows.
 
 
 %    In this subsection,
@@ -52,7 +52,7 @@ The certificate has expired.
     %An expired certificate error occurs if the Not After date is earlier than current time.
 
 \noindent\textbf{Revoked server certificate.}
-The received server certificate has been revoked.
+The received certificate has been revoked.
 %%% The revocation status is distributed through CRL, OCSP, or CRLSet \cite{CRLSet}.
 %        the CA claims that the server certificate is no longer valid before it expires by CRL, OCSP, or CRLset.
 
@@ -135,7 +135,7 @@ Browsers check
     whether the certificate subject matches the domain visited,
     through the commonName (CN) field and the Subject Alternative Name (SAN) extension.
 %    Name validation error means that domain names listed in a server certificate don't match the domain we visited.
-The following errors of name validation may happen.
+%The following errors of name validation may happen.
 
 %are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 

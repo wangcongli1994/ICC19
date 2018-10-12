@@ -1,10 +1,10 @@
 \section{Related Work}
 %Previous studies have shown the need for analyzing browser security warnings of HTTPS errors.
-ZMap \cite{Durumeric2013ZMap} conducted comprehensive scans of port 443 in the Internet and retrieve TLS certificates
-    and \cite{DBLP:conf/uss/FeltBKPBT17} measured HTTPS adoption on the web
+ZMap \cite{Durumeric2013ZMap} conducted comprehensive scans of port 443 in the Internet and retrieved TLS certificates,
+    and \cite{DBLP:conf/uss/FeltBKPBT17} measured the HTTPS adoption 
     from the perspectives of both users and web developers in 2017.
 TLS server certificates are collected
-     to present the status of the deployed X.509 PKI \cite{Durumeric2014Analysis, Holz2011The}.
+     to study the status of the deployed X.509 PKI \cite{Durumeric2014Analysis, Holz2011The}.
 
 
 %这一段讲Invalid Certificates.
@@ -22,8 +22,8 @@ The surveys of the HTTPS certificate ecosystem \cite{kumar2018tracking, Chung201
 %Other than large scale scans of HTTPS ecosystem,
 Frankencerts \cite{brubaker2014using} and SymCerts \cite{chau2017symcerts}
     analyzed the implementations of X.509 certificate validation in TLS software,
-    by automated adversarial testing and symbolic execution,
-while RFCcert \cite{chen2018rfc} finished the differential testing of certificate validation by extracting rules from RFCs.
+    by automated adversarial testing and symbolic execution, respectively, 
+while RFCcert \cite{chen2018rfc} finished the differential testing of certificate validation by rules extracted from RFCs.
 These works disclose the bugs of certificate validation in popular SSL/TLS libraries, but not the browser defects in our work.
 
 %这一段讲错误分类、浏览器警告级别
@@ -35,7 +35,7 @@ Akhawe et al. \cite{Akhawe2013Here} studied the TLS warnings based on a large-sc
     and identified the low-risk scenarios that consume a large chunk of the user attention by using internal browser code.
 Compared with these studies focusing on the TLS warnings the wild,
     we attempt to find the browser defects on handling HTTPS errors,
-     which may cause a forged or revoked certificate to be accepted or the security-enhancement to be ineffective.
+     which may cause a forged or revoked certificate to be accepted.  %or the security-enhancement to be ineffective.
 Besides,
     they do not cover the warnings on HTTPS security-enhancement errors.
 
@@ -47,7 +47,7 @@ Clark et al. \cite{Clark2013SoK} provide a comprehensive survey of HTTPS securit
 %    As a result, many studies focus on the development of HTTPS security polices.
     Amann et al. \cite{Amann2017Mission} analyze the deployment of HSTS and HPKP in web servers,
     %Pokeinthe \cite{pokeinthe2017HSTS} ran a scan of the Alexa Top 1 Million websites in Q2 2017. The results shows a more than 40 percent increase in the use of HSTS preloded and HPKP in a year.
-   while Santos et al. \cite{Santos2016Implementation} measure the implementation state of HSTS and HPKP in both browsers and servers.
+   while Santos et al. \cite{Santos2016Implementation} measure the implementation state of HSTS and HPKP in both browsers and web servers.
 %    Across these early studies, we find that, although HSTS and HPKP are growing in adoption, the deployment is disappointing,  misconfigurations may higher your risk.
 
 

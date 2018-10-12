@@ -44,7 +44,7 @@ We utilize OpenSSL to generate key pairs and some certificates,
 
 The evaluated browsers are Chrome v67.0.3396.99,
  Firefox v62.0, Edge v42.17134.1.0, and IE v11.0.9600.17031 on Windows 10.
-TLS 1.2 is adopted in experiments.
+TLS 1.2 is adopted in the experiments.
 The browsers visit  the ``honeypot'' website,
     and we record the browser behaviors.
 Table I lists the results.
@@ -240,7 +240,7 @@ On a certificate binding a 1024-bit RSA key pair,
             but Edge and IE consider it as secure.
 \subsection{Certificate Verification Errors of Extensions}
 In these experiments,
-    the certificate chains consist of one self-signed root CA certificate, an intermediate CA certificate, and the server certificate.
+    each certificate chain consists of one self-signed root CA certificate, an intermediate CA certificate, and the server certificate.
 The root CA certificate is installed in the browsers' certificate store.
 The extensions of Basic Constraints and Key Usage are marked as critical, and
 the Extended Key Usage extension is non-critical \cite{cooper2008rfc5280}.
@@ -250,15 +250,13 @@ If the cA flag of the Basic Constraints extension is true in the ``server'' cert
     but the key usage is set as a common TLS server certificate (i.e.,
     it includes the keyEncipherment usage and the serverAuth extended usage) or no key usage is specified,
 % whose cA flag is incorrect (cA flag is true), but other fields is correct (key usage is key Enpherment, extended key usage is serverAuth),
-    Chrome, Edge, and IE consider it as secure,
-    but Firefox shows a Level-B warning.
+Firefox shows a Level-B warning.
 %
 If the cA flag is true in the ``server'' certificate
     and the key usage is set as a common CA certificate (i.e.,
         it includes the keyCertSign usage and no extended usage),
-    Chrome, Edge, and IE consider it as secure,
-    but Firefox shows a Level-C warning.
-
+Firefox shows a Level-C warning.
+Other browsers show no warning on these unusual certificates.
 
 As long as the cA flag is false in the intermediate CA certificate,
     whether the key usage is set as a CA certificate or a TLS server certificate,
@@ -289,8 +287,8 @@ As long as the server certificates is signed with the Extended Key Usage extensi
         all browsers show Level-C high-risk warnings.
 
 When the server certificates is signed without the Extended Key Usage extension,
-    Firefox shows a Level-C warning if it is with the Key Usage extension but no keyEncipherment,
-    while other browsers always consider it as secure.
+    all browsers except Firefox consider it as secure.
+Firefox shows a Level-C warning if it is with the Key Usage extension but no keyEncipherment.
 
 If the CA certificate is with the Key Usage extension but no keyCertSign,
         all browsers show Level-C high-risk warnings.
@@ -334,7 +332,7 @@ If the root CA certificate is in the private store,
     there is no warning on HPKP errors.
 It seems that HPKP validation is not activated in this case.
 
-When the root CA is publicly trusted (i.e., Let's Encrypt), there are two categories of experiments.
+When the root CA is publicly trusted (i.e., Let's Encrypt in this case), there are two categories of experiments.
 (\emph{a}) An incorrect HPKP header is sent when the browser visits for the first time,
  such as non-numeric max-age and pin-sha256 mismatch.
 Then, no warning on HPKP errors is shown,
@@ -383,9 +381,9 @@ Then,
 
 
 \noindent\textbf{HSTS.}
-HSTS follows the trust-on-first-use policy, and it also supports the pre-loaded list in browsers \cite{hodges2012rfc6797}.
-When visiting a domain in the list,
-    the browser must use HTTPS. % to initiate the connections.
+HSTS follows the trust-on-first-use policy, and it also supports the pre-loaded list in browsers:
+when visiting a domain in the list,
+    the browser must use HTTPS  \cite{hodges2012rfc6797}. % to initiate the connections.
 %This list is maintained by Google Chromium and is used by mainstream browsers like FireFox, Edge and IE.
 
 
@@ -406,8 +404,8 @@ When we visit a website in the HSTS pre-loaded list,
          or any other medium-risk HTTPS errors),  %% 具体哪些，列出来；包括Level-D的错误吗？
     all browsers show Level-C warnings instead.
         %all the four browsers display C-level (High-Risk) warnings on B-level (Medium-Risk) HTTPS errors,
-Besides,
-    all browsers show Level-A warnings if some resources are visited over HTTP.
+However,
+    all browsers show only Level-A warnings if some resources are visited over HTTP.
 
 Or, after the visit with a correct HSTS header,
     all browsers show the security warnings as the domain is in the pre-loaded list,
