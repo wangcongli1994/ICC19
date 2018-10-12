@@ -113,8 +113,6 @@ All browsers show the same bypassable Level-B warnings on name validation errors
 complete mismatch,
 WWW mismatch and out-of-wildcard-scope subdomain.
 
-\noindent\textbf{Suggestion.} Show higher-level warnings on complete mismatch,
-     because low-cost TLS server certificates are available.
 
 
 %The CA/Browser Forum suggests that
@@ -128,7 +126,10 @@ This may lead to a problem of usability:
     a legitimate certificate considered as secure by other browsers,
     may trigger a warning in Chrome.
 
-\noindent\textbf{Suggestion.} The same process of name validation shall be enforced in different browsers gradually,
+\noindent\textbf{Suggestion.} Show higher-level warnings on complete mismatch,
+     because low-cost TLS server certificates are available.
+
+The same process of name validation shall be enforced in different browsers gradually,
 to deprecate the usage of CN,
     as recommenced by CA/Browser Forum \cite{CAB2018BR},
 
