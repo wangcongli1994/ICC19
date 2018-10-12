@@ -114,7 +114,8 @@ complete mismatch,
 WWW mismatch and out-of-wildcard-scope subdomain.
 
 \noindent\textbf{Suggestion.} It is practicable to show higher-level warnings on complete mismatch,
-     because low-cost TLS server certificates are available.
+     because low-cost TLS server certificates are available,
+     either signed by publicly-trusted CAs or privately-trusted.
 
 
 
@@ -152,7 +153,8 @@ HPKP is supported only in Chrome and Firefox.
 So a website cannot enhance its HTTPS security by HPKP,
     unless it applies for a certificate from the publicly-trusted CAs.
 
-\noindent\textbf{Suggestion.} HPKP shall be supported also with the private certificate store.
+\noindent\textbf{Suggestion.} HPKP shall be supported also with the private certificate store,
+    to pin the public keys of the websites.
 
  %   Thus, If a malware installs its root certificate on the user's computer,
  %       it may defeat the protections of HPKP and successfully launch the man-in-the-middle attack.
