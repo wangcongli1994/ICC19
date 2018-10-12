@@ -138,10 +138,13 @@ to deprecate the usage of CN,
 %HSTS is supported by all evaluated browsers.
 The visits over plain HTTP that definitely violate the HSTS policy,
  trigger only Level-A warnings, not interrupting the user's browsing.
-If the HSTS policy is enforced by the pre-loaded list, which is manually configured by the user,
-    the user shall be explicitly notified on such visits over HTTP.
-If HSTS is enforced  by the HSTS header, which is sent by the website,
-    such visits over plain HTTP are probably initiated by attackers because the website itself does not allow HTTP visits.
+%If the HSTS policy is enforced by the pre-loaded list, which is manually configured by the user,
+ %   the user shall be explicitly notified on such visits over HTTP.
+%If HSTS is enforced  by the HSTS header, which is sent by the website,
+ %   such visits over plain HTTP are probably initiated by attackers because the website itself does not allow HTTP visits.
+\textcolor[rgb]{1.00,0.00,0.00}{If the HSTS policy is enforced by the pre-loaded list or by HSTS header sent by the website,
+    such visits over plain HTTP are probably initiated by attackers because the website itself does not allow HTTP visits.}
+%可以看到 HSTS 可以很好的解决 HTTPS 降级攻击，但是对于 HSTS 生效前的首次 HTTP 请求，依然无法避免被劫持。浏览器厂商们为了解决这个问题，提出了 HSTS Preload List 方案：内置一份可以定期更新的列表，对于列表中的域名，即使用户之前没有访问过，也会使用 HTTPS 协议。
 
 \noindent\textbf{Suggestion.} Level-C warnings, or Level-B at least, must be shown
 when the visits violate the HSTS policy.
