@@ -29,15 +29,15 @@ These works disclose the bugs of certificate validation in popular SSL/TLS libra
 %这一段讲错误分类、浏览器警告级别
 Akhawe et al. studied the browser warnings of malware, phishing and TLS error,
     and analyzed the probabilities that the warnings are ignored by users \cite{Akhawe2013Alice}.
-\cite{Acer2017Where}    investigated the root causes of HTTPS certificate errors in the field,
+\cite{Acer2017Where}    investigated the root causes of HTTPS certificate errors,
     and found that a wide range of non-attack circumstances trigger browser warnings.
 Akhawe et al. \cite{Akhawe2013Here} studied the TLS warnings based on a large-scale measurement of user data,
     and identified the low-risk scenarios that consume a large chunk of the user attention by using internal browser code.
-Compared with these studies focusing on the TLS warnings the wild,
+Compared with these studies focusing on the TLS warnings in the wild,
     we attempt to find the browser defects on handling HTTPS errors,
      which may cause a forged or revoked certificate to be accepted.  %or the security-enhancement to be ineffective.
 Besides,
-    they do not cover the warnings on HTTPS security-enhancement errors.
+    the above works do not cover the warnings on HTTPS security-enhancement errors.
 
 %    Bernhard Amann's research proposes three categories: certificate chain construction error, certificate chain verification error and domain name verification error, and gives suggestions for reducing the probability of error \cite{Akhawe2013Here}.
 
