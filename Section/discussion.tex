@@ -64,7 +64,7 @@ if it does not want to support CRL or OCSP.
 The Basic Constraints extension is defined to distinguish CA certificates and non-CA ones \cite{cooper2008rfc5280}.
 However,
     when the server certificate is verified by a certificate in which the cA flag is false,
-    i.e., a non-CA entity acts as CAs to sign server certificates
+    i.e., a non-CA entity acts as CAs to sign TLS server certificates
         for any domain names to launch attacks,
             Firefox shows only bypassable Level-B warnings.
 Moreover, Firefox does not process the pathLenConstraint field correctly,
@@ -77,7 +77,7 @@ If a CA acts as the TLS server in HTTPS,
 Chrome, Edge and IE consider it as secure and show no warning.
 However, %in our opinion,
     such configurations are rather unusual,
-    and Level-A warnings shall be suitable.
+    and Level-A warnings should be suitable.
 
 %\textbf{Extended Key Usage and Key Usage.}
 If a certificate contains the extensions of Key Usage and Extended Key Usage,
@@ -114,7 +114,7 @@ complete mismatch,
 WWW mismatch and out-of-wildcard-scope subdomain.
 
 \noindent\textbf{Suggestion.} It is practicable to show higher-level warnings on complete mismatch,
-     because low-cost TLS server certificates are available,
+     because low-cost TLS server certificates are currently available,
      either signed by publicly-trusted CAs or privately-trusted.
 
 
@@ -130,7 +130,7 @@ This may lead to a problem of usability:
     a legitimate certificate considered as secure by other browsers,
     may trigger a warning in Chrome.
 
-\noindent\textbf{Suggestion.} The same process of name validation shall be enforced in different browsers gradually,
+\noindent\textbf{Suggestion.} The same process of name validation should be enforced in different browsers gradually,
 to deprecate the usage of CN,
     as recommenced by CA/Browser Forum \cite{CAB2018BR},
 
@@ -147,7 +147,7 @@ Whether the HSTS policy is enforced by the pre-loaded list or by HSTS header sen
 %可以看到 HSTS 可以很好的解决 HTTPS 降级攻击，但是对于 HSTS 生效前的首次 HTTP 请求，依然无法避免被劫持。浏览器厂商们为了解决这个问题，提出了 HSTS Preload List 方案：内置一份可以定期更新的列表，对于列表中的域名，即使用户之前没有访问过，也会使用 HTTPS 协议。
 
 \noindent\textbf{Suggestion.} Level-C warnings, or Level-B at least, must be shown
-when the visits violate the HSTS policy. 
+when the visits violate the HSTS policy.
 %\textcolor[rgb]{1.00,0.00,0.00}{It is better for websites to enable HSTS through the pre-loaded list instead of trust-on-first-use, because the HSTS header can be stripped by the attacker if this is the user's first visit.}
 % 这个建议，不是关于browser，不写了。
 \subsection{HPKP}
@@ -157,7 +157,7 @@ HPKP is supported only in Chrome and Firefox.
 So a website cannot enhance its HTTPS security by HPKP,
     unless it applies for a certificate from the publicly-trusted CAs.
 
-\noindent\textbf{Suggestion.} HPKP shall be supported also with the private certificate store,
+\noindent\textbf{Suggestion.} HPKP should be supported also with the private certificate store,
     to pin the public keys of the websites.
 
  %   Thus, If a malware installs its root certificate on the user's computer,

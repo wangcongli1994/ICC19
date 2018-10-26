@@ -148,12 +148,12 @@ It means that,
 This error happens, for example,
     when a user visits www.foo.com but receives a certificate for foo.com.
 Note that,
-    this is a complete mismatch,     when the visit to www.foo.com receives a certificate for abc.foo.com.
+    this is a complete mismatch but not a WWW mismatch,     when the visit to www.foo.com receives a certificate for abc.foo.com.
 
 \noindent\textbf{Out-of-wildcard-scope subdomain.}
 This error happens, for example,
     when a user visits abc.xyz.foo.com but receives a certificate for *.foo.com.
-
+However, there is no error, when the visit to xyz.foo.com returns a certificate for *.foo.com.
 %\noindent\textbf{Common Name or Subject Alternative Name Mismatch.}
     %Common Name (CN) and Subject Alternative Name (SAN) fields indicate the certificate subject identity information, and they are usually domain names.
 
