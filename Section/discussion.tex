@@ -8,7 +8,7 @@ In this section,
 %In this section,
 %    we present some suggestions to reduce browser defects on handling HTTPS errors.
 
-\subsection{Weak Cryptographic Algorithm}
+\subsection{\textcolor[rgb]{1.00,0.00,0.00}{Legacy Cryptographic Algorithm}}
 The following cryptographic algorithms are publicly prohibited or unrecommended \cite{CAB2018BR, NIST2005ECC},
 but the processes of browsers can lead to (\emph{a}) forged certificates to be accepted
   or (\emph{b}) broken key pairs to be used in TLS negotiations.
@@ -40,8 +40,9 @@ The ones with SHA-1 or 1024-bit RSA shall be rejected, or trigger Level-B warnin
 %    (\emph{b})Chrome, Edge, and IE should show \emph{unbypassable} Level-C warnings on .
 %    (\emph{c})Chrome, Firefox, Edge, and IE should show Level-B warnings on certificates with 1024-bit RSA.
 \subsection{Certificate Revocation}
+\textcolor[rgb]{1.00,0.00,0.00}{The size of the CRLSet  \cite{CRLSet} file is capped at 250 KB.}
 Chrome checks the revocation status
-    through CRLSet \cite{CRLSet} that covers only 0.35\% of all revocations in the Internet \cite{liu2015end},
+    through CRLSet that covers only 0.35\% of all revocations in the Internet \cite{liu2015end},
     so a compromised key pair can probably still be exploited to launch MitM or impersonation attacks after the certificate is revoked through CRL and OCSP.
 
 \noindent\textbf{Suggestion.} Chrome shall collect more revoked certificates into CRLSet, %that belong to popular websites,
