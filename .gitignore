@@ -4,8 +4,6 @@
 *.aux
 *.gz
 *.log
-*.pdf
-*.pdf
 *.bbl
 *.blg
 *.out
@@ -14,3 +12,4 @@
 *.sav
 *.sav
 *.gz(busy)
+conference_041818.pdf
