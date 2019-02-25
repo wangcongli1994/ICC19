@@ -8,7 +8,7 @@ In this section,
 %In this section,
 %    we present some suggestions to reduce browser defects on handling HTTPS errors.
 
-\subsection{\textcolor[rgb]{1.00,0.00,0.00}{Legacy Cryptographic Algorithm}}
+\subsection{Weak Cryptographic Algorithm}
 The following cryptographic algorithms are publicly prohibited or unrecommended \cite{CAB2018BR, NIST2005ECC},
 but the processes of browsers can lead to (\emph{a}) forged certificates to be accepted
   or (\emph{b}) broken key pairs to be used in TLS negotiations.
@@ -33,15 +33,17 @@ However, Chrome, Edge, and IE show only \emph{bypassable} Level-B warnings on 51
     but none of the evaluated browsers show any warnings on certificates with 1024-bit RSA.
 
 \noindent\textbf{Suggestion.}
-The certificates with MD5 or 512-bit RSA must be rejected.
-The ones with SHA-1 or 1024-bit RSA shall be rejected, or trigger Level-B warnings at least.
+These algorithms are used in legacy certificates.
+So the certificates with MD5 or 512-bit RSA must be rejected gradually,
+and the ones with SHA-1 or 1024-bit RSA shall be rejected, or trigger Level-B warnings at least.
 %Edge and IE should gradually stop accepting certificates signed by MD5 or SHA-1,
 %    and display Level-B warnings on MD5 and SHA-1.
 %    (\emph{b})Chrome, Edge, and IE should show \emph{unbypassable} Level-C warnings on .
 %    (\emph{c})Chrome, Firefox, Edge, and IE should show Level-B warnings on certificates with 1024-bit RSA.
 \subsection{Certificate Revocation}
-\textcolor[rgb]{1.00,0.00,0.00}{The size of the CRLSet  \cite{CRLSet} file is capped at 250 KB.}
-Chrome checks the revocation status
+The upper limit of the CRLSet message is only 250 KB \cite{CRLSet},
+and
+the Chrome checks the revocation status
     through CRLSet that covers only 0.35\% of all revocations in the Internet \cite{liu2015end},
     so a compromised key pair can probably still be exploited to launch MitM or impersonation attacks after the certificate is revoked through CRL and OCSP.
 
@@ -99,7 +101,7 @@ no warning is shown when the TLS server certificate does not include the keyEnci
 So a certificate for other purposes may be maliciously used in HTTPS, and accepted by these browsers.
 
 \noindent\textbf{Suggestion.} The process of certificate extensions must be improved:
-the Basic Constraints extension by Firefox, and the extensions of Key Usage  and Extended Key Usage by Chrome, Edge and IE.
+the Basic Constraints extension by Firefox, and the extensions of (Extended) Key Usage by Chrome, Edge and IE.
 
 % If a certificate contains both a key usage extension and an extended
 %   key usage extension, then both extensions MUST be processed
@@ -110,13 +112,13 @@ the Basic Constraints extension by Firefox, and the extensions of Key Usage  and
 
 \subsection{Name Validation}
 
-All browsers show the same bypassable Level-B warnings on name validation errors with very different levels of risk:
+All browsers show the same Level-B warnings on name validation errors with different levels of risk:
 complete mismatch,
 WWW mismatch and out-of-wildcard-scope subdomain.
 
 \noindent\textbf{Suggestion.} It is practicable to show higher-level warnings on complete mismatch,
      because low-cost TLS server certificates are currently available,
-     either signed by publicly-trusted CAs or privately-trusted.
+     either signed by publicly-trusted or privately-trusted CAs.
 
 
 

@@ -2,8 +2,8 @@
 We list
 the errors of certificate verification, %of basic fields and extensions,
  name validation, and HTTPS security-enhancement as follows.
-\textcolor[rgb]{1.00,0.00,0.00}{These HTTPS errors can directly cause server certificates to be forged.
-HSTS and HPKP are relatively recent HTTPS security-enhancement protocols that implemented by browsers.}
+Different from the common vulnerabilities discussed in \cite{brubaker2014using, chau2017symcerts, chen2018rfc},
+ these errors imply MitM or impersonation attacks by fake certificates.
 
 %    In this subsection,
 %    we focus on various types of errors that may trigger browser security warnings.
@@ -53,7 +53,7 @@ The certificate has expired.
     %An expired certificate error occurs if the Not After date is earlier than current time.
 
 \noindent\textbf{Revoked server certificate.}
-The received certificate has been revoked.
+The certificate has been revoked.
 %%% The revocation status is distributed through CRL, OCSP, or CRLSet \cite{CRLSet}.
 %        the CA claims that the server certificate is no longer valid before it expires by CRL, OCSP, or CRLset.
 
@@ -141,15 +141,14 @@ Browsers check
 %are many kinds of errors with respect to CN and SAN, for example, CN does not match the domain name visited, SAN does not match the domain name visited, and the lack of CN/SAN.
 
 \noindent\textbf{Complete mismatch.}
-It means that,
- there is no relation between the domain visited and the certificate subject.
+This error means no relation between the domain visited and the certificate subject.
     For example, a user visits www.foo.com but receives a certificate for www.bar.org.
 
 \noindent\textbf{WWW mismatch.}
-This error happens, for example,
+It happens, for example,
     when a user visits www.foo.com but receives a certificate for foo.com.
 Note that,
-    this is a complete mismatch but not a WWW mismatch,     when the visit to www.foo.com receives a certificate for abc.foo.com.
+    it is a complete mismatch but not a WWW mismatch,     when the visit to www.foo.com receives a certificate for abc.foo.com.
 
 \noindent\textbf{Out-of-wildcard-scope subdomain.}
 This error happens, for example,

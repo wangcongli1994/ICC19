@@ -45,8 +45,8 @@ We utilize OpenSSL to generate key pairs and some certificates,
 The evaluated browsers are Chrome v67.0.3396.99,
  Firefox v62.0, Edge v42.17134.1.0, and IE v11.0.9600.17031 on Windows 10.
 TLS 1.2 is adopted in the experiments.
-The browsers visit  the ``honeypot'' website,
-    and we manually record the browser behaviors.
+A browser visits the ``honeypot'' website,
+    and we manually record the results.
 Table I lists the detailed results.
 A, B, and C represent a warning of low-risk, medium-risk, high-risk, respectively.
 %D represent a fatal warning.
@@ -67,9 +67,9 @@ In order to analyze the browser behaviors on specified HTTPS errors,
 \multicolumn{2}{c|}{\multirow{2}{*}{HTTPS Error}} & \multicolumn{4}{c}{Browser Security Warning} \\ \cline{3-6}
 \multicolumn{2}{c|}{} & Chrome & Firefox & Edge & IE \\ \midrule[1pt]
 \multirow{12}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Verification\\of Basic Fields\end{tabular}}
- & Untrusted root CA certificate & B & B & B & B \\
+ & Untrusted root CA certificate / Incomplete certificate chain & B & B & B & B \\
 % & Untrusted self-signed server certificate & B & \textcolor[rgb]{1.00,0.00,0.00}{B[xx]} & B & B \\     % 这里应该有点什么专门的解释说明
- & Incomplete certificate chain & B & B & B & B \\
+% & Incomplete certificate chain & B & B & B & B \\
  & Expired server certificate & B & B & B & B \\ \cline{2-6}
  & Revoked server certificate (via OCSP) & Secure & C & C & C \\
  & Revoked server certificate (via CRL) & Secure & Secure & C & C \\
@@ -78,9 +78,9 @@ In order to analyze the browser behaviors on specified HTTPS errors,
  & Weak key pair (512-bit RSA) & B & B & B & C \\
  & Weak key pair (1024-bit RSA) & Secure & Secure & Secure & Secure \\
 % & Weak key pair (160-bit ECC) & D & D & D & D \\
- \cline{2-6}
- & Weak hash algorithm (SHA-1) & B & B & Secure & Secure \\
- & Weak hash algorithm (MD5) & B & B & Secure & Secure \\ \midrule[1pt]
+% \cline{2-6}
+% & Weak hash algorithm (SHA-1) & B & B & Secure & Secure \\
+ & Weak hash algorithm (SHA-1 / MD5) & B & B & Secure & Secure \\ \midrule[1pt]
 \multirow{17}{*}{\begin{tabular}[c]{@{}c@{}}Certificate Verification\\of Extensions\end{tabular}}
  & Server certificate &  &  &  &  \\
  & ~~incorrect cA flag (= true), correct Key Usage and Extended Key Usage & Secure & B & Secure & Secure \\
@@ -247,18 +247,18 @@ the Extended Key Usage extension is non-critical \cite{cooper2008rfc5280}.
 
 \noindent\textbf{Basic Constraints.}
 If the cA flag of the Basic Constraints extension is true in the ``server'' certificate
-    but the key usage is set as a common TLS server certificate (i.e.,
+    but the key usage is set as a TLS server certificate (i.e.,
     it includes the keyEncipherment usage and the serverAuth extended usage) or no key usage is specified,
 % whose cA flag is incorrect (cA flag is true), but other fields is correct (key usage is key Enpherment, extended key usage is serverAuth),
 Firefox shows a Level-B warning.
 %
 If the cA flag is true in the ``server'' certificate
-    and the key usage is set as a common CA certificate (i.e.,
+    and the key usage is set as a CA certificate (i.e.,
         it includes the keyCertSign usage and no extended usage),
 Firefox shows a Level-C warning.
 Other browsers show no warning on these unusual certificates.
 
-As long as the cA flag is false in the intermediate CA certificate,
+If the cA flag is false in the intermediate CA certificate,
     whether the key usage is set as a CA certificate or a TLS server certificate,
 Chrome, Edge, and IE show Level-C warnings,
      but Firefox shows a bypassable Level-B warning.
